@@ -8,7 +8,7 @@ https://screencast-o-matic.com/watch/cFnVezoy80
 https://drive.google.com/file/d/1JfpBN1nMyYrjG0cZSkvT406aWbolpwoI/view?_redirected
 
 
-network.request({path:"product", version:3, history:!0, type:"ws", domainId:d, asin:f, maxAge:3, refreshProduct:1 == a}).done(function(b) {
+network.request({path:"product", version:3, history:!0, type:"ws"https://drive.google.com/file/d/1JfpBN1nMyYrjG0cZSkvT406aWbolpwoI/view?_redirected, domainId:d, asin:f, maxAge:3, refreshProduct:1 == a}).done(function(b) {
 var g = getProductFromList(f, b.products), m = null !== g ? g.csv[CsvType.SALES.index] : null, q = null === m || null != m && 2 === m.length && -1 === m[1];
 null === g || null === g.parentAsin || null != g.variationCSV && !q ? n(b) : network.request({path:"product", version:3, history:!0, type:"ws", domainId:d, asin:g.parentAsin, maxAge:3, onlyParent:!0, refreshProduct:1 == a}).done(function(a) {
     a = getProductFromList(g.parentAsin, a.products);
