@@ -1,40 +1,52 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BookTracker.RunnerConsole
 {
-    class Program
+    public class BookScraper
     {
-        static void Main(string[] args)
+        static string PRODUCT_BOX_ID = "productInfoBox";
+
+        private string _title;
+        private string _thumbnail;
+        private string _amazonPrice;
+        private string _newPrice;
+        private string _usedPrice;
+        private string _edition;
+
+        private readonly IWebDriver _driver;
+
+        public BookScraper()
+            : this(Helpers.CreateWebDriver())
         {
-            string _isbn = "9781433805615";
-            for (int i = 0; i < args.Length; i++)
-            {
-                if (string.Compare(args[i], "-isbn", true) == 0)
-                {
-                    _isbn = args[i + 1];
-                    break;
-                }
-            }
 
-            IWebDriver driver = Helpers.CreateWebDriver();
+        }
 
-            string linkTitle = RunDriveInSafeMode(ref driver, ExecuteScrapyList, _isbn);
-            Console.WriteLine($"Link title {linkTitle}");
+        public BookScraper(IWebDriver driver)
+        {
+            _driver = driver;
+        }
 
-            RunDriveInSafeMode(ref driver, ExecuteScrapyDetail, "https://keepa.com/#!product/1-1433805618");
+        public void RunScrapy(string isbn)
+        {
+            string linkTitle = RunDriveInSafeMode(ExecuteScrapyList, isbn);
+            Log.TraceVerbose($"Link title {linkTitle}");
+
+            RunDriveInSafeMode(ExecuteScrapyDetail, "https://keepa.com/#!product/1-1433805618");
 
             Console.WriteLine("Press enter to continue");
             Console.ReadKey();
 
-            driver.Quit();
-            driver.Dispose();
+            _driver.Quit();
+            _driver.Dispose();
         }
 
-        static string ExecuteScrapyList(IWebDriver driver, string isbn)
+        private string ExecuteScrapyList(IWebDriver driver, string isbn)
         {
             driver.Navigate().GoToUrl(new Uri($"https://keepa.com/#!search/1-{isbn}"));
 
@@ -70,7 +82,7 @@ namespace BookTracker.RunnerConsole
             return linkTitleUri;
         }
 
-        static void ExecuteScrapyDetail(IWebDriver driver, string bookUri = "https://keepa.com/#!product/1-1433805618")
+        private void ExecuteScrapyDetail(IWebDriver driver, string bookUri = "https://keepa.com/#!product/1-1433805618")
         {
             //Navigate to google page
             driver.Navigate().GoToUrl(new Uri(bookUri));
@@ -78,13 +90,16 @@ namespace BookTracker.RunnerConsole
             Console.WriteLine("Presse enter to continue");
             Console.ReadKey();
 
-            var baseElement = driver.FindElement(By.Id(_productBox));
+            var baseElement = driver.FindElement(By.Id(PRODUCT_BOX_ID));
             var titleElement = baseElement.FindElement(By.ClassName("productTableDescriptionTitle"));
             Console.WriteLine(titleElement.Text);
 
 
             var figBaseElement = driver.FindElement(By.Id("productTableImageBoxThumbs"));
             var figs = figBaseElement.FindElements(By.ClassName("productThumb"));
+
+            List<string> _imageLst = new List<string>();
+
             if (figs != null && figs.Count > 0)
             {
                 foreach (var fig in figs)
@@ -102,75 +117,53 @@ namespace BookTracker.RunnerConsole
             Console.WriteLine(r);
         }
 
-        static void RunDriveInSafeMode(ref IWebDriver driver, Action<IWebDriver> action)
+        private void RunDriveInSafeMode(ref IWebDriver driver, Action<IWebDriver> action)
         {
             try
             {
-                action(driver);
+                action(_driver);
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Error executing generic action");
+                Log.TraceError("Error executing generic action");
+                Log.TraceError(ex);
 
-                Exception _ex = ex;
-                while (_ex != null)
-                {
-                    Trace.TraceError("Exception --> " + _ex.Message);
-                    _ex = _ex.InnerException;
-                }
-            }
-            finally
-            {
-                driver.Quit();
-                driver.Dispose();
+                _driver.Quit();
+                _driver.Dispose();
             }
         }
 
-        static TOut RunDriveInSafeMode<TIn, TOut>(ref IWebDriver driver, Func<IWebDriver, TIn, TOut> function, TIn functionArgument)
+        private TOut RunDriveInSafeMode<TIn, TOut>(Func<IWebDriver, TIn, TOut> function, TIn functionArgument)
             where TOut : class
         {
             try
             {
-                return function(driver, functionArgument);
+                return function(_driver, functionArgument);
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Error executing generic action");
+                Log.TraceError("Error executing generic action");
+                Log.TraceError(ex);
 
-                Exception _ex = ex;
-                while (_ex != null)
-                {
-                    Trace.TraceError("Exception --> " + _ex.Message);
-                    _ex = _ex.InnerException;
-                }
-                driver.Quit();
-                driver.Dispose();
-
-                driver = Helpers.CreateWebDriver();
+                _driver.Quit();
+                _driver.Dispose();
             }
             return null;
         }
 
-        static void RunDriveInSafeMode<TIn>(ref IWebDriver driver, Action<IWebDriver, TIn> action, TIn functionArgument)
+        private void RunDriveInSafeMode<TIn>(Action<IWebDriver, TIn> action, TIn functionArgument)
         {
             try
             {
-                action(driver, functionArgument);
+                action(_driver, functionArgument);
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Error executing generic action");
+                Log.TraceError("Error executing generic action");
+                Log.TraceError(ex);
 
-                Exception _ex = ex;
-                while (_ex != null)
-                {
-                    Trace.TraceError("Exception --> " + _ex.Message);
-                    _ex = _ex.InnerException;
-                }
-                driver.Quit();
-                driver.Dispose();
-
-                driver = Helpers.CreateWebDriver();
+                _driver.Quit();
+                _driver.Dispose();
             }
         }
     }
