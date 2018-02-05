@@ -56,6 +56,7 @@
     <Compile Include="DriverExtensions.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookScouter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
