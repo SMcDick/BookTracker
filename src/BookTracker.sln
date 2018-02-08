@@ -14,6 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{ABA216E8-9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTracker.Websocket", "BookTracker.Websocket\BookTracker.Websocket.csproj", "{8ED91C47-BC2F-4F2E-B05B-619570B4808D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Web", "BookTracker.Web\BookTracker.Web.csproj", "{9694D04B-59B0-4A8C-946D-9323A3900A4C}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2109C89A-C644-40B0-B1E9-59936D59B022}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +32,14 @@ Global
 		{8ED91C47-BC2F-4F2E-B05B-619570B4808D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ED91C47-BC2F-4F2E-B05B-619570B4808D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ED91C47-BC2F-4F2E-B05B-619570B4808D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9694D04B-59B0-4A8C-946D-9323A3900A4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9694D04B-59B0-4A8C-946D-9323A3900A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9694D04B-59B0-4A8C-946D-9323A3900A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9694D04B-59B0-4A8C-946D-9323A3900A4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2109C89A-C644-40B0-B1E9-59936D59B022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2109C89A-C644-40B0-B1E9-59936D59B022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2109C89A-C644-40B0-B1E9-59936D59B022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2109C89A-C644-40B0-B1E9-59936D59B022}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

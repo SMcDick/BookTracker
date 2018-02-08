@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  booktracker.web:
+    image: booktracker.web
+    build:
+      context: .
+      dockerfile: BookTracker.Web/Dockerfile
