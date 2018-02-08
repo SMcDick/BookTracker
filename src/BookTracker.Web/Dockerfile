@@ -16,5 +16,12 @@ RUN dotnet publish -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
+
+# Install Node.js
+RUN apt-get install --yes curl
+RUN curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -
+RUN apt-get install --yes nodejs
+RUN apt-get install --yes build-essential
+
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "BookTracker.Web.dll"]
