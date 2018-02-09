@@ -16,6 +16,7 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
 import * as actions from '../Actions/genericActions'
+import BookApp from './Books'
 
 
 class Main extends Component {
@@ -64,7 +65,7 @@ class Main extends Component {
                     <Paper>
                         <Switch>
                             <Route exact path="/">
-                                <span>Hello from home</span>
+                                <BookApp />
                             </Route>
                             <Route path="/pinnedBooks">
                                 <span>Hello from books</span>

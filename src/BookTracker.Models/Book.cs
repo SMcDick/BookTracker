@@ -23,7 +23,5 @@ namespace BookTracker.Models
         public decimal CANetPayout { get; set; }
 
         public decimal CASalesRank { get; set; }
-
-        public int MyProperty { get; set; }
     }
 }

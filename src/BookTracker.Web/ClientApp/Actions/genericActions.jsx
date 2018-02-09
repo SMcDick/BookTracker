@@ -6,3 +6,17 @@ export const toogleMenuAction = (isOpen) => {
         isOpen: isOpen
     }
 }
+
+export const addBookToSearch = (isbn) => {
+    return {
+        type: types.ADD_BOOK_SEARCH,
+        book: isbn
+    }
+}
+
+export const removeBookToSearch = (isbn) => {
+    return {
+        type: types.REMOVE_BOOK_SEARCH,
+        book: isbn
+    }
+}
