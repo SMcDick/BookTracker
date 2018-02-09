@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BookTracker.Models.Options;
+using BookTracker.Services.ExternalServices;
+using BookTracker.Services.Http;
+using BookTracker.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -22,6 +22,17 @@ namespace BookTracker.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<KeepaOptions>(c => new KeepaOptions()
+            {
+                ApiKey = Configuration["KeepaSettings:apiKey"],
+                BaseUri = Configuration["KeepaSettings:baseUri"]
+            });
+            services.Configure<BookScouterOptions>(c => new BookScouterOptions()
+            {
+                BaseUri = Configuration["BookScouter:baseUri"]
+            });
+            services.AddScoped<IKeepaService, KeepaService>();
+            services.AddScoped<IBookScouterService, BookScouterService>();
             services.AddMvc();
         }
 
