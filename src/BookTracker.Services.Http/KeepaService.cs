@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
+#if TOKEN_OUT
+using System.IO;
+#endif
 using System.Threading.Tasks;
 
 namespace BookTracker.Web.Services
@@ -22,9 +25,13 @@ namespace BookTracker.Web.Services
 
         public async Task<KeepaSearchResult> GetBook(KeepaDomain domain, string isbn)
         {
+#if TOKEN_OUT
+            string content = File.ReadAllText(@"C:\Users\ricardo\source\repos\BookTracker\Solution Items\Misc\sample.json");
+            return JsonConvert.DeserializeObject<KeepaSearchResult>(content);
+#endif
             var client = new RestClient(_keepaOptions.BaseUri);
 
-            var request = new RestRequest("product?key={key}&domain={domain}&code={code}");
+            var request = new RestRequest("product ?key={key}&domain={domain}&code={code}");
 
             request.AddUrlSegment("key", _keepaOptions.ApiKey);
             request.AddUrlSegment("domain", (int)domain);

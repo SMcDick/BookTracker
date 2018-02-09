@@ -12,5 +12,10 @@ namespace BookTracker.Services.Helpers
         {
             return (decimal)data;
         }
+
+        internal static decimal ToDecimalPrice(int data)
+        {
+            return ((decimal)data) * Constants.PRICE_DOTPRODUCT;
+        }
     }
 }

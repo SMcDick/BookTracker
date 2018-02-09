@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{ABA216E8-98FC-44B2-AAE7-C50A4093C51B}"
 	ProjectSection(SolutionItems) = preProject
 		..\Solution Items\Misc\Notes.txt = ..\Solution Items\Misc\Notes.txt
+		..\Solution Items\Misc\sample.json = ..\Solution Items\Misc\sample.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Web", "BookTracker.Web\BookTracker.Web.csproj", "{9694D04B-59B0-4A8C-946D-9323A3900A4C}"

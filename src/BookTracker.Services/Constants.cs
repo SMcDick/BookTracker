@@ -22,5 +22,7 @@ namespace BookTracker.Services
         internal const int CSV_PRICE_INDEX = 0;
         internal const int CSV_NEW_INDEX = 1;
         internal const int CSV_USED_INDEX = 2;
+
+        internal const decimal PRICE_DOTPRODUCT = 0.01m;
     }
 }

@@ -30,11 +30,12 @@ namespace BookTracker.Web
 
             string apiKey = Configuration["KeepaSettings:apiKey"];
             string keepaUri = Configuration["KeepaSettings:baseUri"];
-
+            string amazonImageUri = Configuration["KeepaSettings:amazonImageUri"];
             services.Configure<KeepaOptions>(c =>
             {
                 c.ApiKey = apiKey;
                 c.BaseUri = keepaUri;
+                c.AmazonImageUri = amazonImageUri;
             });
 
             string scoutUri = Configuration["BookScouter:baseUri"];

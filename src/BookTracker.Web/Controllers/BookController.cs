@@ -21,8 +21,8 @@ namespace BookTracker.Web.Controllers
             return "Ok";
         }
 
-        [HttpGet("[action]")]
-        public Task<Book> GetBook(string isbn)
+        [HttpGet("{isbn}", Name = "GetByIsbn")]
+        public Task<Book> GetByIsbn(string isbn)
         {
             return _bookService.GetBook(isbn);
         }
