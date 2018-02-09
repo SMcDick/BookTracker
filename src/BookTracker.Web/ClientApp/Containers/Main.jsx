@@ -1,48 +1,95 @@
 ﻿import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { push } from 'react-router-redux'
+import { withRouter } from 'react-router-dom'
 
-import {
-    BrowserRouter as Router, Route, Switch
-} from 'react-router-dom'
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import FlatButton from 'material-ui/FlatButton';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import Menu from 'material-ui/Menu';
+import AppBar from 'material-ui/AppBar'
+import Paper from 'material-ui/Paper';
+import Divider from 'material-ui/Divider';
 
-export const Main = ({ status }) => {
-    return (
-        <Router>
-            <div>
-                <nav className="navbar">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            <a href="javascript:void(0);" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
-                            <a href="javascript:void(0);" className="bars"></a>
-                            <a className="navbar-brand" href="/"><i className="fa fa-cubes"></i> App</a>
-                        </div>
-                    </div>
-                </nav>
-                <section className="content">
-                    <div className="container-fluid">
+import * as actions from '../Actions/genericActions'
+
+
+class Main extends Component {
+    static propTypes = {
+        dispatch: PropTypes.func.isRequired,
+        isOpen: PropTypes.bool.isRequired
+    }
+
+    handleMenuToogle = () => {
+        const { dispatch, isOpen } = this.props
+
+        dispatch(actions.toogleMenuAction(!isOpen))
+    }
+
+    handleMenuClose = () => {
+        const { dispatch } = this.props
+        dispatch(actions.toogleMenuAction(false))
+    }
+
+    handleNavigationBooks = (event, menuItem, index) => {
+        const { dispatch } = this.props
+
+        dispatch(actions.toogleMenuAction(false))
+        dispatch(push(menuItem.props.value))
+    }
+
+    render() {
+        const { isOpen } = this.props;
+        return (
+            <Router>
+                <div>
+                    <AppBar title="My AppBar"
+                        onLeftIconButtonClick={this.handleMenuToogle} />
+
+                    <Drawer open={isOpen}
+                        docked={false}
+                        onRequestChange={this.handleMenuToogle}>
+                        <Menu onItemClick={this.handleMenuClose}>
+                            <MenuItem value="/" leftIcon={<ContentInbox />}><Link to="/">Home</Link></MenuItem>
+                            <MenuItem value="/settings" leftIcon={<ContentInbox />}><Link to="/settings">Settings</Link></MenuItem>
+                            <Divider />
+                            <MenuItem value="/pinnedBooks" leftIcon={<ContentInbox />}><Link to="/pinned">Pinned Books</Link></MenuItem>
+                        </Menu>
+                    </Drawer>
+
+                    <Paper>
                         <Switch>
-                            <Route path="/home/:id">
+                            <Route exact path="/">
                                 <span>Hello from home</span>
                             </Route>
-                            <Route path="/">
-                                <span>Hello from /</span>
+                            <Route path="/pinnedBooks">
+                                <span>Hello from books</span>
+                            </Route>
+                            <Route path="/settings">
+                                <span>Hello from settings</span>
                             </Route>
                         </Switch>
-
-                        <div>status: {status}</div>
-                    </div>
-                </section>
-            </div>
-        </Router>)
+                        <Card>
+                            <CardText>
+                                Status: {this.props.status}
+                            </CardText>
+                        </Card>
+                    </Paper>
+                </div>
+            </Router>)
+    }
 }
 
-Main.PropTypes = {
-    status: PropTypes.string
+const mapStateToProps = state => {
+    const { menuHandleReducer, errorMessageReducer, systemReducer } = state;
+    return {
+        isOpen: menuHandleReducer.isOpen,
+        status: systemReducer.status
+    }
 }
 
-const mapStateToProps = state => ({
-    errorMessage: state.errorMessage
-})
-
-export default connect(mapStateToProps)(Main)
+export default withRouter(connect(mapStateToProps)(Main))

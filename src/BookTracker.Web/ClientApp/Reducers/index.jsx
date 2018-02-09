@@ -1,4 +1,5 @@
 ﻿import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 
 import * as types from '../ActionTypes'
 
@@ -45,8 +46,23 @@ const apiReducer = (state = {}, action) => {
     }
 }
 
-const dReducer = (state = {}, action) => {
-    return state
+const systemReducer = (state = {}, action) => {
+    return {
+        ...state,
+        status: 'Ok'
+    }
+}
+
+const menuHandleReducer = (state = {}, action) => {
+    switch (action.type) {
+        case types.MENU_TOOGLE:
+            return {
+                ...state,
+                isOpen: action.isOpen
+            }
+        default:
+            return state;
+    }
 }
 
 
@@ -66,7 +82,9 @@ const errorMessageReducer = (state = null, action) => {
 const rootReducer = combineReducers({
     apiReducer,
     errorMessageReducer,
-    dReducer
+    systemReducer,
+    menuHandleReducer,
+    routerReducer
 })
 
 export default rootReducer

@@ -44,12 +44,13 @@ namespace BookTracker.Services
                 decimal used = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_USED_INDEX][kBook.CSV[Constants.CSV_USED_INDEX].Length - 1]);
                 decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX][kBook.CSV[Constants.CSV_PRICE_INDEX].Length - 1]);
                 decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX][kBook.CSV[Constants.CSV_NEW_INDEX].Length - 1]);
+                decimal salesRank = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_SALES_RANK_INDEX][kBook.CSV[Constants.CSV_SALES_RANK_INDEX].Length - 1]);
 
                 book.ISBN = isbn;
                 book.Title = kBook.Title;
                 book.Image = ParseBookImageName(kBook.ImagesCSV);
 
-                book.SalesRank = "-1";
+                book.SalesRank = salesRank;
                 book.NetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight);
             }
 
@@ -61,8 +62,10 @@ namespace BookTracker.Services
                 decimal used = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_USED_INDEX][kBook.CSV[Constants.CSV_USED_INDEX].Length - 1]);
                 decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX][kBook.CSV[Constants.CSV_PRICE_INDEX].Length - 1]);
                 decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX][kBook.CSV[Constants.CSV_NEW_INDEX].Length - 1]);
+                decimal salesRank = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_SALES_RANK_INDEX][kBook.CSV[Constants.CSV_SALES_RANK_INDEX].Length - 1]);
 
                 book.CANetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight);
+                book.CASalesRank = salesRank;
             }
 
 

@@ -36,11 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\Actions\" />
-    <Folder Include="ClientApp\Components\" />
-    <Folder Include="ClientApp\Containers\" />
-    <Folder Include="ClientApp\Store\" />
-    <Folder Include="ClientApp\Reducers\" />
     <Folder Include="Docker\Development\" />
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>

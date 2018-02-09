@@ -14,13 +14,15 @@ namespace BookTracker.Models
 
         public string Image { get; set; }
 
-        public string SalesRank { get; set; }
+        public decimal SalesRank { get; set; }
 
         public decimal NetPayout { get; set; }
 
         public decimal Offer { get; set; }
 
         public decimal CANetPayout { get; set; }
+
+        public decimal CASalesRank { get; set; }
 
         public int MyProperty { get; set; }
     }

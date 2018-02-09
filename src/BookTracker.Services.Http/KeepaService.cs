@@ -21,6 +21,7 @@ namespace BookTracker.Web.Services
         public KeepaService(IOptions<KeepaOptions> options, ILogger<KeepaService> logger)
         {
             _keepaOptions = options.Value;
+            _logger = logger;
         }
 
         public async Task<KeepaSearchResult> GetBook(KeepaDomain domain, string isbn)
@@ -31,7 +32,7 @@ namespace BookTracker.Web.Services
 #endif
             var client = new RestClient(_keepaOptions.BaseUri);
 
-            var request = new RestRequest("product ?key={key}&domain={domain}&code={code}");
+            var request = new RestRequest("product?key={key}&domain={domain}&code={code}");
 
             request.AddUrlSegment("key", _keepaOptions.ApiKey);
             request.AddUrlSegment("domain", (int)domain);
