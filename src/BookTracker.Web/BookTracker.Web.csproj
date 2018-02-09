@@ -11,8 +11,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version="1.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="RestSharp" Version="106.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookTracker.Models\BookTracker.Models.csproj" />
+    <ProjectReference Include="..\BookTracker.Repository\BookTracker.Repository.csproj" />
     <ProjectReference Include="..\BookTracker.Services.Http\BookTracker.Services.Http.csproj" />
     <ProjectReference Include="..\BookTracker.Services\BookTracker.Services.csproj" />
   </ItemGroup>

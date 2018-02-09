@@ -12,15 +12,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{ABA216E8-9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Web", "BookTracker.Web\BookTracker.Web.csproj", "{9694D04B-59B0-4A8C-946D-9323A3900A4C}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2109C89A-C644-40B0-B1E9-59936D59B022}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Web.Test", "BookTracker.Web.Test\BookTracker.Web.Test.csproj", "{A5AA6EEF-AD87-40DF-A639-1A2BC331FAB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTracker.Web.Test", "BookTracker.Web.Test\BookTracker.Web.Test.csproj", "{A5AA6EEF-AD87-40DF-A639-1A2BC331FAB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Services", "BookTracker.Services\BookTracker.Services.csproj", "{E6569A91-DE22-4DF2-84F1-97F52E86AAE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTracker.Services", "BookTracker.Services\BookTracker.Services.csproj", "{E6569A91-DE22-4DF2-84F1-97F52E86AAE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Models", "BookTracker.Models\BookTracker.Models.csproj", "{B7289B7E-CE33-4AB0-8D20-A5E849E62AE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTracker.Models", "BookTracker.Models\BookTracker.Models.csproj", "{B7289B7E-CE33-4AB0-8D20-A5E849E62AE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Services.Http", "BookTracker.Services.Http\BookTracker.Services.Http.csproj", "{6AE61BD1-1EA0-4D32-8C32-8EDC7728F3B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTracker.Services.Http", "BookTracker.Services.Http\BookTracker.Services.Http.csproj", "{6AE61BD1-1EA0-4D32-8C32-8EDC7728F3B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTracker.Repository", "BookTracker.Repository\BookTracker.Repository.csproj", "{B2532482-6D15-4FB4-81EA-6F4007AAB779}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,10 +32,6 @@ Global
 		{9694D04B-59B0-4A8C-946D-9323A3900A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9694D04B-59B0-4A8C-946D-9323A3900A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9694D04B-59B0-4A8C-946D-9323A3900A4C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2109C89A-C644-40B0-B1E9-59936D59B022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2109C89A-C644-40B0-B1E9-59936D59B022}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2109C89A-C644-40B0-B1E9-59936D59B022}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2109C89A-C644-40B0-B1E9-59936D59B022}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A5AA6EEF-AD87-40DF-A639-1A2BC331FAB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A5AA6EEF-AD87-40DF-A639-1A2BC331FAB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5AA6EEF-AD87-40DF-A639-1A2BC331FAB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -52,6 +48,10 @@ Global
 		{6AE61BD1-1EA0-4D32-8C32-8EDC7728F3B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AE61BD1-1EA0-4D32-8C32-8EDC7728F3B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AE61BD1-1EA0-4D32-8C32-8EDC7728F3B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2532482-6D15-4FB4-81EA-6F4007AAB779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2532482-6D15-4FB4-81EA-6F4007AAB779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2532482-6D15-4FB4-81EA-6F4007AAB779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2532482-6D15-4FB4-81EA-6F4007AAB779}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

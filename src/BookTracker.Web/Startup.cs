@@ -1,10 +1,12 @@
 using BookTracker.Models.Options;
+using BookTracker.Repository;
 using BookTracker.Services.ExternalServices;
 using BookTracker.Services.Http;
 using BookTracker.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,6 +35,9 @@ namespace BookTracker.Web
             });
             services.AddScoped<IKeepaService, KeepaService>();
             services.AddScoped<IBookScouterService, BookScouterService>();
+
+            services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlite("Data Source=dbapp.db"));
+
             services.AddMvc();
         }
 
