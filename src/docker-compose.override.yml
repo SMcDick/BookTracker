@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-  booktracker.web:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - RUNTIME_ENVIRONMENT=Docker
-    ports:
-      - "80"

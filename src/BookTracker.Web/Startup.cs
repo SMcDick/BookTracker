@@ -1,5 +1,6 @@
 using BookTracker.Models.Options;
 using BookTracker.Repository;
+using BookTracker.Services;
 using BookTracker.Services.ExternalServices;
 using BookTracker.Services.Http;
 using BookTracker.Web.Services;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace BookTracker.Web
 {
@@ -24,21 +26,32 @@ namespace BookTracker.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<KeepaOptions>(c => new KeepaOptions()
+            services.AddMvc();
+
+            string apiKey = Configuration["KeepaSettings:apiKey"];
+            string keepaUri = Configuration["KeepaSettings:baseUri"];
+
+            services.Configure<KeepaOptions>(c =>
             {
-                ApiKey = Configuration["KeepaSettings:apiKey"],
-                BaseUri = Configuration["KeepaSettings:baseUri"]
+                c.ApiKey = apiKey;
+                c.BaseUri = keepaUri;
             });
-            services.Configure<BookScouterOptions>(c => new BookScouterOptions()
+
+            string scoutUri = Configuration["BookScouter:baseUri"];
+            services.Configure<BookScouterOptions>(c =>
             {
-                BaseUri = Configuration["BookScouter:baseUri"]
+                c.BaseUri = scoutUri;
             });
+
             services.AddScoped<IKeepaService, KeepaService>();
             services.AddScoped<IBookScouterService, BookScouterService>();
 
+            services.AddScoped<IBookAppService, BookAppService>();
+
             services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlite("Data Source=dbapp.db"));
 
-            services.AddMvc();
+
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "BookTracker Api", Version = "v1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +73,15 @@ namespace BookTracker.Web
             }
 
             app.UseStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookTracker Api v1");
+            });
 
             app.UseMvc(routes =>
             {

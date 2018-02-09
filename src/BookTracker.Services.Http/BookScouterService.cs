@@ -5,28 +5,24 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BookTracker.Services.Http
 {
     public class BookScouterService : IBookScouterService
     {
-        private readonly string _baseUri;
+        private readonly BookScouterOptions _bookScouterOptions;
         private readonly ILogger<BookScouterService> _logger;
 
         public BookScouterService(IOptions<BookScouterOptions> options, ILogger<BookScouterService> logger)
         {
-            _baseUri = options.Value.BaseUri;
+            _bookScouterOptions = options.Value;
             _logger = logger;
         }
 
         public async Task<BookScouterResponse> GetBook(string isbn)
         {
-            var client = new RestClient(_baseUri);
+            var client = new RestClient(_bookScouterOptions.BaseUri);
 
             var request = new RestRequest("prices/sell/{term}");
 

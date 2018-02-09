@@ -20,7 +20,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Models", "BookT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Services.Http", "BookTracker.Services.Http\BookTracker.Services.Http.csproj", "{6AE61BD1-1EA0-4D32-8C32-8EDC7728F3B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTracker.Repository", "BookTracker.Repository\BookTracker.Repository.csproj", "{B2532482-6D15-4FB4-81EA-6F4007AAB779}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Repository", "BookTracker.Repository\BookTracker.Repository.csproj", "{B2532482-6D15-4FB4-81EA-6F4007AAB779}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{85A331B4-0466-4534-925E-3E916F958140}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +63,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ABA216E8-98FC-44B2-AAE7-C50A4093C51B} = {DB190BAD-D538-4458-B058-75323323C4E1}
+		{85A331B4-0466-4534-925E-3E916F958140} = {DB190BAD-D538-4458-B058-75323323C4E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AA315E1-4D8E-4D8C-84D0-BF8473CC5C83}

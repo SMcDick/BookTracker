@@ -12,23 +12,21 @@ namespace BookTracker.Web.Services
 {
     public class KeepaService : IKeepaService
     {
-        private readonly string _apiKey;
-        private readonly string _baseUri;
+        private readonly KeepaOptions _keepaOptions;
         private readonly ILogger<KeepaService> _logger;
 
         public KeepaService(IOptions<KeepaOptions> options, ILogger<KeepaService> logger)
         {
-            _apiKey = options.Value.ApiKey;
-            _baseUri = options.Value.BaseUri;
+            _keepaOptions = options.Value;
         }
 
         public async Task<KeepaSearchResult> GetBook(KeepaDomain domain, string isbn)
         {
-            var client = new RestClient(_baseUri);
+            var client = new RestClient(_keepaOptions.BaseUri);
 
             var request = new RestRequest("product?key={key}&domain={domain}&code={code}");
 
-            request.AddUrlSegment("key", _apiKey);
+            request.AddUrlSegment("key", _keepaOptions.ApiKey);
             request.AddUrlSegment("domain", (int)domain);
             request.AddUrlSegment("code", isbn);
 
