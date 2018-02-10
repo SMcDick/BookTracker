@@ -18,6 +18,7 @@ import Divider from 'material-ui/Divider';
 
 import * as actions from '../Actions/genericActions'
 import BookApp from './Books'
+import SettingsApp from './Settings'
 import Snackbar from 'material-ui/Snackbar';
 
 
@@ -78,7 +79,7 @@ class Main extends Component {
                                 <span>Hello from books</span>
                             </Route>
                             <Route path="/settings">
-                                <span>Hello from settings</span>
+                                <SettingsApp />
                             </Route>
                         </Switch>
                         <Card>

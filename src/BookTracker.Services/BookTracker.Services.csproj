@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookTracker.Models\BookTracker.Models.csproj" />
+    <ProjectReference Include="..\BookTracker.Repository\BookTracker.Repository.csproj" />
   </ItemGroup>
 
   <ItemGroup>

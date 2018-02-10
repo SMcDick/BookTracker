@@ -48,9 +48,11 @@ namespace BookTracker.Web
             services.AddScoped<IBookScouterService, BookScouterService>();
 
             services.AddScoped<IBookAppService, BookAppService>();
+            services.AddScoped<ISysAppService, SysAppService>();
 
             services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlite("Data Source=dbapp.db"));
 
+            services.AddScoped<ISystemRepository, SystemRepository>();
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "BookTracker Api", Version = "v1" }));
         }

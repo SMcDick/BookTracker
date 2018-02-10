@@ -54,17 +54,6 @@ export const endFetch = () => {
     }
 }
 
-export const fetchBook = book => dispatch => {
-    dispatch(beginFetch())
-
-    return fetch(`http://localhost:45766/api/Book/${book}`)
-        .then(response => response.json())
-        .then(json => {
-            dispatch(retrivedBook(json))
-            dispatch(endFetch())
-        })
-}
-
 export const openSnack = (text) => {
     return {
         type: types.SNACKBAR_OPEN,
@@ -77,3 +66,30 @@ export const closeSnack = () => {
         type: types.SNACKBAR_CLOSE
     }
 }
+
+export const fetchBook = book => dispatch => {
+    dispatch(beginFetch())
+
+    return fetch(`http://localhost:45766/api/Book/${book}`)
+        .then(response => response.json())
+        .then(json => {
+            dispatch(retrivedBook(json))
+            dispatch(endFetch())
+        })
+}
+
+export const postConfig = data => dispatch => {
+
+}
+
+export const getConfig = () => dispatch => {
+    dispatch(beginFetch())
+
+    return fetch(`http://localhost:45766/api/Book/${book}`)
+        .then(response => response.json())
+        .then(json => {
+            dispatch(retrivedBook(json))
+            dispatch(endFetch())
+        })
+}
+
