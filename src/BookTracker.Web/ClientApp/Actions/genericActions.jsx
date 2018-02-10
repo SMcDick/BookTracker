@@ -69,8 +69,8 @@ export const closeSnack = () => {
 
 export const fetchBook = book => dispatch => {
     dispatch(beginFetch())
-
-    return fetch(`http://localhost:45766/api/Book/${book}`)
+    const baseUri = window.location.href
+    return fetch(`${baseUri}api/Book/${book}`)
         .then(response => response.json())
         .then(json => {
             dispatch(retrivedBook(json))
@@ -84,8 +84,8 @@ export const postConfig = data => dispatch => {
 
 export const getConfig = () => dispatch => {
     dispatch(beginFetch())
-
-    return fetch(`http://localhost:45766/api/Book/${book}`)
+    const baseUri = window.location.href
+    return fetch(`${baseUri}api/Book/${book}`)
         .then(response => response.json())
         .then(json => {
             dispatch(retrivedBook(json))

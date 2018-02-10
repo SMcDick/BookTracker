@@ -32,11 +32,12 @@ namespace BookTracker.Web.Services
 #endif
             var client = new RestClient(_keepaOptions.BaseUri);
 
-            var request = new RestRequest("product?key={key}&domain={domain}&code={code}");
+            var request = new RestRequest("product?key={key}&domain={domain}&code={code}&update={update}");
 
             request.AddUrlSegment("key", _keepaOptions.ApiKey);
             request.AddUrlSegment("domain", (int)domain);
             request.AddUrlSegment("code", isbn);
+            request.AddUrlSegment("update", 1);
 
             var response = await client.ExecuteGetTaskAsync(request);
 

@@ -24,7 +24,9 @@ namespace BookTracker.Web
                 {
                     logging.ClearProviders();
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    logging.AddConsole(opts => opts.IncludeScopes = true);
+                    //logging.AddConsole(opts => opts.IncludeScopes = true);
+                    //logging.AddDebug();
+                    //logging.AddAzureWebAppDiagnostics();
                 })
                 .Build();
     }

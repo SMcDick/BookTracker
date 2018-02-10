@@ -244,7 +244,7 @@ class BookApp extends Component {
         return (<Card>
             <CardHeader title="Book Scouter App" />
             <CardText>
-                <BookSearchAction defaultValue="9781433805615" onSearchClick={this.handleAddBook} onRefreshClick={this.handleRefresh} />
+                <BookSearchAction defaultValue="" onSearchClick={this.handleAddBook} onRefreshClick={this.handleRefresh} />
                 <BookIsbnSearchList isbnColl={isbnColl} onDelete={this.handleRemoveBook} />
                 <BookTable dataCollection={bookColl} />
             </CardText>

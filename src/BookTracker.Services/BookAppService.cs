@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using BookTracker.Models.Options;
+using BookTracker.Models.BookScouter;
 
 namespace BookTracker.Services
 {
@@ -35,6 +36,8 @@ namespace BookTracker.Services
                 throw new ArgumentNullException(nameof(isbn));
 
             Book book = new Book();
+            book.ISBN = isbn;
+
             var usBook = await _keepaService.GetBook(KeepaDomain.US, isbn);
 
             if (usBook.Products.Length > 0)
@@ -46,7 +49,6 @@ namespace BookTracker.Services
                 decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX][kBook.CSV[Constants.CSV_NEW_INDEX].Length - 1]);
                 decimal salesRank = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_SALES_RANK_INDEX][kBook.CSV[Constants.CSV_SALES_RANK_INDEX].Length - 1]);
 
-                book.ISBN = isbn;
                 book.Title = kBook.Title;
                 book.Image = ParseBookImageName(kBook.ImagesCSV);
 
@@ -68,25 +70,36 @@ namespace BookTracker.Services
                 book.CASalesRank = salesRank;
             }
 
+            var bookScouter = await GetPriceFromScouter(isbn);
+            if (bookScouter != null)
+            {
+                if (bookScouter.Prices != null && bookScouter.Prices.Length > 0)
+                    book.Offer = bookScouter.Prices[0].RealPrice;
 
-            book.Offer = await GetPriceFromScouter(isbn);
+                if (bookScouter.Book != null)
+                {
+                    if (string.IsNullOrEmpty(book.Title))
+                    {
+                        book.Title = bookScouter.Book.Title;
+                    }
+                    if (string.IsNullOrEmpty(book.Image))
+                    {
+                        book.Image = ParserBookScouterImage(bookScouter.Book.Image);
+                    }
+                }
+            }
+
             return book;
         }
 
-        private async Task<decimal> GetPriceFromScouter(string isbn)
+        private async Task<BookScouted> GetPriceFromScouter(string isbn)
         {
             var svcBook = await _bookScouterService.GetBook(isbn);
             if (svcBook != null
-                && svcBook.Books != null
-                && svcBook.Books.Prices != null
-                && svcBook.Books.Prices.Length > 0)
-            {
-                return svcBook.Books.Prices[0].RealPrice;
-            }
+                && svcBook.Books != null)
+                return svcBook.Books;
             else
-            {
-                return 0m;
-            }
+                return null;
         }
 
         private string ParseBookImageName(string data)
@@ -96,6 +109,15 @@ namespace BookTracker.Services
 
             string imageName = Regex.Replace(data, @"([\w\d]+.\w{3})[,\w.]*", "$1", RegexOptions.Compiled);
             return string.Concat(_keepaOptions.AmazonImageUri, imageName);
+        }
+
+        private string ParserBookScouterImage(string data)
+        {
+            if (string.IsNullOrEmpty(data))
+                return data;
+
+            //https:\/\/images-na.ssl-images-amazon.com\/images\/I\/51SWYi92L3L._SL75_.jpg
+            return data.Replace(@"\/", @"/");
         }
     }
 }
