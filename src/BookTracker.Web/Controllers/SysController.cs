@@ -20,15 +20,21 @@ namespace BookTracker.Web.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<SystemConfig> Get()
+        public async Task<AppConfig> Get()
         {
             return await _sysAppService.GetConfig();
         }
 
         [HttpPut("[action]", Name = "[action]")]
-        public Task Update([FromBody] SystemConfig data)
+        public Task Update([FromBody] AppConfig data)
         {
             return _sysAppService.Update(data);
+        }
+
+        [HttpGet("[action]")]
+        public void Reset()
+        {
+            _sysAppService.Reset();
         }
     }
 }

@@ -9,8 +9,10 @@ namespace BookTracker.Services
 {
     public interface ISysAppService
     {
-        Task<SystemConfig> GetConfig();
+        Task<AppConfig> GetConfig();
 
-        Task Update(SystemConfig config);
+        Task Update(AppConfig config);
+
+        void Reset();
     }
 }

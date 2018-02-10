@@ -22,6 +22,21 @@ namespace BookTracker.Repository
             return _dbContext.SystemConfig.FirstOrDefaultAsync(c => c.Current == true);
         }
 
+        public Task<List<Box>> GetBoxes()
+        {
+            return _dbContext.BoxConfig.ToListAsync();
+        }
+
+        public Task<MinBox> GetMinBox()
+        {
+            return _dbContext.MinBoxConfig.FirstOrDefaultAsync();
+        }
+
+        public void Reset()
+        {
+            ApplicationDbContext.RefreshConfig(_dbContext);
+        }
+
         public async Task Update(SystemConfig data)
         {
             if(data.Id == 0)
@@ -33,6 +48,32 @@ namespace BookTracker.Repository
                 _dbContext.SystemConfig.Update(data);
             }
             await _dbContext.SaveChangesAsync();
+        }
+
+        public Task UpdateBox(Box data)
+        {
+            if(data.Id == 0)
+            {
+                _dbContext.BoxConfig.Add(data);
+            }
+            else
+            {
+                _dbContext.BoxConfig.Update(data);
+            }
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task UpdateMinBox(MinBox data)
+        {
+            if (data.Id == 0)
+            {
+                _dbContext.MinBoxConfig.Add(data);
+            }
+            else
+            {
+                _dbContext.MinBoxConfig.Update(data);
+            }
+            return _dbContext.SaveChangesAsync();
         }
     }
 }

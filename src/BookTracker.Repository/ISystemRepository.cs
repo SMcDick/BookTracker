@@ -12,5 +12,15 @@ namespace BookTracker.Repository
         Task<SystemConfig> Get();
 
         Task Update(SystemConfig data);
+
+        void Reset();
+
+        Task<List<Box>> GetBoxes();
+
+        Task<MinBox> GetMinBox();
+
+        Task UpdateBox(Box data);
+
+        Task UpdateMinBox(MinBox data);
     }
 }
