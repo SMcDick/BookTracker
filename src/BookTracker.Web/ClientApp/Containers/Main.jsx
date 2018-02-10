@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import BookIcon from 'material-ui/svg-icons/action/book';
 import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -17,6 +18,7 @@ import Divider from 'material-ui/Divider';
 
 import * as actions from '../Actions/genericActions'
 import BookApp from './Books'
+import Snackbar from 'material-ui/Snackbar';
 
 
 class Main extends Component {
@@ -27,7 +29,6 @@ class Main extends Component {
 
     handleMenuToogle = () => {
         const { dispatch, isOpen } = this.props
-
         dispatch(actions.toogleMenuAction(!isOpen))
     }
 
@@ -43,8 +44,14 @@ class Main extends Component {
         dispatch(push(menuItem.props.value))
     }
 
+    handleSnackClose = () => {
+        const { dispatch } = this.props
+
+        dispatch(actions.closeSnack())
+    }
+
     render() {
-        const { isOpen } = this.props;
+        const { isOpen, snackIsOpen, snackText, snackTime } = this.props;
         return (
             <Router>
                 <div>
@@ -55,7 +62,7 @@ class Main extends Component {
                         docked={false}
                         onRequestChange={this.handleMenuToogle}>
                         <Menu onItemClick={this.handleMenuClose}>
-                            <MenuItem value="/" leftIcon={<ContentInbox />}><Link to="/">Home</Link></MenuItem>
+                            <MenuItem value="/" leftIcon={<BookIcon />}><Link to="/">Home</Link></MenuItem>
                             <MenuItem value="/settings" leftIcon={<ContentInbox />}><Link to="/settings">Settings</Link></MenuItem>
                             <Divider />
                             <MenuItem value="/pinnedBooks" leftIcon={<ContentInbox />}><Link to="/pinned">Pinned Books</Link></MenuItem>
@@ -80,16 +87,23 @@ class Main extends Component {
                             </CardText>
                         </Card>
                     </Paper>
+                    <Snackbar open={snackIsOpen}
+                        message={snackText} />
                 </div>
             </Router>)
     }
 }
 
 const mapStateToProps = state => {
-    const { menuHandleReducer, errorMessageReducer, systemReducer } = state;
+    const { menuHandleReducer, errorMessageReducer, systemReducer, apiReducer } = state;
+    const { isFetching, deep } = apiReducer 
+
     return {
         isOpen: menuHandleReducer.isOpen,
-        status: systemReducer.status
+        status: isFetching ? 'Fetching' : systemReducer.status,
+        deep: deep ? deep : '',
+        snackIsOpen: isFetching !== undefined ? isFetching : false,
+        snackText: 'Fetching',
     }
 }
 

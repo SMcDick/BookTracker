@@ -3,53 +3,53 @@ import { routerReducer } from 'react-router-redux'
 
 import * as types from '../ActionTypes'
 
-const request = (state = { isFetching: false, didInvalidate: false, data: {} }, action) => {
+const api = (state = {}, action) => {
+    const { deep } = state
     switch (action.type) {
         case types.API_REQUEST_BEGIN:
+            const nDeepBegin = deep + 1
             return {
                 ...state,
+                deep: nDeepBegin,
                 isFetching: true,
-                data: null,
-                didInvalidate: false,
-                errorMsg: ''
             }
         case types.API_REQUEST_END:
+            const nDeep = deep - 1
             return {
                 ...state,
-                isFetching: false,
-                didInvalidate: false,
-                data: action.data,
-                errorMsg: ''
+                isFetching: nDeep > 0,
+                deep: nDeep
             }
         case types.API_REQUEST_ERROR:
             return {
                 ...state,
-                isFetching: false,
-                didInvalidate: true,
-                errorMsg: action.errorMsg,
-                data: null
+                isFetching: false
             }
+        default:
+            return state
     }
 }
 
 const apiReducer = (state = {}, action) => {
-    switch (action.type) {
-        case types.API_REQUEST_BEGIN:
-        case types.API_REQUEST_END:
-        case types.API_REQUEST_ERROR:
-            const nState = {
-                ...state,
-                api: request(state.api, action)
-            }
-        default:
-            return state;
-    }
+    return api(state, action)
 }
 
 const systemReducer = (state = {}, action) => {
-    return {
-        ...state,
-        status: 'Ok'
+    switch (action.type) {
+        case types.SNACKBAR_OPEN:
+            const { text, time } = action
+            return {
+                ...state,
+                text,
+                isOpen: true
+            }
+        case types.SNACKBAR_CLOSE:
+            return {
+                ...state,
+                isOpen: false
+            }
+        default:
+            return state
     }
 }
 
@@ -61,7 +61,7 @@ const menuHandleReducer = (state = {}, action) => {
                 isOpen: action.isOpen
             }
         default:
-            return state;
+            return state
     }
 }
 
@@ -79,12 +79,65 @@ const errorMessageReducer = (state = null, action) => {
     return state
 }
 
+const book = (state = {}, action) => {
+    const { isbnColl, bookColl } = state
+    const { isbn, book, type } = action
+
+    switch (type) {
+        case types.BOOK_SEARCH_ADD:
+            let nIsbnColl = isbnColl ? isbnColl : []
+            nIsbnColl = nIsbnColl.concat(isbn)
+            return {
+                ...state,
+                isbnColl: nIsbnColl
+            }
+        case types.BOOK_SEARCH_REMOVE:
+            let isbnCollReduced = isbnColl.filter((item) => {
+                return item !== isbn
+            })
+            const nBookCollRM = bookColl ? bookColl : []
+            let bookCollReduced = nBookCollRM.filter((item) => {
+                return item.isbn !== isbn
+            })
+            return {
+                ...state,
+                isbnColl: isbnCollReduced,
+                bookColl: bookCollReduced
+            }
+        case types.BOOK_SEARCH_RETRIVED:
+            let nBookColl = bookColl ? bookColl : []
+            nBookColl = nBookColl.concat(book)
+            return {
+                ...state,
+                bookColl: nBookColl
+            }
+        case types.BOOK_SEARCH_NOT_FOUND:
+            
+            return {
+                ...state,
+                notfound: `Book ${isbn} not found`
+            }
+        case types.BOOK_SEARCH_CLEAR:
+            return {
+                ...state,
+                bookColl: []
+            }
+        default:
+            return state
+    }
+}
+
+const bookReducer = (state = {}, action) => {
+    return book(state, action)
+}
+
 const rootReducer = combineReducers({
     apiReducer,
     errorMessageReducer,
-    systemReducer,
     menuHandleReducer,
-    routerReducer
+    routerReducer,
+    bookReducer,
+    systemReducer
 })
 
 export default rootReducer

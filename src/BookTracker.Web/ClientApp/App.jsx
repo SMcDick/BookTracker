@@ -41,7 +41,7 @@ injectTapEventPlugin();
 
 const App = () => (
     <MuiThemeProvider>
-        <Main />
+        <Main isOpen={false} />
     </MuiThemeProvider>
 );
 
@@ -65,7 +65,7 @@ if (module.hot) {
             <AppContainer>
                 <Provider store={store}>
                     <ConnectedRouter history={history}>
-                        <NewApp />
+                        <NewApp isOpen={false} />
                     </ConnectedRouter>
                 </Provider>
             </AppContainer>,
