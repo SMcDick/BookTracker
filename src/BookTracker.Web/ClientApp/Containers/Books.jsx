@@ -1,5 +1,8 @@
 ﻿import React, { Component } from 'react';
 
+import { List, ListItem } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -10,6 +13,9 @@ import { connect } from 'react-redux'
 import ImageField from '../ui/ImageField'
 import FlatTextField from '../ui/FlatTextField'
 import FlatNumberField from '../ui/FlatNumberField'
+import Responsive from '../ui/Responsive'
+
+import Avatar from 'material-ui/Avatar';
 
 import {
     Table,
@@ -41,46 +47,77 @@ class BookTable extends Component {
         const { dataCollection } = this.props;
 
         return (
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHeaderColumn>Title</TableHeaderColumn>
-                        <TableHeaderColumn>ISBN</TableHeaderColumn>
-                        <TableHeaderColumn>Image</TableHeaderColumn>
-                        <TableHeaderColumn>Sales Rank</TableHeaderColumn>
-                        <TableHeaderColumn>Net Payout</TableHeaderColumn>
-                        <TableHeaderColumn>Offer</TableHeaderColumn>
-                        <TableHeaderColumn>CA Net Payout</TableHeaderColumn>
-                        <TableHeaderColumn>CA Sales Rank</TableHeaderColumn>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {
-                        dataCollection.map((f, index) => {
-                            return (<TableRow key={index}>
-                                <TableRowColumn><FlatTextField source="title" record={f} /></TableRowColumn>
-                                <TableRowColumn><FlatTextField source="isbn" record={f} /></TableRowColumn>
-                                <TableRowColumn><ImageField source="image" record={f} title={f.title} /></TableRowColumn>
-                                <TableRowColumn>
-                                    <FlatNumberField source="salesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                </TableRowColumn>
-                                <TableRowColumn>
-                                    <FlatNumberField source="netPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                </TableRowColumn>
-                                <TableRowColumn>
-                                    <FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                </TableRowColumn>
-                                <TableRowColumn>
-                                    <FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                </TableRowColumn>
-                                <TableRowColumn>
-                                    <FlatNumberField source="caSalesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                </TableRowColumn>
-                            </TableRow>)
-                        })
-                    }
-                </TableBody>
-            </Table>
+            <Responsive
+                small={
+                    <List>
+                        {
+                            dataCollection.map((f, index) => {
+                                return (<React.Fragment>
+                                    <ListItem primaryText={f.title}
+                                        leftAvatar={<Avatar src={f.image} />} />
+
+                                    <ListItem primaryText={f.isbn}
+                                        secondaryText="ISBN" />
+                                    <ListItem primaryText={<FlatNumberField source="salesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                        secondaryText="Sales rank" />
+                                    <ListItem primaryText={<FlatNumberField source="netPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                        secondaryText="Net payout" />
+                                    <ListItem primaryText={<FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                        secondaryText="Offer" />
+                                    <ListItem primaryText={<FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                        secondaryText="CA Net Payout" />
+                                    <ListItem primaryText={<FlatNumberField source="caSalesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                        secondaryText="CA Sales Rank" />
+                                    
+                                    <Divider inset={true} />
+                                </React.Fragment>)
+                            })
+                        }
+                    </List>
+                }
+                medium={
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>Title</TableHeaderColumn>
+                                <TableHeaderColumn>ISBN</TableHeaderColumn>
+                                <TableHeaderColumn>Image</TableHeaderColumn>
+                                <TableHeaderColumn>Sales Rank</TableHeaderColumn>
+                                <TableHeaderColumn>Net Payout</TableHeaderColumn>
+                                <TableHeaderColumn>Offer</TableHeaderColumn>
+                                <TableHeaderColumn>CA Net Payout</TableHeaderColumn>
+                                <TableHeaderColumn>CA Sales Rank</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {
+                                dataCollection.map((f, index) => {
+                                    return (<TableRow key={index}>
+                                        <TableRowColumn><FlatTextField source="title" record={f} /></TableRowColumn>
+                                        <TableRowColumn><FlatTextField source="isbn" record={f} /></TableRowColumn>
+                                        <TableRowColumn><ImageField source="image" record={f} title={f.title} /></TableRowColumn>
+                                        <TableRowColumn>
+                                            <FlatNumberField source="salesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />
+                                        </TableRowColumn>
+                                        <TableRowColumn>
+                                            <FlatNumberField source="netPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />
+                                        </TableRowColumn>
+                                        <TableRowColumn>
+                                            <FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} />
+                                        </TableRowColumn>
+                                        <TableRowColumn>
+                                            <FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />
+                                        </TableRowColumn>
+                                        <TableRowColumn>
+                                            <FlatNumberField source="caSalesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />
+                                        </TableRowColumn>
+                                    </TableRow>)
+                                })
+                            }
+                        </TableBody>
+                    </Table>
+                }
+            />
         )
     }
 }
@@ -123,7 +160,7 @@ class BookSearchAction extends Component {
 
     render() {
         const { defaultValue } = this.props
-        
+
         return (
             <div>
                 <TextField hintText="ISBN" defaultValue={defaultValue} onChange={this.handleTextSearchChange} />
