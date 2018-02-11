@@ -1,13 +1,14 @@
-﻿using BookTracker.Services.Helpers;
-using BookTracker.Models;
-using BookTracker.Models.Keepa;
-using BookTracker.Services.ExternalServices;
-using System;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using Microsoft.Extensions.Options;
-using BookTracker.Models.Options;
+﻿using BookTracker.Models;
 using BookTracker.Models.BookScouter;
+using BookTracker.Models.Keepa;
+using BookTracker.Models.Options;
+using BookTracker.Services.ExternalServices;
+using BookTracker.Services.Helpers;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace BookTracker.Services
 {
@@ -37,39 +38,88 @@ namespace BookTracker.Services
 
             Book book = new Book();
             book.ISBN = isbn;
+            book.VerboseData = new List<VerboseData>();
 
+            //us ca mx in jp
+            //box, title, image, isbn, sales rank, net payout, offer, ca sales rank, ca net payout
+            //1 - us
+            //2 - bookscouter
+            //3 - ca
+            //4 - in
+            //5 - mx
+
+            //US
             var usBook = await _keepaService.GetBook(KeepaDomain.US, isbn);
-
             if (usBook.Products.Length > 0)
             {
                 var kBook = usBook.Products[0];
 
-                decimal used = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_USED_INDEX][kBook.CSV[Constants.CSV_USED_INDEX].Length - 1]);
-                decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX][kBook.CSV[Constants.CSV_PRICE_INDEX].Length - 1]);
-                decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX][kBook.CSV[Constants.CSV_NEW_INDEX].Length - 1]);
-                decimal salesRank = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_SALES_RANK_INDEX][kBook.CSV[Constants.CSV_SALES_RANK_INDEX].Length - 1]);
+                decimal used = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_USED_INDEX].GetLast());
+                decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX].GetLast());
+                decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX].GetLast());
+                int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
 
                 book.Title = kBook.Title;
                 book.Image = ParseBookImageName(kBook.ImagesCSV);
 
-                book.SalesRank = salesRank;
-                book.NetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight);
+                book.USSalesRank = salesRank;
+                book.USNetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight);
+
+                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.US.ToString()));
             }
 
+            //CA
             var caBook = await _keepaService.GetBook(KeepaDomain.CA, isbn);
             if (caBook.Products.Length > 0)
             {
                 var kBook = caBook.Products[0];
 
-                decimal used = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_USED_INDEX][kBook.CSV[Constants.CSV_USED_INDEX].Length - 1]);
-                decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX][kBook.CSV[Constants.CSV_PRICE_INDEX].Length - 1]);
-                decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX][kBook.CSV[Constants.CSV_NEW_INDEX].Length - 1]);
-                decimal salesRank = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_SALES_RANK_INDEX][kBook.CSV[Constants.CSV_SALES_RANK_INDEX].Length - 1]);
+                decimal used = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_USED_INDEX].GetLast());
+                decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX].GetLast());
+                decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX].GetLast());
+                int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
 
-                book.CANetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight);
+                book.CANetPayout = BookDomain.CalculateCANetPayout(used, price, kBook.PackageWeight);
                 book.CASalesRank = salesRank;
+
+                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.CA.ToString()));
             }
 
+            //IN
+            var inBook = await _keepaService.GetBook(KeepaDomain.IN, isbn);
+            if (inBook.Products.Length > 0)
+            {
+                var kBook = inBook.Products[0];
+
+                decimal used = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_USED_INDEX].GetLast());
+                decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX].GetLast());
+                decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX].GetLast());
+                int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
+
+                book.INNetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight);
+                book.INSalesRank = salesRank;
+
+                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.IN.ToString()));
+            }
+
+            //MX
+            var mxBook = await _keepaService.GetBook(KeepaDomain.MX, isbn);
+            if (mxBook.Products.Length > 0)
+            {
+                var kBook = mxBook.Products[0];
+
+                decimal used = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_USED_INDEX].GetLast());
+                decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX].GetLast());
+                decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX].GetLast());
+                int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
+
+                book.MXNetPayout = BookDomain.CalculateINNetPayout(used, price, kBook.PackageWeight);
+                book.MXSalesRank = salesRank;
+
+                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.MX.ToString()));
+            }
+
+            //Book Scouter
             var bookScouter = await GetPriceFromScouter(isbn);
             if (bookScouter != null)
             {

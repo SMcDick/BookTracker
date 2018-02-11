@@ -24,9 +24,9 @@ namespace BookTracker.Models.Keepa
 
         public string LastPriceChange { get; set; }
 
-        public int RootCategory { get; set; }
+        public string RootCategory { get; set; }
 
-        public int ProductType { get; set; }
+        public string ProductType { get; set; }
 
         public string ParentAsin { get; set; }
 
@@ -76,15 +76,15 @@ namespace BookTracker.Models.Keepa
 
         public string Format { get; set; }
 
-        public int PackageHeight { get; set; }
+        public string PackageHeight { get; set; }
 
-        public int PackageLength { get; set; }
+        public string PackageLength { get; set; }
 
-        public int PackageWidth { get; set; }
+        public string PackageWidth { get; set; }
 
         public int PackageWeight { get; set; }
 
-        public int PackageQuantity { get; set; }
+        public string PackageQuantity { get; set; }
 
         public bool IsAdultProduct { get; set; }
 

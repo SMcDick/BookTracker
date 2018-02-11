@@ -58,17 +58,32 @@ class BookTable extends Component {
 
                                     <ListItem primaryText={f.isbn}
                                         secondaryText="ISBN" />
-                                    <ListItem primaryText={<FlatNumberField source="salesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                    <ListItem primaryText={<FlatNumberField source="usSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
                                         secondaryText="Sales rank" />
-                                    <ListItem primaryText={<FlatNumberField source="netPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+
+                                    <ListItem primaryText={<FlatNumberField source="usNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
                                         secondaryText="Net payout" />
+
                                     <ListItem primaryText={<FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} />}
                                         secondaryText="Offer" />
+
                                     <ListItem primaryText={<FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
                                         secondaryText="CA Net Payout" />
-                                    <ListItem primaryText={<FlatNumberField source="caSalesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+
+                                    <ListItem primaryText={<FlatNumberField source="caSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
                                         secondaryText="CA Sales Rank" />
-                                    
+
+                                    <ListItem primaryText={<FlatNumberField source="inNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                        secondaryText="IN Net Payout" />
+
+                                    <ListItem primaryText={<FlatNumberField source="inSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
+                                        secondaryText="IN Sales Rank" />
+
+                                    <ListItem primaryText={<FlatNumberField source="mxNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                        secondaryText="MX Net Payout" />
+
+                                    <ListItem primaryText={<FlatNumberField source="mxSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
+                                        secondaryText="MX Sales Rank" />
                                     <Divider inset={true} />
                                 </React.Fragment>)
                             })
@@ -87,6 +102,10 @@ class BookTable extends Component {
                                 <TableHeaderColumn>Offer</TableHeaderColumn>
                                 <TableHeaderColumn>CA Net Payout</TableHeaderColumn>
                                 <TableHeaderColumn>CA Sales Rank</TableHeaderColumn>
+                                <TableHeaderColumn>IN Net Payout</TableHeaderColumn>
+                                <TableHeaderColumn>IN Sales Rank</TableHeaderColumn>
+                                <TableHeaderColumn>MX Net Payout</TableHeaderColumn>
+                                <TableHeaderColumn>MX Sales Rank</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -94,23 +113,28 @@ class BookTable extends Component {
                                 dataCollection.map((f, index) => {
                                     return (<TableRow key={index}>
                                         <TableRowColumn><FlatTextField source="title" record={f} /></TableRowColumn>
+
                                         <TableRowColumn><FlatTextField source="isbn" record={f} /></TableRowColumn>
+
                                         <TableRowColumn><ImageField source="image" record={f} title={f.title} /></TableRowColumn>
-                                        <TableRowColumn>
-                                            <FlatNumberField source="salesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                        </TableRowColumn>
-                                        <TableRowColumn>
-                                            <FlatNumberField source="netPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                        </TableRowColumn>
-                                        <TableRowColumn>
-                                            <FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                        </TableRowColumn>
-                                        <TableRowColumn>
-                                            <FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                        </TableRowColumn>
-                                        <TableRowColumn>
-                                            <FlatNumberField source="caSalesRank" record={f} options={{ style: 'currency', currency: 'USD' }} />
-                                        </TableRowColumn>
+
+                                        <TableRowColumn><FlatNumberField source="usSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
+
+                                        <TableRowColumn><FlatNumberField source="usNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+
+                                        <TableRowColumn><FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+
+                                        <TableRowColumn><FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+
+                                        <TableRowColumn><FlatNumberField source="caSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
+
+                                        <TableRowColumn><FlatNumberField source="inNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+
+                                        <TableRowColumn><FlatNumberField source="inSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
+
+                                        <TableRowColumn><FlatNumberField source="mxNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+
+                                        <TableRowColumn><FlatNumberField source="mxSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
                                     </TableRow>)
                                 })
                             }

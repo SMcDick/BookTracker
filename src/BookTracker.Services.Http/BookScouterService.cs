@@ -35,7 +35,7 @@ namespace BookTracker.Services.Http
                 _logger.LogError("Error trying to get book {isbn}", isbn);
                 _logger.LogError("Http status code {StatusCode} content -> {Content}", response.StatusCode, response.Content);
             }
-            _logger.LogInformation("Http status code {StatusCode} content -> {Content}", response.StatusCode, response.Content);
+            _logger.LogInformation("Http status code {StatusCode} Uri {uri} content -> {Content}", response.StatusCode, response.ResponseUri.AbsoluteUri, response.Content);
 
             var data = JsonConvert.DeserializeObject<BookScouterResponse>(response.Content);
             return data;

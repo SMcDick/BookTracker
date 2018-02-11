@@ -14,7 +14,50 @@ namespace BookTracker.Services
             return 0m;
         }
 
+        private static decimal GetBookWeigthPriceMX(decimal bookWeigthKg)
+        {
+            if (bookWeigthKg < 0.5m)
+            {
+              return 13.15m;
+            }
+            else if (bookWeigthKg < 1m)
+            {
+                return 14.15m;
+            }
+            else if(bookWeigthKg < 2m)
+            {
+                return 16.15m;
+            }
+            else if(bookWeigthKg < 5m)
+            {
+                return 19.20m;
+            }
+            return 19.20m * (bookWeigthKg - 1) * 2.80m;
+        }
 
+        internal static decimal CalculateMXNetPayout(decimal usedPrice, decimal price, decimal bookWeigthGrams)
+        {
+            decimal bookWeigthPrice = GetBookWeigthPriceMX(bookWeigthGrams * 1000);
+            
+
+            decimal f = usedPrice - (price - 0.1293m) - 17.85m - bookWeigthPrice;
+
+            decimal result = f;
+            return decimal.Round(result, 2, MidpointRounding.ToEven);
+        }
+
+        internal static decimal CalculateINNetPayout(decimal usedPrice, decimal price, decimal bookWeigthGrams)
+        {
+            decimal bookWeigthPrice = 50m;
+            if(bookWeigthGrams > 500)
+            {
+                bookWeigthGrams += ((bookWeigthGrams - 500m) / 500m) * 27m;
+            }
+
+            decimal result = usedPrice - (price - 0.15m) - 40m - 15m - bookWeigthPrice;
+
+            return decimal.Round(result, 2, MidpointRounding.ToEven);
+        }
 
         internal static decimal CalculateNetPayout(decimal usedPrice, decimal price, decimal bookWeigthGrams)
         {
@@ -30,7 +73,7 @@ namespace BookTracker.Services
             {
                 result = usedPrice - price * Constants.NETPAYOUT_CONST1 - Constants.NETPAYOUT_CONST2 - 4.71m + (bookPounds - 1m) * 0.38m;
             }
-            return decimal.Round(result, 2, MidpointRounding.AwayFromZero);
+            return decimal.Round(result, 2, MidpointRounding.ToEven);
         }
 
         internal static decimal CalculateCANetPayout(decimal usedPrice, decimal price, decimal bookWeigthGrams)
@@ -41,7 +84,7 @@ namespace BookTracker.Services
                 - Constants.CA_NETPAYOUT_PRICE_1_POUND
                 + Constants.CA_NETPAYOUT_PRICE_ADDITIONAL_500_GRAMS * bookParts500Grams;
 
-            return decimal.Round(result, 2, MidpointRounding.AwayFromZero);
+            return decimal.Round(result, 2, MidpointRounding.ToEven);
         }
     }
 }
