@@ -159,3 +159,6 @@ System.IO.IOException: The process cannot access the file 'C:\Users\ricardo\sour
 2018-02-11 15:14:46.805 -02:00 [INF] Request finished in 5731.7613ms 500 text/html; charset=utf-8
 2018-02-11 15:15:18.805 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
 2018-02-11 15:15:18.805 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
+2018-02-11 15:15:28.397 -02:00 [INF] webpack built 6d6a2594ed7498a933f0 in 10075ms
+2018-02-11 15:16:29.151 -02:00 [INF] Request finished in 70374.5314ms 200 text/event-stream; charset=utf-8
+2018-02-11 15:16:39.137 -02:00 [INF] Request finished in 80361.841ms 200 text/event-stream; charset=utf-8
