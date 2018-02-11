@@ -1,0 +1,161 @@
+2018-02-11 15:09:44.303 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
+2018-02-11 15:09:44.303 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/  
+2018-02-11 15:09:44.303 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
+2018-02-11 15:09:45.384 -02:00 [INF] Executing action method BookTracker.Web.Controllers.HomeController.Index (BookTracker.Web) with arguments (null) - ModelState is "Valid"
+2018-02-11 15:09:50.976 -02:00 [INF] Executing ViewResult, running view at path /Views/Home/Index.cshtml.
+2018-02-11 15:09:51.765 -02:00 [INF] Executed action BookTracker.Web.Controllers.HomeController.Index (BookTracker.Web) in 6603.09ms
+2018-02-11 15:09:51.794 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/main-client.js?v=dG__yc--F4QP55ucPBvdnf0R0zxZIXJoJBKyDKoXYkg  
+2018-02-11 15:09:51.931 -02:00 [INF] Request finished in 7569.6437ms 200 text/html; charset=utf-8
+2018-02-11 15:09:54.117 -02:00 [INF] webpack built 6d6a2594ed7498a933f0 in 10705ms
+2018-02-11 15:09:55.262 -02:00 [INF] Request finished in 3391.9021ms 200 application/javascript; charset=UTF-8
+2018-02-11 15:09:56.308 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
+2018-02-11 15:10:08.587 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/api/Sys/status application/json 
+2018-02-11 15:10:08.828 -02:00 [INF] Executing action method BookTracker.Web.Controllers.SysController.Status (BookTracker.Web) with arguments (null) - ModelState is "Valid"
+2018-02-11 15:10:11.079 -02:00 [INF] State of application Ok
+2018-02-11 15:10:12.289 -02:00 [INF] Executing ObjectResult, writing value Microsoft.AspNetCore.Mvc.ControllerContext.
+2018-02-11 15:10:12.301 -02:00 [INF] Executed action BookTracker.Web.Controllers.SysController.Status (BookTracker.Web) in 3692.3469ms
+2018-02-11 15:10:12.313 -02:00 [INF] Request finished in 3723.5936ms 200 text/plain; charset=utf-8
+2018-02-11 15:10:47.673 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/  
+2018-02-11 15:10:49.089 -02:00 [INF] Executing action method BookTracker.Web.Controllers.HomeController.Index (BookTracker.Web) with arguments (null) - ModelState is "Valid"
+2018-02-11 15:10:55.067 -02:00 [INF] Executing ViewResult, running view at path /Views/Home/Index.cshtml.
+2018-02-11 15:10:55.871 -02:00 [INF] Executed action BookTracker.Web.Controllers.HomeController.Index (BookTracker.Web) in 7159.1911ms
+2018-02-11 15:10:55.880 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/main-client.js?v=dG__yc--F4QP55ucPBvdnf0R0zxZIXJoJBKyDKoXYkg  
+2018-02-11 15:10:55.928 -02:00 [INF] Request finished in 8263.8988ms 200 text/html; charset=utf-8
+2018-02-11 15:10:58.509 -02:00 [INF] webpack built 6d6a2594ed7498a933f0 in 12103ms
+2018-02-11 15:10:59.609 -02:00 [INF] Request finished in 3762.5806ms 200 application/javascript; charset=UTF-8
+2018-02-11 15:11:00.802 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
+2018-02-11 15:11:04.443 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/api/Sys/log application/json 
+2018-02-11 15:11:04.667 -02:00 [INF] Executing action method BookTracker.Web.Controllers.SysController.GetLogData (BookTracker.Web) with arguments (null) - ModelState is "Valid"
+2018-02-11 15:11:16.200 -02:00 [INF] Executed action BookTracker.Web.Controllers.SysController.GetLogData (BookTracker.Web) in 11729.0633ms
+2018-02-11 15:11:16.344 -02:00 [ERR] An unhandled exception has occurred while executing the request
+System.IO.IOException: The process cannot access the file 'C:\Users\ricardo\source\repos\BookTracker\src\BookTracker.Web\App_Data\log20180211.txt' because it is being used by another process.
+   at System.IO.FileStream.OpenHandle(FileMode mode, FileShare share, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+   at System.IO.File.AsyncStreamReader(String path, Encoding encoding)
+   at System.IO.File.<InternalReadAllTextAsync>d__68.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at BookTracker.Web.Controllers.SysController.<GetLogData>d__5.MoveNext() in C:\Users\ricardo\source\repos\BookTracker\src\BookTracker.Web\Controllers\SysController.cs:line 45
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeActionMethodAsync>d__12.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeNextActionFilterAsync>d__10.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeInnerFilterAsync>d__14.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.<InvokeNextResourceFilter>d__22.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.<InvokeFilterPipelineAsync>d__17.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.<InvokeAsync>d__15.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.<Invoke>d__4.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.<Invoke>d__6.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.SpaServices.Webpack.ConditionalProxyMiddleware.<Invoke>d__6.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.SpaServices.Webpack.ConditionalProxyMiddleware.<Invoke>d__6.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.<Invoke>d__7.MoveNext()
+2018-02-11 15:11:16.534 -02:00 [INF] Request finished in 12086.9376ms 500 text/html; charset=utf-8
+2018-02-11 15:12:01.758 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
+2018-02-11 15:12:08.642 -02:00 [INF] webpack built 6d6a2594ed7498a933f0 in 7426ms
+2018-02-11 15:14:15.632 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/  
+2018-02-11 15:14:16.189 -02:00 [INF] Executing action method BookTracker.Web.Controllers.HomeController.Index (BookTracker.Web) with arguments (null) - ModelState is "Valid"
+2018-02-11 15:14:19.651 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
+2018-02-11 15:14:21.556 -02:00 [INF] Executing ViewResult, running view at path /Views/Home/Index.cshtml.
+2018-02-11 15:14:22.274 -02:00 [INF] Executed action BookTracker.Web.Controllers.HomeController.Index (BookTracker.Web) in 6228.9575ms
+2018-02-11 15:14:22.313 -02:00 [INF] Request finished in 6711.2651ms 200 text/html; charset=utf-8
+2018-02-11 15:14:22.347 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/main-client.js?v=dG__yc--F4QP55ucPBvdnf0R0zxZIXJoJBKyDKoXYkg  
+2018-02-11 15:14:25.350 -02:00 [INF] webpack built 6d6a2594ed7498a933f0 in 10617ms
+2018-02-11 15:14:26.030 -02:00 [INF] Request finished in 3656.1102ms 200 application/javascript; charset=UTF-8
+2018-02-11 15:14:27.559 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
+2018-02-11 15:14:41.066 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/api/Sys/log application/json 
+2018-02-11 15:14:41.443 -02:00 [INF] Executing action method BookTracker.Web.Controllers.SysController.GetLogData (BookTracker.Web) with arguments (null) - ModelState is "Valid"
+2018-02-11 15:14:46.531 -02:00 [INF] Executed action BookTracker.Web.Controllers.SysController.GetLogData (BookTracker.Web) in 5432.915ms
+2018-02-11 15:14:46.660 -02:00 [ERR] An unhandled exception has occurred while executing the request
+System.IO.IOException: The process cannot access the file 'C:\Users\ricardo\source\repos\BookTracker\src\BookTracker.Web\App_Data\log20180211.txt' because it is being used by another process.
+   at System.IO.FileStream.OpenHandle(FileMode mode, FileShare share, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at BookTracker.Web.Controllers.SysController.<GetLogData>d__5.MoveNext() in C:\Users\ricardo\source\repos\BookTracker\src\BookTracker.Web\Controllers\SysController.cs:line 47
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeActionMethodAsync>d__12.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeNextActionFilterAsync>d__10.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeInnerFilterAsync>d__14.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.<InvokeNextResourceFilter>d__22.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.<InvokeFilterPipelineAsync>d__17.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.<InvokeAsync>d__15.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.<Invoke>d__4.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.<Invoke>d__6.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.SpaServices.Webpack.ConditionalProxyMiddleware.<Invoke>d__6.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.SpaServices.Webpack.ConditionalProxyMiddleware.<Invoke>d__6.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.<Invoke>d__7.MoveNext()
+2018-02-11 15:14:46.805 -02:00 [INF] Request finished in 5731.7613ms 500 text/html; charset=utf-8
+2018-02-11 15:15:18.805 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  
+2018-02-11 15:15:18.805 -02:00 [INF] Request starting HTTP/1.1 GET http://localhost:45766/dist/__webpack_hmr  

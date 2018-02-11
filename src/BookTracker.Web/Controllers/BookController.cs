@@ -1,6 +1,7 @@
 ﻿using BookTracker.Models;
 using BookTracker.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace BookTracker.Web.Controllers
@@ -9,17 +10,15 @@ namespace BookTracker.Web.Controllers
     public class BookController : Controller
     {
         private readonly IBookAppService _bookService;
+        private readonly ILogger<BookController> _logger;
 
-        public BookController(IBookAppService bookService)
+        public BookController(IBookAppService bookService, ILogger<BookController> logger)
         {
             _bookService = bookService;
+            _logger = logger;
         }
 
-        [HttpGet("[action]")]
-        public string Status()
-        {
-            return "Ok";
-        }
+        
 
         [HttpGet("{isbn}", Name = "GetByIsbn")]
         public Task<Book> GetByIsbn(string isbn)
