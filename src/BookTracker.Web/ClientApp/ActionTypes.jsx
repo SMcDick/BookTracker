@@ -14,3 +14,7 @@ export const BOOK_SEARCH_NOT_FOUND = 'BOOK_SEARCH_NOT_FOUND'
 
 export const SNACKBAR_OPEN = 'SNACKBAR_OPEN'
 export const SNACKBAR_CLOSE = 'SNACKBAR_OPEN'
+
+export const RULE_CHANGE = 'RULE_CHANGE'
+export const RULE_REMOVED = 'RULE_REMOVED'
+export const RULE_ADDED = 'RULE_ADDED'

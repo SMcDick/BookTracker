@@ -78,6 +78,27 @@ export const fetchBook = book => dispatch => {
         })
 }
 
+export const ruleChange = (rule) => {
+    return {
+        type: types.RULE_CHANGE,
+        rule
+    }
+}
+
+export const ruleAdded = (rule) => {
+    return {
+        type: types.RULE_ADDED,
+        rule
+    }
+}
+
+export const ruleRemoved = (rule) => {
+    return {
+        type: types.RULE_REMOVED,
+        rule
+    }
+}
+
 export const postConfig = data => dispatch => {
 
 }

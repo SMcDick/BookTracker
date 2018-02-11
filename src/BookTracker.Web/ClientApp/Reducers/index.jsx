@@ -53,6 +53,28 @@ const systemReducer = (state = {}, action) => {
     }
 }
 
+const settingsReducer = (state = {}, action) => {
+    switch (action.type) {
+        case types.RULE_CHANGE:
+            return {
+                ...state,
+                rule: action.rule
+            }
+        case types.RULE_RULE_REMOVED:
+            return {
+                ...state,
+                ruleRemoved: action.rule
+            }
+        case types.RULE_ADDED:
+            return {
+                ...state,
+                newRule: action.rule
+            }
+        default:
+            return state
+    }
+}
+
 const menuHandleReducer = (state = {}, action) => {
     switch (action.type) {
         case types.MENU_TOOGLE:
@@ -112,7 +134,7 @@ const book = (state = {}, action) => {
                 bookColl: nBookColl
             }
         case types.BOOK_SEARCH_NOT_FOUND:
-            
+
             return {
                 ...state,
                 notfound: `Book ${isbn} not found`
@@ -137,6 +159,7 @@ const rootReducer = combineReducers({
     menuHandleReducer,
     routerReducer,
     bookReducer,
+    settingsReducer,
     systemReducer
 })
 
