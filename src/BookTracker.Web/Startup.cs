@@ -1,5 +1,4 @@
 using BookTracker.Models.Options;
-using BookTracker.Repository;
 using BookTracker.Services;
 using BookTracker.Services.ExternalServices;
 using BookTracker.Services.Http;
@@ -36,38 +35,25 @@ namespace BookTracker.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddOptions();
 
-            string apiKey = Configuration["KeepaSettings:apiKey"];
-            string keepaUri = Configuration["KeepaSettings:baseUri"];
-            string amazonImageUri = Configuration["KeepaSettings:amazonImageUri"];
-            services.Configure<KeepaOptions>(c =>
-            {
-                c.ApiKey = apiKey;
-                c.BaseUri = keepaUri;
-                c.AmazonImageUri = amazonImageUri;
-            });
+            services.Configure<KeepaOptions>(Configuration.GetSection("KeepaSettings"));
 
-            string scoutUri = Configuration["BookScouter:baseUri"];
-            services.Configure<BookScouterOptions>(c =>
-            {
-                c.BaseUri = scoutUri;
-            });
+            services.Configure<BookScouterOptions>(Configuration.GetSection("BookScouter"));
 
-            services.Configure<LogOptions>(c =>
+            services.Configure<EnvorimentOptions>(c =>
             {
                 c.RootDir = _env.ContentRootPath;
                 c.AppDataDir = System.IO.Path.Combine(_env.ContentRootPath, "App_Data");
             });
+
+            services.Configure<SystemOptions>(Configuration.GetSection("SysConfig"));
 
             services.AddScoped<IKeepaService, KeepaService>();
             services.AddScoped<IBookScouterService, BookScouterService>();
 
             services.AddScoped<IBookAppService, BookAppService>();
             services.AddScoped<ISysAppService, SysAppService>();
-
-            services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlite("Data Source=dbapp.db"));
-            
-            services.AddScoped<ISystemRepository, SystemRepository>();
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "BookTracker Api", Version = "v1" }));
         }

@@ -18,13 +18,15 @@ namespace BookTracker.Web.Controllers
     {
         private readonly ISysAppService _sysAppService;
         private readonly ILogger<SysController> _logger;
-        private readonly LogOptions _logOptions;
+        private readonly EnvorimentOptions _logOptions;
+        private readonly SystemOptions _sysOptions;
 
-        public SysController(ISysAppService sysAppService, ILogger<SysController> logger, IOptions<LogOptions> option)
+        public SysController(ISysAppService sysAppService, ILogger<SysController> logger, IOptions<EnvorimentOptions> option, IOptionsSnapshot<SystemOptions> sysOptions)
         {
             _sysAppService = sysAppService;
             _logger = logger;
             _logOptions = option.Value;
+            _sysOptions = sysOptions.Value;
         }
 
         [HttpGet("[action]")]
@@ -32,25 +34,25 @@ namespace BookTracker.Web.Controllers
         {
             string status = "Ok";
             _logger.LogInformation("State of application {status}", status);
-            return status;
+            return $"Status Ok";
         }
 
         [HttpGet("[action]")]
-        public async Task<AppConfig> Get()
+        public SystemOptions Get()
         {
-            return await _sysAppService.GetConfig();
+            return _sysAppService.GetConfig();
         }
 
-        [HttpPut("[action]", Name = "[action]")]
-        public Task Update([FromBody] AppConfig data)
+        [HttpPut("[action]")]
+        public async Task Update([FromBody] SystemOptions data)
         {
-            return _sysAppService.Update(data);
+            await _sysAppService.Update(data);
         }
 
         [HttpGet("[action]")]
-        public void Reset()
+        public async Task Reset()
         {
-            _sysAppService.Reset();
+            await _sysAppService.Reset();
         }
     }
 }

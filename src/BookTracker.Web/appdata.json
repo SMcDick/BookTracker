@@ -1,0 +1,63 @@
+﻿{
+"SysConfig":
+{
+  "Box1": {
+    "Enabled": true,
+    "Name": "Box 1",
+    "Rules": [
+      {
+        "MinimumSalesRank": 10.0,
+        "MaximumSalesRank": 1000.0,
+        "MininumNetPayout": 22.0
+      }
+    ],
+    "SoundPath": "",
+    "Color": "Green"
+  },
+  "Box2": {
+    "Enabled": true,
+    "SoundPath": "",
+    "Color": "Red",
+    "OfferGreaterThan": 1000.0
+  },
+  "Box3": {
+    "Enabled": true,
+    "Name": "Box 3",
+    "Rules": [
+      {
+        "MinimumSalesRank": 10.0,
+        "MaximumSalesRank": 1000.0,
+        "MininumNetPayout": 22.0
+      }
+    ],
+    "SoundPath": "",
+    "Color": "Blue"
+  },
+  "Box4": {
+    "Enabled": true,
+    "Name": "Box 4",
+    "Rules": [
+      {
+        "MinimumSalesRank": 10.0,
+        "MaximumSalesRank": 1000.0,
+        "MininumNetPayout": 22.0
+      }
+    ],
+    "SoundPath": "",
+    "Color": "Yellow"
+  },
+  "Box5": {
+    "Enabled": true,
+    "Name": "Box 5",
+    "Rules": [
+      {
+        "MinimumSalesRank": 10.0,
+        "MaximumSalesRank": 1000.0,
+        "MininumNetPayout": 22.0
+      }
+    ],
+    "SoundPath": "",
+    "Color": "Grey"
+  }
+}
+}

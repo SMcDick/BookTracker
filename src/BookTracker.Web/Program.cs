@@ -19,6 +19,18 @@ namespace BookTracker.Web
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+
+                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                          .AddJsonFile($"appdata.json", optional: false, reloadOnChange: true)
+                          .AddJsonFile($"appkeepa.json", optional: false, reloadOnChange: true)
+                          .AddEnvironmentVariables()
+                          .AddCommandLine(args)
+                          .AddUserSecrets("9897bc62-1217-4ea2-a986-3d555d578ac5");
+                })
                 .UseStartup<Startup>()
                 .Build();
     }

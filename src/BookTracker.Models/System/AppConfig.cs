@@ -17,7 +17,5 @@ namespace BookTracker.Models.System
         public Box Box4 { get; set; }
 
         public Box Box5 { get; set; }
-
-        public SystemConfig System { get; set; }
     }
 }

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookTracker.Models.Options;
 using BookTracker.Models.System;
 
 namespace BookTracker.Services
 {
     public interface ISysAppService
     {
-        Task<AppConfig> GetConfig();
+        SystemOptions GetConfig();
 
-        Task Update(AppConfig config);
+        Task Update(SystemOptions config);
 
-        void Reset();
+        Task Reset();
     }
 }

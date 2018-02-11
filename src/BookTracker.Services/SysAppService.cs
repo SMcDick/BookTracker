@@ -1,68 +1,128 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookTracker.Models.Options;
 using BookTracker.Models.System;
-using BookTracker.Repository;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace BookTracker.Services
 {
     public class SysAppService : ISysAppService
     {
-        private readonly ISystemRepository _systemRepository;
+        private readonly SystemOptions _systemOptions;
         private readonly KeepaOptions _options;
+        private readonly EnvorimentOptions _envOptions;
 
-        public SysAppService(ISystemRepository systemRepository, IOptions<KeepaOptions> options)
+        public SysAppService(IOptionsSnapshot<SystemOptions> systemOptions, IOptions<KeepaOptions> options, IOptions<EnvorimentOptions> envOption)
         {
-            _systemRepository = systemRepository;
+            _systemOptions = systemOptions.Value;
             _options = options.Value;
+            _envOptions = envOption.Value;
         }
 
-        public async Task<AppConfig> GetConfig()
+        public SystemOptions GetConfig()
         {
-            var appConfig = new AppConfig();
+            return _systemOptions;
+        }
 
-            var config = await _systemRepository.Get();
-            if (config == null)
+        public async Task Reset()
+        {
+            var opt = new SystemOptions();
+            opt.Box1 = new Box
             {
-                config = new SystemConfig()
+                Color = "Green",
+                Enabled = true,
+                Name = "Box 1",
+                Rules = new Rule[]
                 {
-                    KeepaApiKey = _options.ApiKey
-                };
+                    new Rule
+                    {
+                        MaximumSalesRank = 1000,
+                        MinimumSalesRank = 10,
+                        MininumNetPayout = 22
+                    }
+                },
+                SoundPath = ""
+            };
+            opt.Box2 = new MinBox
+            {
+                Color = "Red",
+                Enabled = true,
+                OfferGreaterThan = 1000,
+                SoundPath = ""
+            };
+            opt.Box3 = new Box
+            {
+                Color = "Blue",
+                Enabled = true,
+                Name = "Box 3",
+                Rules = new Rule[]
+                {
+                    new Rule
+                    {
+                        MaximumSalesRank = 1000,
+                        MinimumSalesRank = 10,
+                        MininumNetPayout = 22
+                    }
+                },
+                SoundPath = ""
+            };
+            opt.Box4 = new Box
+            {
+                Color = "Yellow",
+                Enabled = true,
+                Name = "Box 4",
+                Rules = new Rule[]
+                {
+                    new Rule
+                    {
+                        MaximumSalesRank = 1000,
+                        MinimumSalesRank = 10,
+                        MininumNetPayout = 22
+                    }
+                },
+                SoundPath = ""
+            };
+            opt.Box5 = new Box
+            {
+                Color = "Grey",
+                Enabled = true,
+                Name = "Box 5",
+                Rules = new Rule[]
+                {
+                    new Rule
+                    {
+                        MaximumSalesRank = 1000,
+                        MinimumSalesRank = 10,
+                        MininumNetPayout = 22
+                    }
+                },
+                SoundPath = ""
+            };
+            await Update(opt);
+        }
+
+        public async Task Update(SystemOptions config)
+        {
+            string json = JsonConvert.SerializeObject(config, Formatting.Indented);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("{");
+            sb.AppendLine("\"SysConfig\":");
+            sb.AppendLine(json);
+            sb.Append("}");
+            using (FileStream fs = File.OpenWrite(Path.Combine(_envOptions.RootDir, "appdata.json")))
+            {
+                fs.Seek(0, SeekOrigin.Begin);
+                using (StreamWriter writer = new StreamWriter(fs, encoding: Encoding.UTF8))
+                {
+                    await writer.WriteLineAsync(sb.ToString());
+                }
+                fs.Close();
             }
-            appConfig.System = config;
-
-            var boxes = await _systemRepository.GetBoxes();
-
-            appConfig.Box1 = boxes.Count > 0 ? boxes[0] : new Box();
-            appConfig.Box3 = boxes.Count > 1 ? boxes[1] : new Box();
-            appConfig.Box4 = boxes.Count > 2 ? boxes[2] : new Box();
-            appConfig.Box5 = boxes.Count > 3 ? boxes[3] : new Box();
-
-            var minBox = await _systemRepository.GetMinBox();
-            appConfig.Box2 = minBox;
-
-            return appConfig;
-        }
-
-        public void Reset()
-        {
-            _systemRepository.Reset();
-        }
-
-        public async Task Update(AppConfig config)
-        {
-            await _systemRepository.Update(config.System);
-
-            await _systemRepository.UpdateBox(config.Box1);
-            await _systemRepository.UpdateMinBox(config.Box2);
-
-            await _systemRepository.UpdateBox(config.Box3);
-            await _systemRepository.UpdateBox(config.Box4);
-            await _systemRepository.UpdateBox(config.Box5);
         }
     }
 }
