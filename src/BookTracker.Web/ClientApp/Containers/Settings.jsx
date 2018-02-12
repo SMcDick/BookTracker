@@ -23,6 +23,9 @@ import Responsive from '../ui/Responsive'
 
 import Avatar from 'material-ui/Avatar';
 
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
 import {
     Table,
     TableBody,
@@ -316,37 +319,15 @@ class SettingsSoundColor extends Component {
         sound: PropTypes.string.isRequired
     }
 
-    handleColorChange(evt, newValue) {
+    handleColorChange(event, index, value) {
         if (typeof this.props.onColorChange === 'function') {
-            this.props.onColorChange(newValue)
+            this.props.onColorChange(value)
         }
     }
 
-    handleColorAutoCompleteChange(chosenRequest, index) {
-        if (typeof this.props.onColorChange === 'function') {
-            if (typeof chosenRequest === 'string') {
-                this.props.onColorChange(chosenRequest)
-            }
-            else {
-                this.props.onColorChange(chosenRequest.value)
-            }
-        }
-    }
-
-    handleSoundChange(evt, newValue) {
+    handleSoundAutoCompleteChange(event, index, value) {
         if (typeof this.props.onSoundChange === 'function') {
-            this.props.onSoundChange(newValue)
-        }
-    }
-
-    handleSoundAutoCompleteChange(chosenRequest, index) {
-        if (typeof this.props.onSoundChange === 'function') {
-            if (typeof chosenRequest === 'string') {
-                this.props.onSoundChange(chosenRequest)
-            }
-            else {
-                this.props.onSoundChange(chosenRequest.value)
-            }
+            this.props.onSoundChange(value)
         }
     }
 
@@ -354,23 +335,26 @@ class SettingsSoundColor extends Component {
         const { color, sound } = this.props
         return (
             <div>
-                <AutoComplete
+                <SelectField
                     floatingLabelText="Sound"
-                    filter={AutoComplete.noFilter}
-                    openOnFocus={true}
-                    dataSource={soundDatasource}
-                    dataSourceConfig={soundDataSourceConfig}
-                    onNewRequest={this.handleSoundAutoCompleteChange.bind(this)}
-                />
-                <AutoComplete
+                    value={sound}
+                    onChange={this.handleSoundAutoCompleteChange.bind(this)}>
+                    {
+                        soundDatasource.map((e, i) => {
+                            return <MenuItem key={i} value={e.value} primaryText={e.key} />
+                        })
+                    }
+                </SelectField>
+                <SelectField
                     floatingLabelText="Color"
-                    filter={AutoComplete.noFilter}
-                    openOnFocus={true}
-                    dataSource={colorsDatasource}
-                    dataSourceConfig={colorDataSourceConfig}
-                    onNewRequest={this.handleColorAutoCompleteChange.bind(this)}
-                />
-
+                    value={color}
+                    onChange={this.handleColorChange.bind(this)}>
+                    {
+                        colorsDatasource.map((e, i) => {
+                            return <MenuItem key={i} value={e.value} primaryText={e.key} />
+                        })
+                    }
+                </SelectField>
             </div>
         )
     }

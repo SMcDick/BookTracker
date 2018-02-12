@@ -1,68 +1,64 @@
-﻿{
-  "SysConfig": {
-    "Box1": {
-      "Enabled": true,
-      "Name": "Box US",
-      "Rules": [
-        {
-          "MinimumSalesRank": 10.0,
-          "MaximumSalesRank": 1000.0,
-          "MinimumNetPayout": 1.0
-        },
-        {
-          "MinimumSalesRank": 20.0,
-          "MaximumSalesRank": 30.0,
-          "MinimumNetPayout": 2.0
-        }
-      ],
-      "SoundPath": "1.mp3",
-      "Color": "#FFE0B2"
-    },
-    "Box2": {
-      "Name": "Box 2",
-      "Enabled": true,
-      "SoundPath": "4.mp3",
-      "Color": "#FFF9C4",
-      "OfferGreaterThan": 5.0
-    },
-    "Box3": {
-      "Enabled": true,
-      "Name": "Box MX",
-      "Rules": [
-        {
-          "MinimumSalesRank": 10.0,
-          "MaximumSalesRank": 1000.0,
-          "MinimumNetPayout": 22.0
-        }
-      ],
-      "SoundPath": "",
-      "Color": "Blue"
-    },
-    "Box4": {
-      "Enabled": true,
-      "Name": "Box CA",
-      "Rules": [
-        {
-          "MinimumSalesRank": 10.0,
-          "MaximumSalesRank": 1000.0,
-          "MinimumNetPayout": 22.0
-        }
-      ],
-      "SoundPath": "",
-      "Color": "Yellow"
-    },
-    "Box5": {
-      "Enabled": true,
-      "Name": "Box IN",
-      "Rules": [
-        {
-          "MinimumSalesRank": 10.0,
-          "MaximumSalesRank": 1000.0,
-          "MinimumNetPayout": 22.0
-        }
-      ],
-      "SoundPath": "",
-      "Color": "Grey"
-    }
+{
+"SysConfig":
+{
+  "Box1": {
+    "Enabled": false,
+    "Name": "Box US",
+    "Rules": [
+      {
+        "MinimumSalesRank": 1.0,
+        "MaximumSalesRank": 400.0,
+        "MinimumNetPayout": 0.0
+      }
+    ],
+    "SoundPath": "5.mp3",
+    "Color": "#B2DFDB"
+  },
+  "Box2": {
+    "Name": "Box 2",
+    "Enabled": false,
+    "SoundPath": "4.mp3",
+    "Color": "#FFF9C4",
+    "OfferGreaterThan": 5.0
+  },
+  "Box3": {
+    "Enabled": false,
+    "Name": "Box MX",
+    "Rules": [
+      {
+        "MinimumSalesRank": 10.0,
+        "MaximumSalesRank": 1000.0,
+        "MinimumNetPayout": 22.0
+      }
+    ],
+    "SoundPath": "",
+    "Color": "Blue"
+  },
+  "Box4": {
+    "Enabled": false,
+    "Name": "Box CA",
+    "Rules": [
+      {
+        "MinimumSalesRank": 10.0,
+        "MaximumSalesRank": 1000.0,
+        "MinimumNetPayout": 22.0
+      }
+    ],
+    "SoundPath": "",
+    "Color": "Yellow"
+  },
+  "Box5": {
+    "Enabled": false,
+    "Name": "Box IN",
+    "Rules": [
+      {
+        "MinimumSalesRank": 10.0,
+        "MaximumSalesRank": 1000.0,
+        "MinimumNetPayout": 22.0
+      }
+    ],
+    "SoundPath": "",
+    "Color": "Grey"
   }
+}
 }

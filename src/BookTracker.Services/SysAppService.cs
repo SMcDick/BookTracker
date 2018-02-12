@@ -114,15 +114,7 @@ namespace BookTracker.Services
             sb.AppendLine("\"SysConfig\":");
             sb.AppendLine(json);
             sb.Append("}");
-            using (FileStream fs = File.OpenWrite(Path.Combine(_envOptions.RootDir, "appdata.json")))
-            {
-                fs.Seek(0, SeekOrigin.Begin);
-                using (StreamWriter writer = new StreamWriter(fs, encoding: Encoding.UTF8))
-                {
-                    await writer.WriteLineAsync(sb.ToString());
-                }
-                fs.Close();
-            }
+            await File.WriteAllTextAsync(Path.Combine(_envOptions.RootDir, "appdata.json"), sb.ToString());
         }
     }
 }
