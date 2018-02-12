@@ -38,7 +38,7 @@ namespace BookTracker.Models
 
         public string Audio { get; set; }
 
-        public bool DisplayRejected { get; set; }
+        public bool DisplayAsRejected { get; set; }
 
         public List<VerboseData> VerboseData { get; set; }
     }

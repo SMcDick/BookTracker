@@ -59,6 +59,7 @@ const styles = {
 };
 
 const colorsDatasource = [
+    { key: '', value: '' },
     { key: 'Red', value: '#FFCDD2' },
     //{ key: 'Pink', value: '#F8BBD0' },
     //{ key: 'Purple', value: '#E1BEE7' },
@@ -79,12 +80,12 @@ const colorDataSourceConfig = {
 };
 
 const soundDatasource = [
+    { key: '', value: '' },
     { key: 'Sound 1', value: '1.mp3' },
     { key: 'Sound 2', value: '2.mp3' },
     { key: 'Sound 3', value: '3.mp3' },
     { key: 'Sound 4', value: '4.mp3' },
-    { key: 'Sound 5', value: '5.mp3' },
-    { key: 'Sound 6', value: '6.wav' }
+    { key: 'Sound 5', value: '5.mp3' }
 ];
 const soundDataSourceConfig = {
     text: 'key',

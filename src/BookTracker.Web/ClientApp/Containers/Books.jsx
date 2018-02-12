@@ -64,7 +64,7 @@ class BookTable extends Component {
                                 const tBackgroundColor = Object.assign({}, styles.tableRow)
                                 let sBackgroundColor = Object.assign(tBackgroundColor, { backgroundColor: f.color })
 
-                                if (f.displayRejected) {
+                                if (f.displayAsRejected) {
                                     const rejectedText = `Rejected ${f.isbn}`
                                     return (
                                         <React.Fragment key={index}>
@@ -138,7 +138,7 @@ class BookTable extends Component {
                             {
                                 dataCollection.map((f, index) => {
                                     {
-                                        if (f.displayRejected) {
+                                        if (f.displayAsRejected) {
                                             const tableRejectedText = `Rejected ${f.isbn}`
                                             return (<React.Fragment key={index}>
                                                 <TableRow key={index}>

@@ -152,7 +152,7 @@ namespace BookTracker.Services
             book.Audio = string.IsNullOrEmpty(audio) ? audio : $"/sounds/{audio}";
             book.Color = color;
 
-            book.DisplayRejected = _sysOptions.DisplayRejected;
+            book.DisplayAsRejected = meetARule ? false : !_sysOptions.DisplayRejected;
 
             return book;
         }
