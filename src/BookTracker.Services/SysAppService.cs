@@ -43,7 +43,7 @@ namespace BookTracker.Services
                     {
                         MaximumSalesRank = 1000,
                         MinimumSalesRank = 10,
-                        MininumNetPayout = 22
+                        MinimumNetPayout = 22
                     }
                 },
                 SoundPath = ""
@@ -66,7 +66,7 @@ namespace BookTracker.Services
                     {
                         MaximumSalesRank = 1000,
                         MinimumSalesRank = 10,
-                        MininumNetPayout = 22
+                        MinimumNetPayout = 22
                     }
                 },
                 SoundPath = ""
@@ -82,7 +82,7 @@ namespace BookTracker.Services
                     {
                         MaximumSalesRank = 1000,
                         MinimumSalesRank = 10,
-                        MininumNetPayout = 22
+                        MinimumNetPayout = 22
                     }
                 },
                 SoundPath = ""
@@ -98,7 +98,7 @@ namespace BookTracker.Services
                     {
                         MaximumSalesRank = 1000,
                         MinimumSalesRank = 10,
-                        MininumNetPayout = 22
+                        MinimumNetPayout = 22
                     }
                 },
                 SoundPath = ""

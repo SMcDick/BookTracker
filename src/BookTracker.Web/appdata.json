@@ -8,15 +8,16 @@
       {
         "MinimumSalesRank": 10.0,
         "MaximumSalesRank": 1000.0,
-        "MininumNetPayout": 22.0
+        "MinimumNetPayout": 22.0
       }
     ],
-    "SoundPath": "",
+    "SoundPath": "wave",
     "Color": "Green"
   },
   "Box2": {
+    "Name": "Box 2",
     "Enabled": true,
-    "SoundPath": "",
+    "SoundPath": "alert2.wav",
     "Color": "Red",
     "OfferGreaterThan": 1000.0
   },
@@ -27,7 +28,7 @@
       {
         "MinimumSalesRank": 10.0,
         "MaximumSalesRank": 1000.0,
-        "MininumNetPayout": 22.0
+        "MinimumNetPayout": 22.0
       }
     ],
     "SoundPath": "",
@@ -40,7 +41,7 @@
       {
         "MinimumSalesRank": 10.0,
         "MaximumSalesRank": 1000.0,
-        "MininumNetPayout": 22.0
+        "MinimumNetPayout": 22.0
       }
     ],
     "SoundPath": "",
@@ -53,7 +54,7 @@
       {
         "MinimumSalesRank": 10.0,
         "MaximumSalesRank": 1000.0,
-        "MininumNetPayout": 22.0
+        "MinimumNetPayout": 22.0
       }
     ],
     "SoundPath": "",

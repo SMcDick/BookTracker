@@ -12,6 +12,6 @@ namespace BookTracker.Models.System
 
         public decimal MaximumSalesRank { get; set; }
 
-        public decimal MininumNetPayout { get; set; }
+        public decimal MinimumNetPayout { get; set; }
     }
 }

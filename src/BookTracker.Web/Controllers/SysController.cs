@@ -37,13 +37,13 @@ namespace BookTracker.Web.Controllers
             return $"Status Ok";
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("")]
         public SystemOptions Get()
         {
             return _sysAppService.GetConfig();
         }
 
-        [HttpPut("[action]")]
+        [HttpPost("")]
         public async Task Update([FromBody] SystemOptions data)
         {
             await _sysAppService.Update(data);

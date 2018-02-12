@@ -5,9 +5,10 @@ import * as types from '../ActionTypes'
 
 const api = (state = {}, action) => {
     const { deep } = state
+    const { json, error } = action
     switch (action.type) {
         case types.API_REQUEST_BEGIN:
-            const nDeepBegin = deep + 1
+            const nDeepBegin = deep === undefined ? 1 : deep + 1
             return {
                 ...state,
                 deep: nDeepBegin,
@@ -23,7 +24,15 @@ const api = (state = {}, action) => {
         case types.API_REQUEST_ERROR:
             return {
                 ...state,
-                isFetching: false
+                isFetching: false,
+                json: '',
+                error
+            }
+        case types.API_REQUEST_LOG:
+            return {
+                ...state,
+                json,
+                error: ''
             }
         default:
             return state
@@ -54,6 +63,7 @@ const systemReducer = (state = {}, action) => {
 }
 
 const settingsReducer = (state = {}, action) => {
+    const { config, type } = action
     switch (action.type) {
         case types.RULE_CHANGE:
             return {
@@ -69,6 +79,22 @@ const settingsReducer = (state = {}, action) => {
             return {
                 ...state,
                 newRule: action.rule
+            }
+        case types.CONFIG_RETRIVED:
+            return {
+                ...state,
+                config,
+                posted: false
+            }
+        case types.CONFIG_POSTED:
+            return {
+                ...state,
+                posted: true
+            }
+        case types.CONFIG_CHANGED:
+            return {
+                ...state,
+                config
             }
         default:
             return state
@@ -100,6 +126,8 @@ const errorMessageReducer = (state = null, action) => {
 
     return state
 }
+
+
 
 const book = (state = {}, action) => {
     const { isbnColl, bookColl } = state

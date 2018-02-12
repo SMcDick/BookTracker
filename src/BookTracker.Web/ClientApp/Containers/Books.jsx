@@ -7,7 +7,7 @@ import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import * as actions from '../Actions/genericActions'
+import * as actions from '../Actions'
 import { connect } from 'react-redux'
 
 import ImageField from '../ui/ImageField'
@@ -36,6 +36,12 @@ const styles = {
         display: 'flex',
         flexWrap: 'wrap',
     },
+    button: {
+        margin: 12
+    },
+    table: {
+        displaySelectAll: false
+    }
 };
 
 class BookTable extends Component {
@@ -52,7 +58,7 @@ class BookTable extends Component {
                     <List>
                         {
                             dataCollection.map((f, index) => {
-                                return (<React.Fragment>
+                                return (<React.Fragment key={index}>
                                     <ListItem primaryText={f.title}
                                         leftAvatar={<Avatar src={f.image} />} />
 
@@ -92,7 +98,7 @@ class BookTable extends Component {
                 }
                 medium={
                     <Table>
-                        <TableHeader>
+                        <TableHeader adjustForCheckbox={styles.table.displaySelectAll} displaySelectAll={styles.table.displaySelectAll}>
                             <TableRow>
                                 <TableHeaderColumn>Title</TableHeaderColumn>
                                 <TableHeaderColumn>ISBN</TableHeaderColumn>
@@ -108,7 +114,7 @@ class BookTable extends Component {
                                 <TableHeaderColumn>MX Sales Rank</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
-                        <TableBody>
+                        <TableBody displayRowCheckbox={styles.table.displaySelectAll}>
                             {
                                 dataCollection.map((f, index) => {
                                     return (<TableRow key={index}>
@@ -188,8 +194,8 @@ class BookSearchAction extends Component {
         return (
             <div>
                 <TextField hintText="ISBN" defaultValue={defaultValue} onChange={this.handleTextSearchChange} />
-                <RaisedButton label="Search" primary={true} onClick={this.handleSearchButtonClick} />
-                <RaisedButton label="Refresh" primary={false} onClick={this.handleRefreshButtonClick} />
+                <RaisedButton label="Search" primary={true} onClick={this.handleSearchButtonClick} style={styles.button} />
+                <RaisedButton label="Refresh" primary={false} onClick={this.handleRefreshButtonClick} style={styles.button} />
             </div>
         )
     }
@@ -266,7 +272,7 @@ class BookApp extends Component {
         const { bookColl, isbnColl } = this.props
 
         return (<Card>
-            <CardHeader title="Book Scouter App" />
+            <CardHeader title="Home" />
             <CardText>
                 <BookSearchAction defaultValue="" onSearchClick={this.handleAddBook} onRefreshClick={this.handleRefresh} />
                 <BookIsbnSearchList isbnColl={isbnColl} onDelete={this.handleRemoveBook} />

@@ -8,6 +8,8 @@ namespace BookTracker.Models.System
 {
     public class MinBox
     {
+        public string Name { get; set; }
+
         public bool Enabled { get; set; }
 
         public string SoundPath { get; set; }

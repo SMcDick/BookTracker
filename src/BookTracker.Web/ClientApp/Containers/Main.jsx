@@ -16,16 +16,21 @@ import AppBar from 'material-ui/AppBar'
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
-import * as actions from '../Actions/genericActions'
+import * as actions from '../Actions'
 import BookApp from './Books'
 import SettingsApp from './Settings'
 import Snackbar from 'material-ui/Snackbar';
 
+const styles = {
+    json: {
+        whiteSpace: 'pre-wrap'
+    }
+};
 
 class Main extends Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
-        isOpen: PropTypes.bool.isRequired
+        isOpen: PropTypes.bool
     }
 
     handleMenuToogle = () => {
@@ -52,11 +57,12 @@ class Main extends Component {
     }
 
     render() {
-        const { isOpen, snackIsOpen, snackText, snackTime } = this.props;
+        const { isOpen, snackIsOpen, snackText, snackTime, status, json, error } = this.props;
+        const statusMsg = status ? `Status: ${status}` : 'Status: '
         return (
             <Router>
                 <div>
-                    <AppBar title="My AppBar"
+                    <AppBar title="Book Scouter"
                         onLeftIconButtonClick={this.handleMenuToogle} />
 
                     <Drawer open={isOpen}
@@ -83,8 +89,18 @@ class Main extends Component {
                             </Route>
                         </Switch>
                         <Card>
-                            <CardText>
-                                Status: {this.props.status}
+                            <CardHeader
+                                title={statusMsg}
+                                actAsExpander={true}
+                                showExpandableButton={true}
+                            />
+                            <CardText expandable={true}>
+                                <div>
+                                    <div>error msg: '{error}'</div>
+                                </div>
+                                <div>
+                                    <div style={styles.json}>api data: {json}</div>
+                                </div>
                             </CardText>
                         </Card>
                     </Paper>
@@ -97,14 +113,16 @@ class Main extends Component {
 
 const mapStateToProps = state => {
     const { menuHandleReducer, errorMessageReducer, systemReducer, apiReducer } = state;
-    const { isFetching, deep } = apiReducer 
+    const { isFetching, deep, json, error } = apiReducer 
 
     return {
         isOpen: menuHandleReducer.isOpen,
-        status: isFetching ? 'Fetching' : systemReducer.status,
+        status: isFetching ? 'Fetching' : error ? 'Error' : 'Ok',
         deep: deep ? deep : '',
         snackIsOpen: isFetching !== undefined ? isFetching : false,
         snackText: 'Fetching',
+        json: json ? json : '',
+        error: error ? error : ''
     }
 }
 
