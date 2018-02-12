@@ -142,10 +142,7 @@ namespace BookTracker.Services
                 }
             }
 
-            bool meetARule = false;
-            string audio = string.Empty;
-            string color = string.Empty;
-            LoadBookRules(book, out meetARule, out audio, out color);
+            LoadBookRules(book, out bool meetARule, out string audio, out string color);
 
             book.MeetsARule = meetARule;
             book.Audio = string.IsNullOrEmpty(audio) ? audio : $"/sounds/{audio}";
@@ -157,68 +154,83 @@ namespace BookTracker.Services
         private void LoadBookRules(Book book, out bool meetARule, out string sound, out string color)
         {
             meetARule = false;
-            sound = "1.mp3";
+            sound = string.Empty;
             color = string.Empty;
 
             //us
             var box1 = _sysOptions.Box1;
-            foreach(Rule r in box1.Rules)
+            if (box1.Enabled)
             {
-                if(r.MinimumSalesRank < book.USSalesRank && r.MaximumSalesRank > book.USSalesRank && r.MinimumNetPayout < book.USNetPayout)
+                foreach (Rule r in box1.Rules)
                 {
-                    meetARule = true;
-                    sound = box1.SoundPath;
-                    color = box1.Color;
-                    return;
+                    if (r.MinimumSalesRank < book.USSalesRank && r.MaximumSalesRank > book.USSalesRank && r.MinimumNetPayout < book.USNetPayout)
+                    {
+                        meetARule = true;
+                        sound = box1.SoundPath;
+                        color = box1.Color;
+                        return;
+                    }
                 }
             }
 
             //offer
             var box2 = _sysOptions.Box2;
-            if(box2.OfferGreaterThan < book.Offer)
+            if (box2.Enabled)
             {
-                meetARule = true;
-                sound = box2.SoundPath;
-                color = box2.Color;
-                return;
+                if (box2.OfferGreaterThan < book.Offer)
+                {
+                    meetARule = true;
+                    sound = box2.SoundPath;
+                    color = box2.Color;
+                    return;
+                }
             }
 
             //MX
             var box3 = _sysOptions.Box3;
-            foreach (Rule r in box3.Rules)
+            if (box3.Enabled)
             {
-                if (r.MinimumSalesRank < book.MXSalesRank && r.MaximumSalesRank > book.MXSalesRank && r.MinimumNetPayout < book.MXNetPayout)
+                foreach (Rule r in box3.Rules)
                 {
-                    meetARule = true;
-                    sound = box3.SoundPath;
-                    color = box3.Color;
-                    return;
+                    if (r.MinimumSalesRank < book.MXSalesRank && r.MaximumSalesRank > book.MXSalesRank && r.MinimumNetPayout < book.MXNetPayout)
+                    {
+                        meetARule = true;
+                        sound = box3.SoundPath;
+                        color = box3.Color;
+                        return;
+                    }
                 }
             }
 
             //CA
             var box4 = _sysOptions.Box4;
-            foreach (Rule r in box4.Rules)
+            if (box4.Enabled)
             {
-                if (r.MinimumSalesRank < book.CASalesRank && r.MaximumSalesRank > book.CASalesRank && r.MinimumNetPayout < book.CANetPayout)
+                foreach (Rule r in box4.Rules)
                 {
-                    meetARule = true;
-                    sound = box4.SoundPath;
-                    color = box4.Color;
-                    return;
+                    if (r.MinimumSalesRank < book.CASalesRank && r.MaximumSalesRank > book.CASalesRank && r.MinimumNetPayout < book.CANetPayout)
+                    {
+                        meetARule = true;
+                        sound = box4.SoundPath;
+                        color = box4.Color;
+                        return;
+                    }
                 }
             }
 
             //IN
             var box5 = _sysOptions.Box5;
-            foreach (Rule r in box5.Rules)
+            if (box5.Enabled)
             {
-                if (r.MinimumSalesRank < book.INSalesRank && r.MaximumSalesRank > book.INSalesRank && r.MinimumNetPayout < book.INNetPayout)
+                foreach (Rule r in box5.Rules)
                 {
-                    meetARule = true;
-                    sound = box5.SoundPath;
-                    color = box5.Color;
-                    return;
+                    if (r.MinimumSalesRank < book.INSalesRank && r.MaximumSalesRank > book.INSalesRank && r.MinimumNetPayout < book.INNetPayout)
+                    {
+                        meetARule = true;
+                        sound = box5.SoundPath;
+                        color = box5.Color;
+                        return;
+                    }
                 }
             }
         }

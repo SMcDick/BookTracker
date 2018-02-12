@@ -268,7 +268,7 @@ class BookApp extends Component {
     componentWillReceiveProps(nextProps) {
         const { lastBook } = this.props
         if (lastBook !== nextProps.lastBook) {
-            if (nextProps.lastBook !== undefined && nextProps.lastBook) {
+            if (nextProps.lastBook !== undefined && nextProps.lastBook !== '') {
                 const audio = new Audio(`${nextProps.lastBook.audio}`);
                 audio.play();
             }
