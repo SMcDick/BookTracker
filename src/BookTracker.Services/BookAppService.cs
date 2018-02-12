@@ -26,7 +26,7 @@ namespace BookTracker.Services
             KeepaDomain.MX,
             KeepaDomain.IN };
 
-        public BookAppService(IKeepaService keepaService, IBookScouterService bookScouterService, IOptions<KeepaOptions> keepaOptions, IOptions<SystemOptions> sysOptions)
+        public BookAppService(IKeepaService keepaService, IBookScouterService bookScouterService, IOptions<KeepaOptions> keepaOptions, IOptionsSnapshot<SystemOptions> sysOptions)
         {
             _keepaService = keepaService;
             _bookScouterService = bookScouterService;

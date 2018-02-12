@@ -61,9 +61,10 @@ class BookTable extends Component {
                     <List>
                         {
                             dataCollection.map((f, index) => {
-                                const backgroundColor = Object.assign(styles.tableRow, { backgroundColor: f.color })
+                                const tBackgroundColor = Object.assign({}, styles.tableRow)
+                                let sBackgroundColor = Object.assign(tBackgroundColor, { backgroundColor: f.color })
                                 return (<React.Fragment key={index}>
-                                    <div style={backgroundColor}>
+                                    <div style={sBackgroundColor}>
                                         <ListItem primaryText={f.title}
                                             leftAvatar={<Avatar src={f.image} />} />
 
@@ -123,7 +124,8 @@ class BookTable extends Component {
                         <TableBody displayRowCheckbox={styles.table.displaySelectAll}>
                             {
                                 dataCollection.map((f, index) => {
-                                    const backgroundColor = Object.assign(styles.tableRow, { backgroundColor: f.color })
+                                    const tBackgroundColor = Object.assign({}, styles.tableRow)
+                                    let backgroundColor = Object.assign(tBackgroundColor, { backgroundColor: f.color })
 
                                     return (<TableRow key={index} style={backgroundColor}>
                                         <TableRowColumn><FlatTextField source="title" record={f} /></TableRowColumn>

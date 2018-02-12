@@ -57,7 +57,7 @@ class Main extends Component {
     }
 
     render() {
-        const { isOpen, snackIsOpen, snackText, snackTime, status, json, error } = this.props;
+        const { isOpen, snackIsOpen, snackText, snackTime, status, json, error, date } = this.props;
         const statusMsg = status ? `Status: ${status}` : 'Status: '
         return (
             <Router>
@@ -71,8 +71,6 @@ class Main extends Component {
                         <Menu onItemClick={this.handleMenuClose}>
                             <MenuItem value="/" leftIcon={<BookIcon />}><Link to="/">Home</Link></MenuItem>
                             <MenuItem value="/settings" leftIcon={<ContentInbox />}><Link to="/settings">Settings</Link></MenuItem>
-                            <Divider />
-                            <MenuItem value="/pinnedBooks" leftIcon={<ContentInbox />}><Link to="/pinned">Pinned Books</Link></MenuItem>
                         </Menu>
                     </Drawer>
 
@@ -98,6 +96,7 @@ class Main extends Component {
                                 <div>
                                     <div>error msg: '{error}'</div>
                                 </div>
+                                <div>last update: {date}</div>
                                 <div>
                                     <div style={styles.json}>api data: {json}</div>
                                 </div>
@@ -113,7 +112,7 @@ class Main extends Component {
 
 const mapStateToProps = state => {
     const { menuHandleReducer, errorMessageReducer, systemReducer, apiReducer } = state;
-    const { isFetching, deep, json, error } = apiReducer 
+    const { isFetching, deep, json, error, date } = apiReducer
 
     return {
         isOpen: menuHandleReducer.isOpen,
@@ -122,6 +121,7 @@ const mapStateToProps = state => {
         snackIsOpen: isFetching !== undefined ? isFetching : false,
         snackText: 'Fetching',
         json: json ? json : '',
+        date: date ? date : '',
         error: error ? error : ''
     }
 }

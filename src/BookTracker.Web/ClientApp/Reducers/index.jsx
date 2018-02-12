@@ -29,9 +29,13 @@ const api = (state = {}, action) => {
                 error
             }
         case types.API_REQUEST_LOG:
+            const d = new Date()
+            const options = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+            const strDate = new Intl.DateTimeFormat('en-US', options).format(d)
             return {
                 ...state,
                 json,
+                date: strDate,
                 error: ''
             }
         default:

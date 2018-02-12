@@ -75,6 +75,19 @@ const colorDataSourceConfig = {
     value: 'value',
 };
 
+const soundDatasource = [
+    { key: 'Sound 1', value: '1.mp3' },
+    { key: 'Sound 2', value: '2.mp3' },
+    { key: 'Sound 3', value: '3.mp3' },
+    { key: 'Sound 4', value: '4.mp3' },
+    { key: 'Sound 5', value: '5.mp3' },
+    { key: 'Sound 6', value: '6.mp3' }
+];
+const soundDataSourceConfig = {
+    text: 'key',
+    value: 'value',
+};
+
 class SettingsActions extends Component {
     static propTypes = {
         onSaveClick: PropTypes.func.isRequired,
@@ -311,7 +324,12 @@ class SettingsSoundColor extends Component {
 
     handleColorAutoCompleteChange(chosenRequest, index) {
         if (typeof this.props.onColorChange === 'function') {
-            this.props.onColorChange(newValue)
+            if (typeof chosenRequest === 'string') {
+                this.props.onColorChange(chosenRequest)
+            }
+            else {
+                this.props.onColorChange(chosenRequest.value)
+            }
         }
     }
 
@@ -321,11 +339,29 @@ class SettingsSoundColor extends Component {
         }
     }
 
+    handleSoundAutoCompleteChange(chosenRequest, index) {
+        if (typeof this.props.onSoundChange === 'function') {
+            if (typeof chosenRequest === 'string') {
+                this.props.onSoundChange(chosenRequest)
+            }
+            else {
+                this.props.onSoundChange(chosenRequest.value)
+            }
+        }
+    }
+
     render() {
         const { color, sound } = this.props
         return (
             <div>
-                <TextField hintText="" floatingLabelText="Sound" value={sound} onChange={this.handleSoundChange.bind(this)} style={styles.soundColorText} />
+                <AutoComplete
+                    floatingLabelText="Sound"
+                    filter={AutoComplete.noFilter}
+                    openOnFocus={true}
+                    dataSource={soundDatasource}
+                    dataSourceConfig={soundDataSourceConfig}
+                    onNewRequest={this.handleSoundAutoCompleteChange.bind(this)}
+                />
                 <AutoComplete
                     floatingLabelText="Color"
                     filter={AutoComplete.noFilter}
@@ -334,7 +370,7 @@ class SettingsSoundColor extends Component {
                     dataSourceConfig={colorDataSourceConfig}
                     onNewRequest={this.handleColorAutoCompleteChange.bind(this)}
                 />
-                
+
             </div>
         )
     }
