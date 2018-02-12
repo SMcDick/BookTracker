@@ -146,8 +146,9 @@ namespace BookTracker.Services
             string audio = string.Empty;
             string color = string.Empty;
             LoadBookRules(book, out meetARule, out audio, out color);
+
             book.MeetsARule = meetARule;
-            book.Audio = audio;
+            book.Audio = string.IsNullOrEmpty(audio) ? audio : $"/sounds/{audio}";
             book.Color = color;
 
             return book;
@@ -156,7 +157,7 @@ namespace BookTracker.Services
         private void LoadBookRules(Book book, out bool meetARule, out string sound, out string color)
         {
             meetARule = false;
-            sound = string.Empty;
+            sound = "1.mp3";
             color = string.Empty;
 
             //us

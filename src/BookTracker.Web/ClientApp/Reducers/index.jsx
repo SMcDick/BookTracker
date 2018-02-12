@@ -159,7 +159,8 @@ const book = (state = {}, action) => {
             nBookColl = nBookColl.concat(book)
             return {
                 ...state,
-                bookColl: nBookColl
+                bookColl: nBookColl,
+                lastBook: book
             }
         case types.BOOK_SEARCH_NOT_FOUND:
 

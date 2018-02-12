@@ -61,39 +61,42 @@ class BookTable extends Component {
                     <List>
                         {
                             dataCollection.map((f, index) => {
+                                const backgroundColor = Object.assign(styles.tableRow, { backgroundColor: f.color })
                                 return (<React.Fragment key={index}>
-                                    <ListItem primaryText={f.title}
-                                        leftAvatar={<Avatar src={f.image} />} />
+                                    <div style={backgroundColor}>
+                                        <ListItem primaryText={f.title}
+                                            leftAvatar={<Avatar src={f.image} />} />
 
-                                    <ListItem primaryText={f.isbn}
-                                        secondaryText="ISBN" />
-                                    <ListItem primaryText={<FlatNumberField source="usSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
-                                        secondaryText="Sales rank" />
+                                        <ListItem primaryText={f.isbn}
+                                            secondaryText="ISBN" />
+                                        <ListItem primaryText={<FlatNumberField source="usSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
+                                            secondaryText="Sales rank" />
 
-                                    <ListItem primaryText={<FlatNumberField source="usNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
-                                        secondaryText="Net payout" />
+                                        <ListItem primaryText={<FlatNumberField source="usNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                            secondaryText="Net payout" />
 
-                                    <ListItem primaryText={<FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} />}
-                                        secondaryText="Offer" />
+                                        <ListItem primaryText={<FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                            secondaryText="Offer" />
 
-                                    <ListItem primaryText={<FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
-                                        secondaryText="CA Net Payout" />
+                                        <ListItem primaryText={<FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                            secondaryText="CA Net Payout" />
 
-                                    <ListItem primaryText={<FlatNumberField source="caSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
-                                        secondaryText="CA Sales Rank" />
+                                        <ListItem primaryText={<FlatNumberField source="caSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
+                                            secondaryText="CA Sales Rank" />
 
-                                    <ListItem primaryText={<FlatNumberField source="inNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
-                                        secondaryText="IN Net Payout" />
+                                        <ListItem primaryText={<FlatNumberField source="inNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                            secondaryText="IN Net Payout" />
 
-                                    <ListItem primaryText={<FlatNumberField source="inSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
-                                        secondaryText="IN Sales Rank" />
+                                        <ListItem primaryText={<FlatNumberField source="inSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
+                                            secondaryText="IN Sales Rank" />
 
-                                    <ListItem primaryText={<FlatNumberField source="mxNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
-                                        secondaryText="MX Net Payout" />
+                                        <ListItem primaryText={<FlatNumberField source="mxNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} />}
+                                            secondaryText="MX Net Payout" />
 
-                                    <ListItem primaryText={<FlatNumberField source="mxSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
-                                        secondaryText="MX Sales Rank" />
-                                    <Divider inset={true} />
+                                        <ListItem primaryText={<FlatNumberField source="mxSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} />}
+                                            secondaryText="MX Sales Rank" />
+                                        <Divider inset={true} />
+                                    </div>
                                 </React.Fragment>)
                             })
                         }
@@ -120,7 +123,7 @@ class BookTable extends Component {
                         <TableBody displayRowCheckbox={styles.table.displaySelectAll}>
                             {
                                 dataCollection.map((f, index) => {
-                                    const backgroundColor = Object.assign(styles.tableRow, { backgroundColor: f.color})
+                                    const backgroundColor = Object.assign(styles.tableRow, { backgroundColor: f.color })
 
                                     return (<TableRow key={index} style={backgroundColor}>
                                         <TableRowColumn><FlatTextField source="title" record={f} /></TableRowColumn>
@@ -262,6 +265,17 @@ class BookApp extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        const { lastBook } = this.props
+        if (lastBook !== nextProps.lastBook) {
+            if (nextProps.lastBook !== undefined && nextProps.lastBook) {
+                const audio = new Audio(`${nextProps.lastBook.audio}`);
+                audio.play();
+            }
+        }
+
+    }
+
     handleRemoveBook = (isbn) => {
         const action = actions.removeBookToSearch(isbn)
         this.props.dispatch(action)
@@ -289,12 +303,14 @@ class BookApp extends Component {
 
 const mapStateToProps = state => {
     const { bookReducer } = state
+    const { lastBook } = bookReducer
 
     const isbnColl = bookReducer.isbnColl ? bookReducer.isbnColl : []
     const bookColl = bookReducer.bookColl ? bookReducer.bookColl : []
     return {
         isbnColl,
-        bookColl
+        bookColl,
+        lastBook
     }
 }
 
