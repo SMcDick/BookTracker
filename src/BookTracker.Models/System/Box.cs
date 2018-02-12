@@ -17,5 +17,9 @@ namespace BookTracker.Models.System
         public string SoundPath { get; set; }
 
         public string Color { get; set; }
+
+        public decimal CurrencyRate { get; set; }
+
+        public string CurrencyName { get; set; }
     }
 }

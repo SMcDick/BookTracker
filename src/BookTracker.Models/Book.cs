@@ -38,6 +38,8 @@ namespace BookTracker.Models
 
         public string Audio { get; set; }
 
+        public bool DisplayRejected { get; set; }
+
         public List<VerboseData> VerboseData { get; set; }
     }
 
@@ -53,13 +55,16 @@ namespace BookTracker.Models
 
         public string Store { get; set; }
 
-        public VerboseData(decimal used, decimal @new, decimal price, int weigth, string store)
+        public decimal Currency { get; set; }
+
+        public VerboseData(decimal used, decimal @new, decimal price, int weigth, string store, decimal currency)
         {
             Used = used;
             New = @new;
             Price = price;
             Weigth = weigth;
             Store = store;
+            Currency = currency;
         }
     }
 }

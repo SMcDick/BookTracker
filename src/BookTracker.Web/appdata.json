@@ -12,12 +12,14 @@
       }
     ],
     "SoundPath": "5.mp3",
-    "Color": "#B2DFDB"
+    "Color": "#B2DFDB",
+    "CurrencyRate": 1.0,
+    "CurrencyName": "US Dollar"
   },
   "Box2": {
     "Name": "Box 2",
     "Enabled": false,
-    "SoundPath": "4.mp3",
+    "SoundPath": "2.mp3",
     "Color": "#FFF9C4",
     "OfferGreaterThan": 5.0
   },
@@ -31,8 +33,10 @@
         "MinimumNetPayout": 22.0
       }
     ],
-    "SoundPath": "",
-    "Color": "Blue"
+    "SoundPath": "3.mp3",
+    "Color": "#B2DFDB",
+    "CurrencyRate": 1.03,
+    "CurrencyName": "MX Currency"
   },
   "Box4": {
     "Enabled": false,
@@ -45,7 +49,9 @@
       }
     ],
     "SoundPath": "",
-    "Color": "Yellow"
+    "Color": "Yellow",
+    "CurrencyRate": 1.0,
+    "CurrencyName": "CA Dollar"
   },
   "Box5": {
     "Enabled": false,
@@ -57,8 +63,11 @@
         "MinimumNetPayout": 22.0
       }
     ],
-    "SoundPath": "",
-    "Color": "Grey"
-  }
+    "SoundPath": "4.mp3",
+    "Color": "#C8E6C9",
+    "CurrencyRate": 1.2,
+    "CurrencyName": "IN"
+  },
+  "DisplayRejected": true
 }
 }

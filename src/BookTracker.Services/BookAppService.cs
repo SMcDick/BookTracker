@@ -61,14 +61,15 @@ namespace BookTracker.Services
                 decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX].GetLast());
                 decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX].GetLast());
                 int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
+                decimal currency = _sysOptions.Box1.CurrencyRate;
 
                 book.Title = kBook.Title;
                 book.Image = ParseBookImageName(kBook.ImagesCSV);
 
                 book.USSalesRank = salesRank;
-                book.USNetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight);
+                book.USNetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight, currency);
 
-                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.US.ToString()));
+                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.US.ToString(), currency));
             }
 
             //CA
@@ -81,11 +82,12 @@ namespace BookTracker.Services
                 decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX].GetLast());
                 decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX].GetLast());
                 int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
+                decimal currency = _sysOptions.Box4.CurrencyRate;
 
-                book.CANetPayout = BookDomain.CalculateCANetPayout(used, price, kBook.PackageWeight);
+                book.CANetPayout = BookDomain.CalculateCANetPayout(used, price, kBook.PackageWeight, currency);
                 book.CASalesRank = salesRank;
 
-                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.CA.ToString()));
+                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.CA.ToString(), currency));
             }
 
             //IN
@@ -98,11 +100,12 @@ namespace BookTracker.Services
                 decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX].GetLast());
                 decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX].GetLast());
                 int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
+                decimal currency = _sysOptions.Box5.CurrencyRate;
 
-                book.INNetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight);
+                book.INNetPayout = BookDomain.CalculateINNetPayout(used, price, kBook.PackageWeight, currency);
                 book.INSalesRank = salesRank;
 
-                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.IN.ToString()));
+                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.IN.ToString(), currency));
             }
 
             //MX
@@ -115,11 +118,12 @@ namespace BookTracker.Services
                 decimal price = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_PRICE_INDEX].GetLast());
                 decimal @new = ConverterHelper.ToDecimalPrice(kBook.CSV[Constants.CSV_NEW_INDEX].GetLast());
                 int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
+                decimal currency = _sysOptions.Box3.CurrencyRate;
 
-                book.MXNetPayout = BookDomain.CalculateINNetPayout(used, price, kBook.PackageWeight);
+                book.MXNetPayout = BookDomain.CalculateMXNetPayout(used, price, kBook.PackageWeight, currency);
                 book.MXSalesRank = salesRank;
 
-                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.MX.ToString()));
+                book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.MX.ToString(), currency));
             }
 
             //Book Scouter
@@ -147,6 +151,8 @@ namespace BookTracker.Services
             book.MeetsARule = meetARule;
             book.Audio = string.IsNullOrEmpty(audio) ? audio : $"/sounds/{audio}";
             book.Color = color;
+
+            book.DisplayRejected = _sysOptions.DisplayRejected;
 
             return book;
         }

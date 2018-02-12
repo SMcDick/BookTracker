@@ -84,7 +84,7 @@ const soundDatasource = [
     { key: 'Sound 3', value: '3.mp3' },
     { key: 'Sound 4', value: '4.mp3' },
     { key: 'Sound 5', value: '5.mp3' },
-    { key: 'Sound 6', value: '6.mp3' }
+    { key: 'Sound 6', value: '6.wav' }
 ];
 const soundDataSourceConfig = {
     text: 'key',
@@ -94,7 +94,9 @@ const soundDataSourceConfig = {
 class SettingsActions extends Component {
     static propTypes = {
         onSaveClick: PropTypes.func.isRequired,
-        onRefreshClick: PropTypes.func.isRequired
+        onRefreshClick: PropTypes.func.isRequired,
+        onDisplayRejected: PropTypes.func,
+        displayRejected: PropTypes.bool.isRequired
     }
 
     constructor() {
@@ -114,11 +116,20 @@ class SettingsActions extends Component {
         }
     }
 
+    handleToggleBoxClick(evt, isChecked) {
+        if (typeof this.props.onDisplayRejected === 'function') {
+            this.props.onDisplayRejected(isChecked)
+        }
+    }
+
     render() {
+        const { displayRejected } = this.props
+        const text = displayRejected ? 'Display as row' : 'Display as rejected'
         return (
             <div>
                 <RaisedButton label="Save" primary={true} onClick={this.handleSaveButtonClick.bind(this)} style={styles.button} />
                 <RaisedButton label="Refresh" primary={false} onClick={this.handleRefreshButtonClick.bind(this)} style={styles.button} />
+                <Toggle label={text} labelPosition="right" style={styles.toggle} onToggle={this.handleToggleBoxClick.bind(this)} toggled={displayRejected} />
             </div>
         )
     }
@@ -186,10 +197,16 @@ class SettingsBox extends Component {
         this.boxChanged(nBox)
     }
 
+    onCurrencyChange(newValue) {
+        const { box } = this.props
+        const nBox = Object.assign(box, { currencyRate: newValue })
+        this.boxChanged(nBox)
+    }
+
     render() {
         const { box, dispatch } = this.props
         if (box !== undefined) {
-            const { rules, name, enabled, soundPath, color } = box
+            const { rules, name, enabled, soundPath, color, currencyRate, currencyName } = box
             const text = enabled ? 'Enabled' : 'Disabled'
             return (
                 <React.Fragment>
@@ -226,6 +243,7 @@ class SettingsBox extends Component {
                                     }
                                 </TableBody>
                             </Table>
+                            <SettingsCurrency onCurrencyChange={this.onCurrencyChange.bind(this)} currencyName={currencyName} currencyRate={currencyRate} />
                             <SettingsSoundColor sound={soundPath} color={color} onColorChange={this.onColorChange.bind(this)} onSoundChange={this.onSoundChange.bind(this)} />
                         </CardText>
                     </Card>
@@ -360,6 +378,34 @@ class SettingsSoundColor extends Component {
     }
 }
 
+class SettingsCurrency extends Component {
+    static propTypes = {
+        onCurrencyChange: PropTypes.func,
+        currencyRate: PropTypes.number.isRequired,
+        currencyName: PropTypes.string.isRequired
+    }
+
+    handleCurrencyChange(event, newValue) {
+        if (typeof this.props.onCurrencyChange === 'function') {
+            const sVal = newValue !== '' ? newValue.replace(/\$(-?\d+.\d{2})/, "$1") : '0'
+            const val = parseFloat(sVal)
+            this.props.onCurrencyChange(val)
+        }
+    }
+
+    render() {
+        const { currencyRate, currencyName } = this.props
+        const displayCurrency = (new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(currencyRate))
+        const label = `Currency ${currencyName}`
+        return (
+            <div>
+                <TextField floatingLabelText={label} value="$1.00" disabled={true} />
+                <TextField floatingLabelText="US Dollar" value={displayCurrency} onChange={this.handleCurrencyChange.bind(this)} />
+            </div>
+        )
+    }
+}
+
 class SettingsRuleBox extends Component {
     static propTypes = {
         rule: PropTypes.object.isRequired,
@@ -478,22 +524,42 @@ class SettingsApp extends Component {
         dispatch(actions.changedConfig(nConfig))
     }
 
+    onDisplayRejected(enabled) {
+        const { boxes, dispatch } = this.props
+        let nConfig = Object.assign({}, boxes)
+
+        nConfig.displayRejected = enabled
+
+        dispatch(actions.changedConfig(nConfig))
+    }
+
     render() {
         const { dispatch, boxes } = this.props
-        const { box1, box2, box3, box4, box5 } = boxes
-        return (
-            <Card>
-                <CardHeader title="Settings" />
-                <CardText>
-                    <SettingsActions onSaveClick={this.onSaveClick.bind(this)} onRefreshClick={this.onRefreshClick.bind(this)} onResetClick={this.onResetClick.bind(this)} />
-                    <SettingsBox id="1" box={box1} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
-                    <SettingsBoxSimple id="2" box={box2} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
-                    <SettingsBox id="3" box={box3} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
-                    <SettingsBox id="4" box={box4} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
-                    <SettingsBox id="5" box={box5} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
-                </CardText>
-            </Card>
-        )
+        
+        if (boxes !== undefined && boxes.box1 !== undefined) {
+            const { box1, box2, box3, box4, box5, displayRejected } = boxes
+            return (
+                <Card>
+                    <CardHeader title="Settings" />
+                    <CardText>
+                        <SettingsActions onSaveClick={this.onSaveClick.bind(this)}
+                            onRefreshClick={this.onRefreshClick.bind(this)}
+                            onResetClick={this.onResetClick.bind(this)}
+                            onDisplayRejected={this.onDisplayRejected.bind(this)}
+                            displayRejected={displayRejected} />
+
+                        <SettingsBox id="1" box={box1} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
+                        <SettingsBoxSimple id="2" box={box2} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
+                        <SettingsBox id="3" box={box3} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
+                        <SettingsBox id="4" box={box4} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
+                        <SettingsBox id="5" box={box5} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />
+                    </CardText>
+                </Card>
+            )
+        }
+        else {
+            return <div />
+        }
     }
 }
 
@@ -503,7 +569,7 @@ const mapStateToProps = state => {
 
     const boxes = config
     return {
-        boxes: boxes !== undefined ? boxes : {},
+        boxes: boxes ? boxes : {},
         posted: posted !== undefined ? posted : false
     }
 }
