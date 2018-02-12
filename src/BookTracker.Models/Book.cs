@@ -32,6 +32,12 @@ namespace BookTracker.Models
 
         public int MXSalesRank { get; set; }
 
+        public bool MeetsARule { get; set; }
+
+        public string Color { get; set; }
+
+        public string Audio { get; set; }
+
         public List<VerboseData> VerboseData { get; set; }
     }
 

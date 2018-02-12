@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
+import AutoComplete from 'material-ui/AutoComplete';
 import Paper from 'material-ui/Paper';
 
 import * as actions from '../Actions'
@@ -52,6 +53,26 @@ const styles = {
     soundColorText: {
         margin: 20
     }
+};
+
+const colorsDatasource = [
+    { key: 'Red', value: '#FFCDD2' },
+    //{ key: 'Pink', value: '#F8BBD0' },
+    //{ key: 'Purple', value: '#E1BEE7' },
+    { key: 'Blue', value: '#BBDEFB' },
+    //{ key: 'Indigo', value: '#C5CAE9' },
+    //{ key: 'Deep Purple', value: '#D1C4E9' },
+    { key: 'Teal', value: '#B2DFDB' },
+    { key: 'Cyan', value: '#B2EBF2' },
+    //{ key: 'Light Blue', value: '#B3E5FC' },
+    { key: 'Green', value: '#C8E6C9' },
+    //{ key: 'Lime', value: '#F0F4C3' },
+    { key: 'Yellow', value: '#FFF9C4' },
+    { key: 'Orange', value: '#FFE0B2' }
+];
+const colorDataSourceConfig = {
+    text: 'key',
+    value: 'value',
 };
 
 class SettingsActions extends Component {
@@ -223,11 +244,10 @@ class SettingsBoxSimple extends Component {
         }
     }
 
-    onRuleChanged = (rule, key) => {
+    onOfferChanged = (evt, newValue) => {
         const { box } = this.props
 
-        let nBox = Object.assign({}, box)
-        nBox.rules[key] = rule
+        const nBox = Object.assign(box, { offerGreaterThan: newValue ? parseInt(newValue, 10) : '' })
 
         this.boxChanged(nBox)
     }
@@ -247,7 +267,7 @@ class SettingsBoxSimple extends Component {
     render() {
         const { box, dispatch } = this.props
         if (box !== undefined) {
-            const { rules, name, enabled, soundPath, color } = box
+            const { rules, name, enabled, soundPath, color, offerGreaterThan } = box
             const text = enabled ? 'Enabled' : 'Disabled'
             return (
                 <React.Fragment>
@@ -261,6 +281,7 @@ class SettingsBoxSimple extends Component {
                             <Toggle label={text} labelPosition="right" style={styles.toggle} onToggle={this.handleToggleBoxClick.bind(this)} toggled={enabled} />
                         </CardActions>
                         <CardText expandable={true}>
+                            <TextField floatingLabelText="offer greater than" onChange={this.onOfferChanged.bind(this)} value={offerGreaterThan} style={styles.soundColorText} />
                             <SettingsSoundColor sound={soundPath} color={color} onSoundChange={this.onSoundChange.bind(this)} onColorChange={this.onColorChange.bind(this)} />
                         </CardText>
                     </Card>
@@ -288,6 +309,12 @@ class SettingsSoundColor extends Component {
         }
     }
 
+    handleColorAutoCompleteChange(chosenRequest, index) {
+        if (typeof this.props.onColorChange === 'function') {
+            this.props.onColorChange(newValue)
+        }
+    }
+
     handleSoundChange(evt, newValue) {
         if (typeof this.props.onSoundChange === 'function') {
             this.props.onSoundChange(newValue)
@@ -299,7 +326,15 @@ class SettingsSoundColor extends Component {
         return (
             <div>
                 <TextField hintText="" floatingLabelText="Sound" value={sound} onChange={this.handleSoundChange.bind(this)} style={styles.soundColorText} />
-                <TextField hintText="" floatingLabelText="Color" value={color} onChange={this.handleColorChange.bind(this)} style={styles.soundColorText} />
+                <AutoComplete
+                    floatingLabelText="Color"
+                    filter={AutoComplete.noFilter}
+                    openOnFocus={true}
+                    dataSource={colorsDatasource}
+                    dataSourceConfig={colorDataSourceConfig}
+                    onNewRequest={this.handleColorAutoCompleteChange.bind(this)}
+                />
+                
             </div>
         )
     }

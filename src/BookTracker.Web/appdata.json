@@ -3,7 +3,7 @@
 {
   "Box1": {
     "Enabled": true,
-    "Name": "Box 1",
+    "Name": "Box US",
     "Rules": [
       {
         "MinimumSalesRank": 10.0,
@@ -11,19 +11,19 @@
         "MinimumNetPayout": 22.0
       }
     ],
-    "SoundPath": "wave",
+    "SoundPath": "tpirding.wave",
     "Color": "Green"
   },
   "Box2": {
     "Name": "Box 2",
     "Enabled": true,
-    "SoundPath": "alert2.wav",
+    "SoundPath": "tpirding.wave",
     "Color": "Red",
-    "OfferGreaterThan": 1000.0
+    "OfferGreaterThan": 103.0
   },
   "Box3": {
     "Enabled": true,
-    "Name": "Box 3",
+    "Name": "Box MX",
     "Rules": [
       {
         "MinimumSalesRank": 10.0,
@@ -36,7 +36,7 @@
   },
   "Box4": {
     "Enabled": true,
-    "Name": "Box 4",
+    "Name": "Box CA",
     "Rules": [
       {
         "MinimumSalesRank": 10.0,
@@ -49,7 +49,7 @@
   },
   "Box5": {
     "Enabled": true,
-    "Name": "Box 5",
+    "Name": "Box IN",
     "Rules": [
       {
         "MinimumSalesRank": 10.0,

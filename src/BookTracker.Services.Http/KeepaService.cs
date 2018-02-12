@@ -37,7 +37,7 @@ namespace BookTracker.Web.Services
             request.AddUrlSegment("key", _keepaOptions.ApiKey);
             request.AddUrlSegment("domain", (int)domain);
             request.AddUrlSegment("code", isbn);
-            request.AddUrlSegment("update", 1);
+            request.AddUrlSegment("update", 20);
 
             var response = await client.ExecuteGetTaskAsync(request);
 

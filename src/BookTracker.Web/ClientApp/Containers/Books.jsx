@@ -41,6 +41,9 @@ const styles = {
     },
     table: {
         displaySelectAll: false
+    },
+    tableRow: {
+        backgroundColor: 'transparent'
     }
 };
 
@@ -117,7 +120,9 @@ class BookTable extends Component {
                         <TableBody displayRowCheckbox={styles.table.displaySelectAll}>
                             {
                                 dataCollection.map((f, index) => {
-                                    return (<TableRow key={index}>
+                                    const backgroundColor = Object.assign(styles.tableRow, { backgroundColor: f.color})
+
+                                    return (<TableRow key={index} style={backgroundColor}>
                                         <TableRowColumn><FlatTextField source="title" record={f} /></TableRowColumn>
 
                                         <TableRowColumn><FlatTextField source="isbn" record={f} /></TableRowColumn>

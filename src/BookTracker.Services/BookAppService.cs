@@ -2,6 +2,7 @@
 using BookTracker.Models.BookScouter;
 using BookTracker.Models.Keepa;
 using BookTracker.Models.Options;
+using BookTracker.Models.System;
 using BookTracker.Services.ExternalServices;
 using BookTracker.Services.Helpers;
 using Microsoft.Extensions.Options;
@@ -17,6 +18,7 @@ namespace BookTracker.Services
         private readonly IKeepaService _keepaService;
         private readonly IBookScouterService _bookScouterService;
         private readonly KeepaOptions _keepaOptions;
+        private readonly SystemOptions _sysOptions;
 
         private readonly KeepaDomain[] _avaiableDomains = new KeepaDomain[] {
             KeepaDomain.US,
@@ -24,11 +26,12 @@ namespace BookTracker.Services
             KeepaDomain.MX,
             KeepaDomain.IN };
 
-        public BookAppService(IKeepaService keepaService, IBookScouterService bookScouterService, IOptions<KeepaOptions> keepaOptions)
+        public BookAppService(IKeepaService keepaService, IBookScouterService bookScouterService, IOptions<KeepaOptions> keepaOptions, IOptions<SystemOptions> sysOptions)
         {
             _keepaService = keepaService;
             _bookScouterService = bookScouterService;
             _keepaOptions = keepaOptions.Value;
+            _sysOptions = sysOptions.Value;
         }
 
         public async Task<Book> GetBook(string isbn)
@@ -139,7 +142,84 @@ namespace BookTracker.Services
                 }
             }
 
+            bool meetARule = false;
+            string audio = string.Empty;
+            string color = string.Empty;
+            LoadBookRules(book, out meetARule, out audio, out color);
+            book.MeetsARule = meetARule;
+            book.Audio = audio;
+            book.Color = color;
+
             return book;
+        }
+
+        private void LoadBookRules(Book book, out bool meetARule, out string sound, out string color)
+        {
+            meetARule = false;
+            sound = string.Empty;
+            color = string.Empty;
+
+            //us
+            var box1 = _sysOptions.Box1;
+            foreach(Rule r in box1.Rules)
+            {
+                if(r.MinimumSalesRank < book.USSalesRank && r.MaximumSalesRank > book.USSalesRank && r.MinimumNetPayout < book.USNetPayout)
+                {
+                    meetARule = true;
+                    sound = box1.SoundPath;
+                    color = box1.Color;
+                    return;
+                }
+            }
+
+            //offer
+            var box2 = _sysOptions.Box2;
+            if(box2.OfferGreaterThan < book.Offer)
+            {
+                meetARule = true;
+                sound = box2.SoundPath;
+                color = box2.Color;
+                return;
+            }
+
+            //MX
+            var box3 = _sysOptions.Box3;
+            foreach (Rule r in box3.Rules)
+            {
+                if (r.MinimumSalesRank < book.MXSalesRank && r.MaximumSalesRank > book.MXSalesRank && r.MinimumNetPayout < book.MXNetPayout)
+                {
+                    meetARule = true;
+                    sound = box3.SoundPath;
+                    color = box3.Color;
+                    return;
+                }
+            }
+
+            //CA
+            var box4 = _sysOptions.Box4;
+            foreach (Rule r in box4.Rules)
+            {
+                if (r.MinimumSalesRank < book.CASalesRank && r.MaximumSalesRank > book.CASalesRank && r.MinimumNetPayout < book.CANetPayout)
+                {
+                    meetARule = true;
+                    sound = box4.SoundPath;
+                    color = box4.Color;
+                    return;
+                }
+            }
+
+            //IN
+            var box5 = _sysOptions.Box5;
+            foreach (Rule r in box5.Rules)
+            {
+                if (r.MinimumSalesRank < book.INSalesRank && r.MaximumSalesRank > book.INSalesRank && r.MinimumNetPayout < book.INNetPayout)
+                {
+                    meetARule = true;
+                    sound = box5.SoundPath;
+                    color = box5.Color;
+                    return;
+                }
+            }
         }
 
         private async Task<BookScouted> GetPriceFromScouter(string isbn)
