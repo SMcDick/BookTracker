@@ -1,14 +1,20 @@
-FROM microsoft/aspnetcore-build:2.0
-EXPOSE 80
+FROM microsoft/aspnetcore-build:2.0 AS build-env
 
-WORKDIR /src
-COPY . /app
+# Use an official Python runtime as a parent image
+#FROM python:2.7-slim
 
-RUN dotnet restore
+# Set the working directory to /app
+WORKDIR /app
 
-WORKDIR /BookTracker.Web
-RUN dotnet build
+# Copy the current directory contents into the container at /app
+ADD . /app
 
-ENV ASPNETCORE_URLS http://*:80
-#ENTRYPOINT ["dotnet", "BookTracker.Web.dll"]
-ENTRYPOINT ["dotnet", "run"]
+RUN dotnet restore BookTracker.sln
+
+RUN dotnet publish -c Release -o ../out BookTracker.Web/*.csproj
+
+# Build runtime image
+FROM microsoft/aspnetcore:2.0
+WORKDIR /app
+COPY --from=build-env /app/out .
+ENTRYPOINT ["dotnet", "BookTracker.Web.dll"]
