@@ -1,19 +1,40 @@
-version: 1.0.{build}
+version: '1.0.{build}'
+image: Visual Studio 2017
 branches:
   only:
   - master
-skip_tags: true
-image: Visual Studio 2017
-platform: Any CPU
-dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
-build:
-  project: /src/
-  parallel: true
-  verbosity: minimal
+init:
+  # Good practise, because Windows line endings are different from Unix/Linux ones
+  - cmd: git config --global core.autocrlf true
+install:
+  # Install repo specific stuff here
+before_build:
+  # Display .NET Core version
+  - cmd: dotnet --version
+  # Display minimal restore text
+  - cmd: dotnet restore ./src/BookTracker.sln --verbosity m
+build_script:
+  # output will be in ./src/bin/debug/netcoreapp1.1/publish
+  - cmd: dotnet publish -c Release -o ../out ./src/BookTracker.Web/*.csproj
+after_build:
+  # For once the build has completed
+artifacts:
+ - path: '\src\out'
+   name: WebSite
+   type: WebDeployPackage
+clone_depth: 1
+test_script:
+  # restore packages for our unit tests
+  - cmd: dotnet restore ./src/BookTracker.Web.Test/BookTracker.Web.Test.csproj --verbosity m
+  # run the unit tests (requires changing into the test directory)
+  - cmd: cd src/BookTracker.Web.Test
+  - cmd: dotnet xunit
+  
+  # restore packages for our unit tests
+  - cmd: dotnet restore ./src/BookTracker.Services.Test/BookTracker.Services.Test.csproj --verbosity m
+  # run the unit tests (requires changing into the test directory)
+  - cmd: cd src/BookTracker.Services.Test
+  - cmd: dotnet xunit
+on_finish :
+  # any cleanup in here
+deploy: off
