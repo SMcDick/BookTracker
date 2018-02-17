@@ -68,6 +68,6 @@
     "CurrencyRate": 1.2,
     "CurrencyName": "IN"
   },
-  "DisplayRejected": true
+  "DisplayRejected": false
 }
 }

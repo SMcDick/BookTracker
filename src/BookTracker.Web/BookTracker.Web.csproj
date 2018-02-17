@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>9897bc62-1217-4ea2-a986-3d555d578ac5</UserSecretsId>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>BookTrackerK.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
