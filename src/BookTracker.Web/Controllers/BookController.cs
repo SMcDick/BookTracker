@@ -2,6 +2,7 @@
 using BookTracker.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BookTracker.Web.Controllers
@@ -21,7 +22,7 @@ namespace BookTracker.Web.Controllers
         
 
         [HttpGet("{isbn}", Name = "GetByIsbn")]
-        public Task<Book> GetByIsbn(string isbn)
+        public Task<Book> GetByIsbn(string isbn, CancellationToken cancellationToken)
         {
             return _bookService.GetBook(isbn);
         }

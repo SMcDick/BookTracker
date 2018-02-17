@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BookTracker.Services.Http
@@ -20,7 +21,12 @@ namespace BookTracker.Services.Http
             _logger = logger;
         }
 
-        public async Task<BookScouterResponse> GetBook(string isbn)
+        public  Task<BookScouterResponse> GetBook(string isbn)
+        {
+            return GetBook(isbn, CancellationToken.None);
+        }
+
+        public async Task<BookScouterResponse> GetBook(string isbn, CancellationToken cancellationToken)
         {
             var client = new RestClient(_bookScouterOptions.BaseUri);
 

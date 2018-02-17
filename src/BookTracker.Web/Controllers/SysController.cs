@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BookTracker.Web.Controllers
@@ -21,7 +22,10 @@ namespace BookTracker.Web.Controllers
         private readonly EnvorimentOptions _logOptions;
         private readonly SystemOptions _sysOptions;
 
-        public SysController(ISysAppService sysAppService, ILogger<SysController> logger, IOptions<EnvorimentOptions> option, IOptionsSnapshot<SystemOptions> sysOptions)
+        public SysController(ISysAppService sysAppService,
+            ILogger<SysController> logger,
+            IOptions<EnvorimentOptions> option,
+            IOptionsSnapshot<SystemOptions> sysOptions)
         {
             _sysAppService = sysAppService;
             _logger = logger;
@@ -44,15 +48,15 @@ namespace BookTracker.Web.Controllers
         }
 
         [HttpPost("")]
-        public async Task Update([FromBody] SystemOptions data)
+        public async Task Update([FromBody] SystemOptions data, CancellationToken cancellationToken)
         {
-            await _sysAppService.Update(data);
+            await _sysAppService.Update(data, cancellationToken);
         }
 
         [HttpGet("[action]")]
-        public async Task Reset()
+        public async Task Reset(CancellationToken cancellationToken)
         {
-            await _sysAppService.Reset();
+            await _sysAppService.Reset(cancellationToken);
         }
     }
 }
