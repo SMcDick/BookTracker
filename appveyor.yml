@@ -5,7 +5,6 @@ branches:
 skip_tags: true
 image: Visual Studio 2017
 configuration: Release
-platform: Any CPU
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -15,6 +14,5 @@ dotnet_csproj:
   file_version: '{version}'
   informational_version: '{version}'
 build:
-  project: /src/
-  parallel: true
+  project: '\src\*.sln'
   verbosity: minimal
