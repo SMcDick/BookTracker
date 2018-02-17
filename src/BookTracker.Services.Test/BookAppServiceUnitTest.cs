@@ -106,7 +106,7 @@ namespace BookTracker.Services.Test
                 return _opts;
             });
 
-            var formulaOpts = GetFormulasMock()
+            var formulaOpts = GetFormulasMock();
 
             var appService = new BookAppService(mockKeepaSvc.Object, mockScouterSvc.Object, keepaOpts, sysOpts.Object, formulaOpts);
             var b = await appService.GetBook(isbn);

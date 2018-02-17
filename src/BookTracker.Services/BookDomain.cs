@@ -41,7 +41,7 @@ namespace BookTracker.Services
             return 19.20m * (bookWeigthKg - 1) * 2.80m;
         }
 
-        internal static decimal CalculateMXNetPayout(decimal usedPrice, decimal price, decimal bookWeigthGrams, decimal currencyRate)
+        internal static decimal CalculateMXNetPayout(Formulas formulas, decimal usedPrice, decimal price, decimal bookWeigthGrams, decimal currencyRate)
         {
             decimal bookWeigthPrice = GetBookWeigthPriceMX(bookWeigthGrams / 1000);
             decimal result = ((usedPrice) - (price * 0.1293m) - 17.85m - (bookWeigthPrice)) * currencyRate;
@@ -49,7 +49,7 @@ namespace BookTracker.Services
             return decimal.Round(result, 2, MidpointRounding.ToEven);
         }
 
-        internal static decimal CalculateINNetPayout(decimal usedPrice, decimal price, decimal bookWeigthGrams, decimal currencyRate)
+        internal static decimal CalculateINNetPayout(Formulas formulas, decimal usedPrice, decimal price, decimal bookWeigthGrams, decimal currencyRate)
         {
             int bookParts500Grams = WeigthParts(bookWeigthGrams, 500m);
             bookParts500Grams = bookParts500Grams == 1 ? 0 : bookParts500Grams - 1;
