@@ -33,16 +33,16 @@ artifacts:
 clone_depth: 1
 test_script:
   # restore packages for our unit tests
-  - cmd: dotnet restore ./src/BookTracker.Web.Test/BookTracker.Web.Test.csproj --verbosity m
+  #- cmd: dotnet restore ./src/BookTracker.Web.Test/BookTracker.Web.Test.csproj --verbosity m
   # run the unit tests (requires changing into the test directory)
-  - cmd: cd src/BookTracker.Web.Test
-  - cmd: dotnet xunit
+  #- cmd: cd src/BookTracker.Web.Test
+  #- cmd: dotnet xunit
   
   # restore packages for our unit tests
-  - cmd: dotnet restore ./src/BookTracker.Services.Test/BookTracker.Services.Test.csproj --verbosity m
+  #- cmd: dotnet restore ./src/BookTracker.Services.Test/BookTracker.Services.Test.csproj --verbosity m
   # run the unit tests (requires changing into the test directory)
-  - cmd: cd src/BookTracker.Services.Test
-  - cmd: dotnet xunit
+  #- cmd: cd src/BookTracker.Services.Test
+  #- cmd: dotnet xunit
 on_finish :
   # any cleanup in here
 deploy: off
