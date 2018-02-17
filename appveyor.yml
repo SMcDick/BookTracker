@@ -31,7 +31,7 @@ artifacts:
    name: WebSite
    type: WebDeployPackage
 clone_depth: 1
-test_script:
+#test_script:
   # restore packages for our unit tests
   #- cmd: dotnet restore ./src/BookTracker.Web.Test/BookTracker.Web.Test.csproj --verbosity m
   # run the unit tests (requires changing into the test directory)
