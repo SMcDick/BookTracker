@@ -12,9 +12,9 @@ namespace BookTracker.Services.Http
     public class BookScouterService : IBookScouterService
     {
         private readonly BookScouterOptions _bookScouterOptions;
-        private readonly ILogger<BookScouterService> _logger;
+        private readonly ILogger<IBookScouterService> _logger;
 
-        public BookScouterService(IOptions<BookScouterOptions> options, ILogger<BookScouterService> logger)
+        public BookScouterService(IOptions<BookScouterOptions> options, ILogger<IBookScouterService> logger)
         {
             _bookScouterOptions = options.Value;
             _logger = logger;

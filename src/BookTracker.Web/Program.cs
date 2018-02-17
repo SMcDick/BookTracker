@@ -27,6 +27,7 @@ namespace BookTracker.Web
                           .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                           .AddJsonFile($"appdata.json", optional: false, reloadOnChange: true)
                           .AddJsonFile($"appkeepa.json", optional: false, reloadOnChange: true)
+                          .AddJsonFile($"formulas.json", optional: false, reloadOnChange: true)
                           .AddEnvironmentVariables()
                           .AddCommandLine(args)
                           .AddUserSecrets("9897bc62-1217-4ea2-a986-3d555d578ac5");

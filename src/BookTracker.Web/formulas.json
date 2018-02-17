@@ -1,0 +1,9 @@
+{
+  "Formulas": {
+    "Variables": [ "USED_PRICE", "PRICE", "WEIGHT_PRICE_MX", "CURRENCY_RATE", "WEIGTH", "WEIGTH_PARTS_500_GRAMS" ],
+    "MXNetPayout": "([USED_PRICE] - (PRICE * 0.1293) - 17.85 - [WEIGHT_PRICE_MX]) * [CURRENCY_CONVERTER]",
+    "USNetPayout": "([USED] + 3.99 - [PRICE] * 0.15 - 1.8 - 3.19) * [CURRENCY_RATE]",
+    "INNetPayout": "([USED_PRICE] + 46 - [PRICE] * 0.15 - 40 - 15 - (50 - 27 * (WEIGTH_PARTS_500 - 1))) * [CURRENCY_CONVERTER]",
+    "CANetPayout": "([USED_PRICE] + 6.49 - 1 - [PRICE] - 0.15 - 0.95) * [CURRENCY_CONVERTER]"
+  }
+}

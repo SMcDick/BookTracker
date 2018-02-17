@@ -19,19 +19,19 @@ namespace BookTracker.Services
         private readonly IBookScouterService _bookScouterService;
         private readonly KeepaOptions _keepaOptions;
         private readonly SystemOptions _sysOptions;
+        private readonly Formulas _formula;
 
-        private readonly KeepaDomain[] _avaiableDomains = new KeepaDomain[] {
-            KeepaDomain.US,
-            KeepaDomain.CA,
-            KeepaDomain.MX,
-            KeepaDomain.IN };
-
-        public BookAppService(IKeepaService keepaService, IBookScouterService bookScouterService, IOptions<KeepaOptions> keepaOptions, IOptionsSnapshot<SystemOptions> sysOptions)
+        public BookAppService(IKeepaService keepaService,
+            IBookScouterService bookScouterService,
+            IOptions<KeepaOptions> keepaOptions,
+            IOptionsSnapshot<SystemOptions> sysOptions,
+            IOptionsSnapshot<Formulas> formulaOptions)
         {
             _keepaService = keepaService;
             _bookScouterService = bookScouterService;
             _keepaOptions = keepaOptions.Value;
             _sysOptions = sysOptions.Value;
+            _formula = formulaOptions.Value;
         }
 
         public async Task<Book> GetBook(string isbn)
@@ -67,7 +67,7 @@ namespace BookTracker.Services
                 book.Image = ParseBookImageName(kBook.ImagesCSV);
 
                 book.USSalesRank = salesRank;
-                book.USNetPayout = BookDomain.CalculateNetPayout(used, price, kBook.PackageWeight, currency);
+                book.USNetPayout = BookDomain.CalculateNetPayout(_formula, used, price, kBook.PackageWeight, currency);
 
                 book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.US.ToString(), currency));
             }
