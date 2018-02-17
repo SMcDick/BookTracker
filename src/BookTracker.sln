@@ -21,12 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Models", "BookT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Services.Http", "BookTracker.Services.Http\BookTracker.Services.Http.csproj", "{6AE61BD1-1EA0-4D32-8C32-8EDC7728F3B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{85A331B4-0466-4534-925E-3E916F958140}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI", "CI", "{85A331B4-0466-4534-925E-3E916F958140}"
 	ProjectSection(SolutionItems) = preProject
+		..\appveyor.yml = ..\appveyor.yml
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTracker.Services.Test", "BookTracker.Services.Test\BookTracker.Services.Test.csproj", "{7E073BFB-997D-4F38-936F-8EBEE0EDDDA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTracker.Services.Test", "BookTracker.Services.Test\BookTracker.Services.Test.csproj", "{7E073BFB-997D-4F38-936F-8EBEE0EDDDA6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A10A1C61-C560-48CF-8112-9D7742120FD0}"
 EndProject
