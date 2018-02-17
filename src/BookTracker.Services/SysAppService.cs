@@ -106,7 +106,7 @@ namespace BookTracker.Services
             await Update(opt);
         }
 
-        public async Task Update(SystemOptions config)
+        public Task Update(SystemOptions config)
         {
             string json = JsonConvert.SerializeObject(config, Formatting.Indented);
             StringBuilder sb = new StringBuilder();
@@ -114,7 +114,8 @@ namespace BookTracker.Services
             sb.AppendLine("\"SysConfig\":");
             sb.AppendLine(json);
             sb.Append("}");
-            await File.WriteAllTextAsync(Path.Combine(_envOptions.RootDir, "appdata.json"), sb.ToString());
+            File.WriteAllText(Path.Combine(_envOptions.RootDir, "appdata.json"), sb.ToString());
+            return Task.FromResult(0);
         }
     }
 }
