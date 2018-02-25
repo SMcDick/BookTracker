@@ -47,13 +47,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Docker\Development\" />
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="formulas.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="package-lock.json">
+      <DependentUpon>package.json</DependentUpon>
     </Content>
   </ItemGroup>
 

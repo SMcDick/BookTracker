@@ -31,6 +31,11 @@ namespace BookTracker.Services
             return _systemOptions;
         }
 
+        public KeepaOptions GetKeepaOptions()
+        {
+            return _options;
+        }
+
         public Task Reset()
         {
             return Reset(CancellationToken.None);
@@ -130,7 +135,19 @@ namespace BookTracker.Services
             return Task.FromResult(0);
         }
 
-        internal string GetSerializedData(SystemOptions options)
+        public Task UpdateKeepaOptions(KeepaOptions data, CancellationToken token)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (token == null)
+                throw new ArgumentNullException(nameof(token));
+
+            string content = GetSerializedData(data);
+            File.WriteAllText(Path.Combine(_envOptions.RootDir, "keepa.json"), content);
+            return Task.FromResult(0);
+        }
+
+        internal static string GetSerializedData<T>(T options)
         {
             dynamic data = new ExpandoObject();
             data.SysConfig = options;

@@ -20,5 +20,9 @@ namespace BookTracker.Services
         Task Reset();
 
         Task Reset(CancellationToken token);
+
+        KeepaOptions GetKeepaOptions();
+
+        Task UpdateKeepaOptions(KeepaOptions data, CancellationToken token);
     }
 }

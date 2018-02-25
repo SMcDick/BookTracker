@@ -90,7 +90,7 @@ namespace BookTracker.Services
                 int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
                 decimal currency = _sysOptions.Box4.CurrencyRate;
 
-                book.CANetPayout = BookDomain.CalculateCANetPayout(_formula, used, price, kBook.PackageWeight, currency);
+                book.CANetPayout = BookDomain.CalculateNetPayout(_formula, used, price, kBook.PackageWeight, currency);
                 book.CASalesRank = salesRank;
 
                 book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.CA.ToString(), currency));
@@ -108,7 +108,7 @@ namespace BookTracker.Services
                 int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
                 decimal currency = _sysOptions.Box5.CurrencyRate;
 
-                book.INNetPayout = BookDomain.CalculateINNetPayout(_formula, used, price, kBook.PackageWeight, currency);
+                book.INNetPayout = BookDomain.CalculateNetPayout(_formula, used, price, kBook.PackageWeight, currency);
                 book.INSalesRank = salesRank;
 
                 book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.IN.ToString(), currency));
@@ -126,7 +126,7 @@ namespace BookTracker.Services
                 int salesRank = kBook.CSV[Constants.CSV_SALES_RANK_INDEX].GetLast();
                 decimal currency = _sysOptions.Box3.CurrencyRate;
 
-                book.MXNetPayout = BookDomain.CalculateMXNetPayout(_formula, used, price, kBook.PackageWeight, currency);
+                book.MXNetPayout = BookDomain.CalculateNetPayout(_formula, used, price, kBook.PackageWeight, currency);
                 book.MXSalesRank = salesRank;
 
                 book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.MX.ToString(), currency));
