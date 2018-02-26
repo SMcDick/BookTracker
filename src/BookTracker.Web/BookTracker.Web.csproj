@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <None Remove="App_Data\.empty" />
+    <None Remove="Properties\PublishProfiles\BookTrackerWeb - Web Deploy.pubxml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
 
