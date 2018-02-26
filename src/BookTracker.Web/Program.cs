@@ -12,6 +12,8 @@ namespace BookTracker.Web
 {
     public class Program
     {
+        private static string APP_SECRETS_KEY = "9897bc62-1217-4ea2-a986-3d555d578ac5";
+
         public static void Main(string[] args)
         {
             BuildWebHost(args).Run();
@@ -26,11 +28,11 @@ namespace BookTracker.Web
                     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                           .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                           .AddJsonFile($"appdata.json", optional: false, reloadOnChange: true)
-                          .AddJsonFile($"appkeepa.json", optional: false, reloadOnChange: true)
+                          .AddJsonFile($"keepa.json", optional: false, reloadOnChange: true)
                           .AddJsonFile($"formulas.json", optional: false, reloadOnChange: true)
                           .AddEnvironmentVariables()
                           .AddCommandLine(args)
-                          .AddUserSecrets("9897bc62-1217-4ea2-a986-3d555d578ac5");
+                          .AddUserSecrets(APP_SECRETS_KEY);
                 })
                 .UseStartup<Startup>()
                 .Build();

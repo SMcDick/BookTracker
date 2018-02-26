@@ -16,6 +16,11 @@ const styles = {
     },
     textbox: {
         marginLeft: 20
+    },
+    formulaInfo: {
+        height: 40,
+        paddingTop: 25,
+        paddingLeft: 10
     }
 };
 
@@ -84,7 +89,7 @@ class FormulaBox extends Component {
 
         return (
             <Paper zDepth={2}>
-                <div>
+                <div style={styles.formulaInfo}>
                 <span>Variables: {
                     variables.map((e, index) => {
                         return <span key={index}>{e}, </span>

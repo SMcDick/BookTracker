@@ -144,23 +144,17 @@ namespace BookTracker.Services
             if (token == null)
                 throw new ArgumentNullException(nameof(token));
 
-            string content = GetSerializedData(data);
+            string content = GetSerializedData(data, "KeepaSettings");
             File.WriteAllText(Path.Combine(_envOptions.RootDir, "keepa.json"), content);
             return Task.FromResult(0);
         }
 
-        internal static string GetSerializedData<T>(T options)
+        internal static string GetSerializedData<T>(T options, string rootProp = "SysConfig")
         {
-            dynamic data = new ExpandoObject();
-            data.SysConfig = options;
-
-            //string json = JsonConvert.SerializeObject(config, Formatting.Indented);
-            //StringBuilder sb = new StringBuilder();
-            //sb.AppendLine("{");
-            //sb.AppendLine("\"SysConfig\":");
-            //sb.AppendLine(json);
-            //sb.Append("}");
-
+            ExpandoObject data = new ExpandoObject();
+            ICollection<KeyValuePair<string, object>> d = data;
+            //data[rootProp] = options;
+            d.Add(new KeyValuePair<string, object>(rootProp, options));
             return JsonConvert.SerializeObject(data);
         }
 
@@ -176,7 +170,7 @@ namespace BookTracker.Services
             if (token == null)
                 throw new ArgumentNullException(nameof(token));
 
-            string content = GetSerializedData(data);
+            string content = GetSerializedData(data, "Formulas");
             File.WriteAllText(Path.Combine(_envOptions.RootDir, "formulas.json"), content);
             return Task.FromResult(0);
         }
