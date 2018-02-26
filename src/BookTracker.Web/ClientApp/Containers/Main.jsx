@@ -23,6 +23,7 @@ import BookApp from './Books'
 import SettingsApp from './Settings'
 import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
+import ScanApp from './ScanApp'
 
 const styles = {
     json: {
@@ -84,6 +85,7 @@ class Main extends Component {
                             <MenuItem value="/settings" leftIcon={<ContentInbox />}><Link to="/settings">Settings</Link></MenuItem>
                             <MenuItem value="/apisettings" leftIcon={<ContentInbox />}><Link to="/apisettings">Api Settings</Link></MenuItem>
                             <MenuItem value="/formulas" leftIcon={<ContentInbox />}><Link to="/formulas">Formulas</Link></MenuItem>
+                            <MenuItem value="/scan" leftIcon={<ContentInbox />}><Link to="/scan">Scan</Link></MenuItem>
                         </Menu>
                     </Drawer>
 
@@ -104,6 +106,9 @@ class Main extends Component {
                             </Route>
                             <Route path="/formulas">
                                 <Formulas />
+                            </Route>
+                            <Route path="/scan">
+                                <ScanApp />
                             </Route>
                         </Switch>
                         <Card>
