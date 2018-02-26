@@ -24,5 +24,9 @@ namespace BookTracker.Services
         KeepaOptions GetKeepaOptions();
 
         Task UpdateKeepaOptions(KeepaOptions data, CancellationToken token);
+
+        Formulas GetFormulas();
+
+        Task UpdateFormulas(Formulas data, CancellationToken token);
     }
 }

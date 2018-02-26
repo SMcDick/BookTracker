@@ -18,12 +18,14 @@ namespace BookTracker.Services
         private readonly SystemOptions _systemOptions;
         private readonly KeepaOptions _options;
         private readonly EnvorimentOptions _envOptions;
+        private readonly Formulas _formulas;
 
-        public SysAppService(IOptionsSnapshot<SystemOptions> systemOptions, IOptions<KeepaOptions> options, IOptions<EnvorimentOptions> envOption)
+        public SysAppService(IOptionsSnapshot<SystemOptions> systemOptions, IOptions<KeepaOptions> options, IOptionsSnapshot<Formulas> formulaOptions, IOptions<EnvorimentOptions> envOption)
         {
             _systemOptions = systemOptions.Value;
             _options = options.Value;
             _envOptions = envOption.Value;
+            _formulas = formulaOptions.Value;
         }
 
         public SystemOptions GetConfig()
@@ -160,6 +162,23 @@ namespace BookTracker.Services
             //sb.Append("}");
 
             return JsonConvert.SerializeObject(data);
+        }
+
+        public Formulas GetFormulas()
+        {
+            return _formulas;
+        }
+
+        public Task UpdateFormulas(Formulas data, CancellationToken token)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (token == null)
+                throw new ArgumentNullException(nameof(token));
+
+            string content = GetSerializedData(data);
+            File.WriteAllText(Path.Combine(_envOptions.RootDir, "formulas.json"), content);
+            return Task.FromResult(0);
         }
     }
 }

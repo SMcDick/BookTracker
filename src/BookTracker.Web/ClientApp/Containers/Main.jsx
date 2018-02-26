@@ -18,6 +18,7 @@ import Divider from 'material-ui/Divider';
 
 import * as actions from '../Actions'
 import ApiSettingsApp from './ApiSettings'
+import Formulas from './Formulas'
 import BookApp from './Books'
 import SettingsApp from './Settings'
 import Snackbar from 'material-ui/Snackbar';
@@ -81,7 +82,8 @@ class Main extends Component {
                         <Menu onItemClick={this.handleMenuClose}>
                             <MenuItem value="/" leftIcon={<BookIcon />}><Link to="/">Home</Link></MenuItem>
                             <MenuItem value="/settings" leftIcon={<ContentInbox />}><Link to="/settings">Settings</Link></MenuItem>
-                            <MenuItem value="/settings" leftIcon={<ContentInbox />}><Link to="/apisettings">Api Settings</Link></MenuItem>
+                            <MenuItem value="/apisettings" leftIcon={<ContentInbox />}><Link to="/apisettings">Api Settings</Link></MenuItem>
+                            <MenuItem value="/formulas" leftIcon={<ContentInbox />}><Link to="/formulas">Formulas</Link></MenuItem>
                         </Menu>
                     </Drawer>
 
@@ -99,6 +101,9 @@ class Main extends Component {
                             </Route>
                             <Route path="/apisettings">
                                 <ApiSettingsApp />
+                            </Route>
+                            <Route path="/formulas">
+                                <Formulas />
                             </Route>
                         </Switch>
                         <Card>

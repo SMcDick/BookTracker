@@ -1,6 +1,6 @@
 ﻿import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-
+import formulaReducer from './formulaReducers'
 import * as types from '../ActionTypes'
 
 const api = (state = {}, action) => {
@@ -196,7 +196,7 @@ const apiSettingsReducer = (state = {}, action) => {
                 settings
             }
         case types.API_CONFIG_POSTED:
-        
+
         default:
             return state
     }
@@ -210,6 +210,7 @@ const rootReducer = combineReducers({
     bookReducer,
     settingsReducer,
     apiSettingsReducer,
+    formulaReducer,
     systemReducer
 })
 
