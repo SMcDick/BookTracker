@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
+using System.Threading;
 #if TOKEN_OUT
 using System.IO;
 #endif
@@ -24,7 +25,12 @@ namespace BookTracker.Web.Services
             _logger = logger;
         }
 
-        public async Task<KeepaSearchResult> GetBook(KeepaDomain domain, string isbn)
+        public  Task<KeepaSearchResult> GetBook(KeepaDomain domain, string isbn)
+        {
+            return GetBook(domain, isbn, CancellationToken.None);
+        }
+
+        public async Task<KeepaSearchResult> GetBook(KeepaDomain domain, string isbn, CancellationToken cancellationToken)
         {
 #if TOKEN_OUT
             string content = File.ReadAllText(@"C:\Users\ricardo\source\repos\BookTracker\Solution Items\Misc\sample.json");
@@ -39,7 +45,7 @@ namespace BookTracker.Web.Services
             request.AddUrlSegment("code", isbn);
             request.AddUrlSegment("update", 20);
 
-            var response = await client.ExecuteGetTaskAsync(request);
+            var response = await client.ExecuteGetTaskAsync(request, cancellationToken);
 
             if (!response.IsSuccessful)
             {

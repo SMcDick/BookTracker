@@ -1,10 +1,13 @@
 using BookTracker.Models.Options;
+using BookTracker.Models.System;
 using BookTracker.Services;
 using BookTracker.Services.ExternalServices;
 using BookTracker.Services.Http;
 using BookTracker.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -47,6 +50,8 @@ namespace BookTracker.Web
                 c.AppDataDir = System.IO.Path.Combine(_env.ContentRootPath, "App_Data");
             });
 
+            services.Configure<Formulas>(Configuration.GetSection("Formulas"));
+
             services.Configure<SystemOptions>(Configuration.GetSection("SysConfig"));
 
             services.AddScoped<IKeepaService, KeepaService>();
@@ -56,6 +61,12 @@ namespace BookTracker.Web
             services.AddScoped<ISysAppService, SysAppService>();
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "BookTracker Api", Version = "v1" }));
+
+            string httpsOnly = Configuration["HTTPS"];
+            if(!string.IsNullOrEmpty(httpsOnly) && string.Equals(httpsOnly, "true", System.StringComparison.CurrentCultureIgnoreCase))
+            {
+                services.Configure<MvcOptions>(opts => opts.Filters.Add(new RequireHttpsAttribute()));
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +86,15 @@ namespace BookTracker.Web
             }
             else
             {
+                string httpsOnly = Configuration["HTTPS"];
+                if (!string.IsNullOrEmpty(httpsOnly) && string.Equals(httpsOnly, "true", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var rOpts = new RewriteOptions()
+                    .AddRedirectToHttps();
+
+                    app.UseRewriter(rOpts);
+                }
+
                 app.UseExceptionHandler("/Home/Error");
             }
 

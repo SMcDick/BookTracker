@@ -1,8 +1,6 @@
 ﻿import * as types from '../ActionTypes'
-
-const getBaseUri = () => {
-    return window.location.protocol + '\\\\' + window.location.host + '\\'
-}
+import { getBaseUri } from './functions'
+import { beginFetch, endFetch, errorFetch, logFetch, openSnack, closeSnack } from './commonActions'
 
 export const toogleMenuAction = (isOpen) => {
     return {
@@ -44,45 +42,6 @@ export const refreshBookList = bookColl => dispatch => {
     bookColl.map((book, index) => {
         return dispatch(fetchBook(book))
     })
-}
-
-export const beginFetch = () => {
-    return {
-        type: types.API_REQUEST_BEGIN
-    }
-}
-
-export const endFetch = () => {
-    return {
-        type: types.API_REQUEST_END
-    }
-}
-
-export const errorFetch = (error) => {
-    return {
-        type: types.API_REQUEST_ERROR,
-        error
-    }
-}
-
-export const logFetch = (json) => {
-    return {
-        type: types.API_REQUEST_LOG,
-        json
-    }
-}
-
-export const openSnack = (text) => {
-    return {
-        type: types.SNACKBAR_OPEN,
-        text
-    }
-}
-
-export const closeSnack = () => {
-    return {
-        type: types.SNACKBAR_CLOSE
-    }
 }
 
 export const fetchBook = book => dispatch => {

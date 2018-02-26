@@ -15,15 +15,15 @@ using System.Threading.Tasks;
 namespace BookTracker.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class SysController : Controller
+    public class ApiSettingsController : Controller
     {
         private readonly ISysAppService _sysAppService;
-        private readonly ILogger<SysController> _logger;
+        private readonly ILogger<ApiSettingsController> _logger;
         private readonly EnvorimentOptions _logOptions;
         private readonly SystemOptions _sysOptions;
 
-        public SysController(ISysAppService sysAppService,
-            ILogger<SysController> logger,
+        public ApiSettingsController(ISysAppService sysAppService,
+            ILogger<ApiSettingsController> logger,
             IOptions<EnvorimentOptions> option,
             IOptionsSnapshot<SystemOptions> sysOptions)
         {
@@ -41,22 +41,16 @@ namespace BookTracker.Web.Controllers
             return $"Status Ok";
         }
 
-        [HttpGet("")]
-        public SystemOptions Get()
+        [HttpGet]
+        public KeepaOptions Get()
         {
-            return _sysAppService.GetConfig();
+            return _sysAppService.GetKeepaOptions();
         }
 
         [HttpPost("")]
-        public async Task Update([FromBody] SystemOptions data, CancellationToken cancellationToken)
+        public async Task Update([FromBody] KeepaOptions data, CancellationToken cancellationToken)
         {
-            await _sysAppService.Update(data, cancellationToken);
-        }
-
-        [HttpGet("[action]")]
-        public async Task Reset(CancellationToken cancellationToken)
-        {
-            await _sysAppService.Reset(cancellationToken);
+            await _sysAppService.UpdateKeepaOptions(data, cancellationToken);
         }
     }
 }

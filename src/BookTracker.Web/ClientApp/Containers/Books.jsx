@@ -1,22 +1,26 @@
 ﻿import React, { Component } from 'react';
 
+
+import * as actions from '../Actions'
+import { connect } from 'react-redux'
+
+import Scanner from '../Components/Scanner'
+
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import * as actions from '../Actions'
-import { connect } from 'react-redux'
-
+import RaisedButton from 'material-ui/RaisedButton';
 import ImageField from '../ui/ImageField'
 import FlatTextField from '../ui/FlatTextField'
 import FlatNumberField from '../ui/FlatNumberField'
 import Responsive from '../ui/Responsive'
-
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import Avatar from 'material-ui/Avatar';
-
+import Dialog from 'material-ui/Dialog';
 import {
     Table,
     TableBody,
@@ -44,6 +48,16 @@ const styles = {
     },
     tableRow: {
         backgroundColor: 'transparent'
+    },
+    floatingButton: {
+        marginRigth: 20,
+        position: 'fixed',
+        bottom: 20,
+        right: 20
+    },
+    dialog: {
+        width: '100%',
+        maxWidth: 'none'
     }
 };
 
@@ -142,8 +156,8 @@ class BookTable extends Component {
                                             const tableRejectedText = `Rejected ${f.isbn}`
                                             return (<React.Fragment key={index}>
                                                 <TableRow key={index}>
-                                                <TableRowColumn><span>{tableRejectedText}</span></TableRowColumn>
-                                            </TableRow></React.Fragment>)
+                                                    <TableRowColumn><span>{tableRejectedText}</span></TableRowColumn>
+                                                </TableRow></React.Fragment>)
                                         }
                                         else {
                                             const tBackgroundColor = Object.assign({}, styles.tableRow)
@@ -273,14 +287,16 @@ class BookApp extends Component {
         bookColl: PropTypes.array.isRequired
     }
 
-    constructor() {
-        super()
-        this.handleAddBook.bind(this)
-        this.handleRemoveBook.bind(this)
-        this.handleRefresh.bind(this)
+    constructor(props) {
+        super(props)
+        this.state = { dialogOpen: false }
     }
 
     handleAddBook = (isbn) => {
+        addBookToSearch(isbn)
+    }
+
+    addBookToSearchList(isbn) {
         const { isbnColl } = this.props
         const cIsbn = isbnColl.filter((item) => { return item === isbn })
         if (cIsbn.length === 0) {
@@ -313,15 +329,48 @@ class BookApp extends Component {
         this.props.dispatch(action)
     }
 
+    handleAddScannedBook() {
+        this.openDialog()
+    }
+
+    onDialogRequestClose() {
+        this.closeDialog()
+    }
+
+    closeDialog() {
+        this.setState({ dialogOpen: false })
+    }
+
+    openDialog() {
+        this.setState({ dialogOpen: true })
+    }
+
+    onBarcodeDetected(code) {
+        console.info(`barcode detected ${code}`)
+        this.closeDialog()
+        this.addBookToSearchList(code)
+    }
+
     render() {
         const { bookColl, isbnColl } = this.props
-
+        const { dialogOpen } = this.state
         return (<Card>
             <CardHeader title="Home" />
             <CardText>
                 <BookSearchAction defaultValue="" onSearchClick={this.handleAddBook} onRefreshClick={this.handleRefresh} />
                 <BookIsbnSearchList isbnColl={isbnColl} onDelete={this.handleRemoveBook} />
                 <BookTable dataCollection={bookColl} />
+                <FloatingActionButton style={styles.floatingButton} secondary={true} onClick={this.handleAddScannedBook.bind(this)}>
+                    <ContentAdd />
+                </FloatingActionButton>
+                <Dialog
+                    title="Scan the book barcode"
+                    modal={false}
+                    contentStyle={styles.dialog}
+                    onRequestClose={this.onDialogRequestClose.bind(this)}
+                    open={dialogOpen}>
+                    <Scanner onDetected={this.onBarcodeDetected.bind(this)} />
+                </Dialog>
             </CardText>
         </Card>)
     }

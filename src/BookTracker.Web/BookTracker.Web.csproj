@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <None Remove="App_Data\.empty" />
+    <None Remove="Properties\PublishProfiles\BookTrackerWeb - Web Deploy.pubxml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,8 +48,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Docker\Development\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\dist\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="formulas.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="package-lock.json">
+      <DependentUpon>package.json</DependentUpon>
+    </Content>
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
@@ -61,15 +71,13 @@
     <!-- In development, the dist files won't exist on the first run or when cloning to
          a different machine, so rebuild them if not already present. -->
     <Message Importance="high" Text="Performing first-run Webpack build..." />
-    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
-    <Exec Command="node node_modules/webpack/bin/webpack.js" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.js" />
   </Target>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec Command="npm install" />
-    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.js --env.prod" />
-    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.publish.js --env.prod" />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>

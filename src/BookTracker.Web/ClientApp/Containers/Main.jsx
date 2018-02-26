@@ -17,13 +17,23 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
 import * as actions from '../Actions'
+import ApiSettingsApp from './ApiSettings'
+import Formulas from './Formulas'
 import BookApp from './Books'
 import SettingsApp from './Settings'
 import Snackbar from 'material-ui/Snackbar';
+import CircularProgress from 'material-ui/CircularProgress';
+import ScanApp from './ScanApp'
 
 const styles = {
     json: {
         whiteSpace: 'pre-wrap'
+    },
+    indication: {
+        top: '12%',
+        left: '45%',
+        z_index: '1',
+        position: 'absolute'
     }
 };
 
@@ -59,6 +69,8 @@ class Main extends Component {
     render() {
         const { isOpen, snackIsOpen, snackText, snackTime, status, json, error, date } = this.props;
         const statusMsg = status ? `Status: ${status}` : 'Status: '
+
+        const progressStyle = Object.assign({}, styles.indication, { visibility: snackIsOpen ? 'visible' : 'collapse'})
         return (
             <Router>
                 <div>
@@ -71,10 +83,14 @@ class Main extends Component {
                         <Menu onItemClick={this.handleMenuClose}>
                             <MenuItem value="/" leftIcon={<BookIcon />}><Link to="/">Home</Link></MenuItem>
                             <MenuItem value="/settings" leftIcon={<ContentInbox />}><Link to="/settings">Settings</Link></MenuItem>
+                            <MenuItem value="/apisettings" leftIcon={<ContentInbox />}><Link to="/apisettings">Api Settings</Link></MenuItem>
+                            <MenuItem value="/formulas" leftIcon={<ContentInbox />}><Link to="/formulas">Formulas</Link></MenuItem>
+                            <MenuItem value="/scan" leftIcon={<ContentInbox />}><Link to="/scan">Scan</Link></MenuItem>
                         </Menu>
                     </Drawer>
 
                     <Paper>
+                        <CircularProgress style={progressStyle} />
                         <Switch>
                             <Route exact path="/">
                                 <BookApp />
@@ -84,6 +100,15 @@ class Main extends Component {
                             </Route>
                             <Route path="/settings">
                                 <SettingsApp />
+                            </Route>
+                            <Route path="/apisettings">
+                                <ApiSettingsApp />
+                            </Route>
+                            <Route path="/formulas">
+                                <Formulas />
+                            </Route>
+                            <Route path="/scan">
+                                <ScanApp />
                             </Route>
                         </Switch>
                         <Card>
@@ -103,7 +128,7 @@ class Main extends Component {
                             </CardText>
                         </Card>
                     </Paper>
-                    <Snackbar open={snackIsOpen}
+                    <Snackbar open={false}
                         message={snackText} />
                 </div>
             </Router>)

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BookTracker.Models.Options;
 using BookTracker.Models.System;
@@ -16,12 +18,14 @@ namespace BookTracker.Services
         private readonly SystemOptions _systemOptions;
         private readonly KeepaOptions _options;
         private readonly EnvorimentOptions _envOptions;
+        private readonly Formulas _formulas;
 
-        public SysAppService(IOptionsSnapshot<SystemOptions> systemOptions, IOptions<KeepaOptions> options, IOptions<EnvorimentOptions> envOption)
+        public SysAppService(IOptionsSnapshot<SystemOptions> systemOptions, IOptions<KeepaOptions> options, IOptionsSnapshot<Formulas> formulaOptions, IOptions<EnvorimentOptions> envOption)
         {
             _systemOptions = systemOptions.Value;
             _options = options.Value;
             _envOptions = envOption.Value;
+            _formulas = formulaOptions.Value;
         }
 
         public SystemOptions GetConfig()
@@ -29,7 +33,17 @@ namespace BookTracker.Services
             return _systemOptions;
         }
 
-        public async Task Reset()
+        public KeepaOptions GetKeepaOptions()
+        {
+            return _options;
+        }
+
+        public Task Reset()
+        {
+            return Reset(CancellationToken.None);
+        }
+
+        public async Task Reset(CancellationToken token)
         {
             var opt = new SystemOptions();
             opt.Box1 = new Box
@@ -103,18 +117,62 @@ namespace BookTracker.Services
                 },
                 SoundPath = ""
             };
-            await Update(opt);
+            await Update(opt, token);
         }
 
-        public async Task Update(SystemOptions config)
+        public Task Update(SystemOptions config)
         {
-            string json = JsonConvert.SerializeObject(config, Formatting.Indented);
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("{");
-            sb.AppendLine("\"SysConfig\":");
-            sb.AppendLine(json);
-            sb.Append("}");
-            await File.WriteAllTextAsync(Path.Combine(_envOptions.RootDir, "appdata.json"), sb.ToString());
+            return Update(config, CancellationToken.None);
+        }
+
+        public Task Update(SystemOptions config, CancellationToken token)
+        {
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
+            if (token == null)
+                throw new ArgumentNullException(nameof(token));
+
+            string data = GetSerializedData(config);
+            File.WriteAllText(Path.Combine(_envOptions.RootDir, "appdata.json"), data);
+            return Task.FromResult(0);
+        }
+
+        public Task UpdateKeepaOptions(KeepaOptions data, CancellationToken token)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (token == null)
+                throw new ArgumentNullException(nameof(token));
+
+            string content = GetSerializedData(data, "KeepaSettings");
+            File.WriteAllText(Path.Combine(_envOptions.RootDir, "keepa.json"), content);
+            return Task.FromResult(0);
+        }
+
+        internal static string GetSerializedData<T>(T options, string rootProp = "SysConfig")
+        {
+            ExpandoObject data = new ExpandoObject();
+            ICollection<KeyValuePair<string, object>> d = data;
+            //data[rootProp] = options;
+            d.Add(new KeyValuePair<string, object>(rootProp, options));
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public Formulas GetFormulas()
+        {
+            return _formulas;
+        }
+
+        public Task UpdateFormulas(Formulas data, CancellationToken token)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (token == null)
+                throw new ArgumentNullException(nameof(token));
+
+            string content = GetSerializedData(data, "Formulas");
+            File.WriteAllText(Path.Combine(_envOptions.RootDir, "formulas.json"), content);
+            return Task.FromResult(0);
         }
     }
 }

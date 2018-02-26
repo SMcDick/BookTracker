@@ -478,10 +478,6 @@ class SettingsApp extends Component {
         boxes: PropTypes.object.isRequired
     }
 
-    constructor() {
-        super()
-    }
-
     componentWillMount() {
         this.refreshData()
     }
