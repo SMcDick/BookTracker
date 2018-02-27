@@ -19,12 +19,24 @@ const BookTable = (props) => {
                 <List>
                     {
                         props.dataCollection.map((f, index) => {
+                            if(f.title == undefined || f.title == null || f.title == '') {
+                                const notfoundtext = `${f.isbn} not found`
+                                return (
+                                    <React.Fragment key={index}>
+                                        <div>
+                                            <ListItem primaryText={notfoundtext} />
+                                        </div>
+                                    </React.Fragment>
+                                )
+                            }
+
                             const tBackgroundColor = Object.assign({}, styles.tableRow)
                             let sBackgroundColor = Object.assign(tBackgroundColor, { backgroundColor: f.color })
-
+                            
                             if (f.displayAsRejected) {
                                 const rejectedText = `Rejected ${f.isbn}`
                                 return (
+                                    
                                     <React.Fragment key={index}>
                                         <div>
                                             <ListItem primaryText={rejectedText} leftAvatar={<Avatar src={f.image} />} />
@@ -95,44 +107,52 @@ const BookTable = (props) => {
                     <TableBody displayRowCheckbox={styles.table.displaySelectAll}>
                         {
                             props.dataCollection.map((f, index) => {
-                                {
-                                    if (f.displayAsRejected) {
-                                        const tableRejectedText = `Rejected ${f.isbn}`
-                                        return (<React.Fragment key={index}>
+                                if(f.title == undefined || f.title == null || f.title == '') {
+                                    return (
+                                        <React.Fragment key={index}>
                                             <TableRow key={index}>
-                                                <TableRowColumn><span>{tableRejectedText}</span></TableRowColumn>
-                                            </TableRow></React.Fragment>)
-                                    }
-                                    else {
-                                        const tBackgroundColor = Object.assign({}, styles.tableRow)
-                                        let backgroundColor = Object.assign(tBackgroundColor, { backgroundColor: f.color })
+                                                <TableRowColumn colSpan={11}><span>{f.isbn} - Not found</span></TableRowColumn>
+                                            </TableRow>
+                                        </React.Fragment>)
+                                }
+                                if (f.displayAsRejected) {
+                                    const tableRejectedText = `Rejected ${f.isbn}`
+                                    return (
+                                        <React.Fragment key={index}>
+                                            <TableRow key={index}>
+                                                <TableRowColumn colSpan={11}><span>{tableRejectedText}</span></TableRowColumn>
+                                            </TableRow>
+                                        </React.Fragment>)
+                                }
+                                else {
+                                    const tBackgroundColor = Object.assign({}, styles.tableRow)
+                                    let backgroundColor = Object.assign(tBackgroundColor, { backgroundColor: f.color })
 
-                                        return (<TableRow key={index} style={backgroundColor}>
-                                            <TableRowColumn><FlatTextField source="title" record={f} /></TableRowColumn>
+                                    return (<TableRow key={index} style={backgroundColor}>
+                                        <TableRowColumn><FlatTextField source="title" record={f} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatTextField source="isbn" record={f} /></TableRowColumn>
+                                        <TableRowColumn><FlatTextField source="isbn" record={f} /></TableRowColumn>
 
-                                            <TableRowColumn><ImageField source="image" record={f} title={f.title} /></TableRowColumn>
+                                        <TableRowColumn><ImageField source="image" record={f} title={f.title} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatNumberField source="usSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
+                                        <TableRowColumn><FlatNumberField source="usSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatNumberField source="usNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+                                        <TableRowColumn><FlatNumberField source="usNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+                                        <TableRowColumn><FlatNumberField source="offer" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+                                        <TableRowColumn><FlatNumberField source="caNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatNumberField source="caSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
+                                        <TableRowColumn><FlatNumberField source="caSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatNumberField source="inNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+                                        <TableRowColumn><FlatNumberField source="inNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatNumberField source="inSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
+                                        <TableRowColumn><FlatNumberField source="inSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatNumberField source="mxNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
+                                        <TableRowColumn><FlatNumberField source="mxNetPayout" record={f} options={{ style: 'currency', currency: 'USD' }} /></TableRowColumn>
 
-                                            <TableRowColumn><FlatNumberField source="mxSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
-                                        </TableRow>)
-                                    }
+                                        <TableRowColumn><FlatNumberField source="mxSalesRank" record={f} options={{ style: 'decimal', useGrouping: false }} /></TableRowColumn>
+                                    </TableRow>)
                                 }
                             })
                         }

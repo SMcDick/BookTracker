@@ -40,5 +40,9 @@
     },
     manualInputContent: {
         margin: 4
+    },
+    wrapper: {
+        display: 'flex',
+        flexWrap: 'wrap',
     }
 }

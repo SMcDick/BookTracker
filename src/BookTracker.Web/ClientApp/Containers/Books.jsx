@@ -92,10 +92,6 @@ class BookApp extends Component {
         <Card>
             <CardHeader title="Home" />
             <CardText>
-                <BookSearchAction defaultValue="" 
-                    onSearchClick={this.handleAddBook.bind(this)} 
-                    onRefreshClick={this.handleRefresh.bind(this)} />
-
                 <BookIsbnSearchList isbnColl={isbnColl} 
                     handleRequestDelete={this.handleRemoveBook.bind(this)} />
                 
