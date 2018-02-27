@@ -5,6 +5,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types'
 
+import CommonActions, { SaveAction, RefreshAction } from '../Components/CommonActions'
+import CommonSettingsBox, { SettingInput, SettingDisplay } from '../Components/CommonSettingsBox'
+
 import { saveApiSettingsAction, refreshApiSettingsAction, loadApiSettingsAction, changedApiSettingsAction } from '../Actions/apiSettingsActions'
 
 const styles = {
@@ -14,84 +17,7 @@ const styles = {
     }
 };
 
-class ApiSettingsActions extends Component {
-    static propTypes = {
-        onSaveClick: PropTypes.func.isRequired,
-        onRefreshClick: PropTypes.func.isRequired
-    }
 
-    handleSaveButtonClick = () => {
-        if (typeof this.props.onSaveClick === 'function') {
-            this.props.onSaveClick()
-        }
-    }
-
-    handleRefreshButtonClick = () => {
-        if (typeof this.props.onRefreshClick === 'function') {
-            this.props.onRefreshClick()
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <RaisedButton label="Save" primary={true} onClick={this.handleSaveButtonClick.bind(this)} style={styles.button} />
-                <RaisedButton label="Refresh" primary={false} onClick={this.handleRefreshButtonClick.bind(this)} style={styles.button} />
-            </div>
-        )
-    }
-}
-
-class ApiSettingsBox extends Component {
-    static propTypes = {
-        apiKey: PropTypes.string.isRequired,
-        serviceUri: PropTypes.string.isRequired,
-        amazonImageUri: PropTypes.string.isRequired,
-        onApiKeyChanged: PropTypes.func,
-        onServiceUriChanged: PropTypes.func,
-        onAmazonImageUriChanged: PropTypes.func
-    }
-
-    onApiKeyChange(evt, newValue) {
-        if (typeof this.props.onApiKeyChanged === 'function') {
-            this.props.onApiKeyChanged(newValue)
-        }
-    }
-
-    onServiceUriChange(evt, newValue) {
-        if (typeof this.props.onServiceUriChanged === 'function') {
-            this.props.onServiceUriChanged(newValue)
-        }
-    }
-
-    onAmazonImageUriChange(evt, newValue) {
-        if (typeof this.props.onAmazonImageUriChanged === 'function') {
-            this.props.onAmazonImageUriChanged(newValue)
-        }
-    }
-
-    render() {
-        const { apiKey, serviceUri, amazonImageUri } = this.props
-
-        return (
-            <React.Fragment>
-                <Card>
-                    <CardText>
-                        <div>
-                            <TextField floatingLabelText="API Key" value={apiKey} onChange={this.onApiKeyChange.bind(this)} fullWidth={true} />
-                        </div>
-                        <div>
-                            <TextField floatingLabelText="Service Url" value={serviceUri} onChange={this.onServiceUriChange.bind(this)} fullWidth={true} />
-                        </div>
-                        <div>
-                            <TextField floatingLabelText="Amazon Image Url" value={amazonImageUri} onChange={this.onAmazonImageUriChange.bind(this)} fullWidth={true} />
-                        </div>
-                    </CardText>
-                </Card>
-            </React.Fragment>
-        )
-    }
-}
 
 class ApiSettingsApp extends Component {
     static propTypes = {
@@ -149,13 +75,17 @@ class ApiSettingsApp extends Component {
         const { apiKey, baseUri, amazonImageUri } = settings
         return (
             <Card>
-                <CardHeader title="System Settings" />
+                <CardHeader title="Keepa Settings" />
                 <CardText>
-                    <ApiSettingsActions onSaveClick={this.onSaveClick.bind(this)} onRefreshClick={this.onRefreshClick.bind(this)} />
-                    <ApiSettingsBox apiKey={apiKey} serviceUri={baseUri} amazonImageUri={amazonImageUri}
-                        onApiKeyChanged={this.onApiKeyChanged.bind(this)}
-                        onServiceUriChanged={this.onServiceUriChanged.bind(this)}
-                        onAmazonImageUriChanged={this.onAmazonImageUriChanged.bind(this)} />
+                    <CommonActions>
+                        <SaveAction handleOnClick={this.onSaveClick.bind(this)} />
+                        <RefreshAction handleOnClick={this.onRefreshClick.bind(this)} />
+                    </CommonActions>
+                    <CommonSettingsBox>
+                        <SettingInput label="API Key" value={apiKey} onChange={this.onApiKeyChanged.bind(this)} />
+                        <SettingInput label="Service Url" value={baseUri} onChange={this.onServiceUriChanged.bind(this)} />
+                        <SettingInput label="Amazon Image Url" value={amazonImageUri} onChange={this.onAmazonImageUriChanged.bind(this)} />
+                    </CommonSettingsBox>
                 </CardText>
             </Card>
         )
@@ -166,7 +96,7 @@ const mapStateToProps = state => {
     const { apiSettingsReducer } = state
     const { settings } = apiSettingsReducer
     return {
-        settings: settings ? settings : { apiKey: '', serviceUri: '', amazonImageUri: '' }
+        settings: settings ? settings : { apiKey: '', baseUri: '', amazonImageUri: '' }
     }
 }
 

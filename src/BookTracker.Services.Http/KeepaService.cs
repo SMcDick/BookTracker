@@ -1,11 +1,15 @@
-﻿using BookTracker.Models;
+﻿using BookTracker.Infra;
+using BookTracker.Models;
 using BookTracker.Models.Keepa;
 using BookTracker.Models.Options;
 using BookTracker.Services.ExternalServices;
+using BookTracker.Services.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
+using System;
 using System.Threading;
 #if TOKEN_OUT
 using System.IO;
@@ -25,7 +29,7 @@ namespace BookTracker.Web.Services
             _logger = logger;
         }
 
-        public  Task<KeepaSearchResult> GetBook(KeepaDomain domain, string isbn)
+        public Task<KeepaSearchResult> GetBook(KeepaDomain domain, string isbn)
         {
             return GetBook(domain, isbn, CancellationToken.None);
         }
@@ -36,6 +40,7 @@ namespace BookTracker.Web.Services
             string content = File.ReadAllText(@"C:\Users\ricardo\source\repos\BookTracker\Solution Items\Misc\sample.json");
             return JsonConvert.DeserializeObject<KeepaSearchResult>(content);
 #endif
+
             var client = new RestClient(_keepaOptions.BaseUri);
 
             var request = new RestRequest("product?key={key}&domain={domain}&code={code}&update={update}");
@@ -46,7 +51,6 @@ namespace BookTracker.Web.Services
             request.AddUrlSegment("update", 20);
 
             var response = await client.ExecuteGetTaskAsync(request, cancellationToken);
-
             if (!response.IsSuccessful)
             {
                 _logger.LogError("Error trying to get book {isbn}", isbn);

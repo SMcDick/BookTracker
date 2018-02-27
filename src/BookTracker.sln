@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB190BAD-D538-4458-B058-75323323C4E1}"
 EndProject
@@ -38,6 +38,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Snk", "Snk", "{793FE15B-0B5
 		..\Solution Items\Snk\BookTrackerK.snk = ..\Solution Items\Snk\BookTrackerK.snk
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTracker.Infra", "BookTracker.Infra\BookTracker.Infra.csproj", "{52945BA2-B0B7-4D53-88DD-E6917C84EB45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{7E073BFB-997D-4F38-936F-8EBEE0EDDDA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E073BFB-997D-4F38-936F-8EBEE0EDDDA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E073BFB-997D-4F38-936F-8EBEE0EDDDA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52945BA2-B0B7-4D53-88DD-E6917C84EB45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52945BA2-B0B7-4D53-88DD-E6917C84EB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52945BA2-B0B7-4D53-88DD-E6917C84EB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52945BA2-B0B7-4D53-88DD-E6917C84EB45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{85A331B4-0466-4534-925E-3E916F958140} = {DB190BAD-D538-4458-B058-75323323C4E1}
 		{7E073BFB-997D-4F38-936F-8EBEE0EDDDA6} = {A10A1C61-C560-48CF-8112-9D7742120FD0}
 		{793FE15B-0B52-4250-B51F-419A53DD6C21} = {DB190BAD-D538-4458-B058-75323323C4E1}
+		{52945BA2-B0B7-4D53-88DD-E6917C84EB45} = {72030D4F-3B5D-493C-9B10-5127637D1635}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AA315E1-4D8E-4D8C-84D0-BF8473CC5C83}

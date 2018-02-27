@@ -51,9 +51,9 @@ export default class BookSearchAction extends Component {
 
         return (
             <div>
-                <TextField hintText="ISBN" defaultValue={defaultValue} onChange={this.handleTextSearchChange} />
-                <RaisedButton label="Search" primary={true} onClick={this.handleSearchButtonClick} style={styles.button} />
-                <RaisedButton label="Refresh" primary={false} onClick={this.handleRefreshButtonClick} style={styles.button} />
+                <TextField hintText="ISBN" defaultValue={defaultValue} onChange={this.handleTextSearchChange.bind(this)} />
+                <RaisedButton label="Search" primary={true} onClick={this.handleSearchButtonClick.bind(this)} style={styles.button} />
+                <RaisedButton label="Refresh" primary={false} onClick={this.handleRefreshButtonClick.bind(this)} style={styles.button} />
             </div>
         )
     }

@@ -61,16 +61,10 @@ const styles = {
 const colorsDatasource = [
     { key: '', value: '' },
     { key: 'Red', value: '#FFCDD2' },
-    //{ key: 'Pink', value: '#F8BBD0' },
-    //{ key: 'Purple', value: '#E1BEE7' },
     { key: 'Blue', value: '#BBDEFB' },
-    //{ key: 'Indigo', value: '#C5CAE9' },
-    //{ key: 'Deep Purple', value: '#D1C4E9' },
     { key: 'Teal', value: '#B2DFDB' },
     { key: 'Cyan', value: '#B2EBF2' },
-    //{ key: 'Light Blue', value: '#B3E5FC' },
     { key: 'Green', value: '#C8E6C9' },
-    //{ key: 'Lime', value: '#F0F4C3' },
     { key: 'Yellow', value: '#FFF9C4' },
     { key: 'Orange', value: '#FFE0B2' }
 ];

@@ -42,11 +42,7 @@ class BookApp extends Component {
         this.state = { dialogOpen: false }
     }
 
-    handleAddBook = (isbn) => {
-        this.addBookToSearch(isbn)
-    }
-
-    addBookToSearchList(isbn) {
+    handleAddBook(isbn) {
         const { isbnColl } = this.props
         const cIsbn = isbnColl.filter((item) => { return item === isbn })
         if (cIsbn.length === 0) {
@@ -98,7 +94,7 @@ class BookApp extends Component {
     onBarcodeDetected(code) {
         console.info(`barcode detected ${code}`)
         this.closeDialog()
-        this.addBookToSearchList(code)
+        this.handleAddBook(code)
     }
 
     render() {
@@ -107,9 +103,15 @@ class BookApp extends Component {
         return (<Card>
             <CardHeader title="Home" />
             <CardText>
-                <BookSearchAction defaultValue="" onSearchClick={this.handleAddBook} onRefreshClick={this.handleRefresh} />
-                <BookIsbnSearchList isbnColl={isbnColl} onDelete={this.handleRemoveBook} />
+                <BookSearchAction defaultValue="" 
+                    onSearchClick={this.handleAddBook.bind(this)} 
+                    onRefreshClick={this.handleRefresh.bind(this)} />
+
+                <BookIsbnSearchList isbnColl={isbnColl} 
+                    onDelete={this.handleRemoveBook.bind(this)} />
+                
                 <BookTable dataCollection={bookColl} />
+
                 <FloatingActionButton style={styles.floatingButton} secondary={true} onClick={this.handleAddScannedBook.bind(this)}>
                     <ContentAdd />
                 </FloatingActionButton>

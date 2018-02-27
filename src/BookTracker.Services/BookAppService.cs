@@ -1,4 +1,5 @@
-﻿using BookTracker.Models;
+﻿using BookTracker.Infra;
+using BookTracker.Models;
 using BookTracker.Models.BookScouter;
 using BookTracker.Models.Keepa;
 using BookTracker.Models.Options;
@@ -19,28 +20,39 @@ namespace BookTracker.Services
         private readonly IKeepaService _keepaService;
         private readonly IBookScouterService _bookScouterService;
         private readonly KeepaOptions _keepaOptions;
+        private readonly BookScouterOptions _scouterOptions;
         private readonly SystemOptions _sysOptions;
         private readonly Formulas _formula;
+        private readonly ICache _cache;
+        private readonly TimeSpan _cacheMinutesKeepa;
+        private readonly TimeSpan _cacheMinutesScouter;
 
         public BookAppService(IKeepaService keepaService,
             IBookScouterService bookScouterService,
-            IOptions<KeepaOptions> keepaOptions,
+            IOptionsSnapshot<KeepaOptions> keepaOptions,
+            IOptionsSnapshot<BookScouterOptions> scouterOptions,
             IOptionsSnapshot<SystemOptions> sysOptions,
-            IOptionsSnapshot<Formulas> formulaOptions)
+            IOptionsSnapshot<Formulas> formulaOptions,
+            ICache cache)
         {
             _keepaService = keepaService;
             _bookScouterService = bookScouterService;
             _keepaOptions = keepaOptions.Value;
+            _scouterOptions = scouterOptions.Value;
             _sysOptions = sysOptions.Value;
             _formula = formulaOptions.Value;
+            _cache = cache;
+
+            _cacheMinutesKeepa = TimeSpan.FromMinutes(_keepaOptions.CacheMinutes);
+            _cacheMinutesScouter = TimeSpan.FromMinutes(_scouterOptions.CacheMinutes);
         }
 
-        public Task<Book> GetBook(string isbn)
+        public Book GetBook(string isbn)
         {
             return GetBook(isbn, CancellationToken.None);
         }
 
-        public async Task<Book> GetBook(string isbn, CancellationToken cancellationToken)
+        public Book GetBook(string isbn, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(isbn))
                 throw new ArgumentNullException(nameof(isbn));
@@ -58,8 +70,40 @@ namespace BookTracker.Services
             //5 - mx
 
             //US
-            var usBook = await _keepaService.GetBook(KeepaDomain.US, isbn, cancellationToken);
-            if (usBook.Products.Length > 0)
+            var usBookTask = _cache.GetOrCreateAsync(isbn, Constants.CACHE_KEY_KEEPA, (entry) =>
+           {
+               if (entry != null) { entry.AbsoluteExpirationRelativeToNow = _cacheMinutesKeepa; }
+               return _keepaService.GetBook(KeepaDomain.US, isbn, cancellationToken);
+           });
+            //CA
+            var caBookTask = _cache.GetOrCreateAsync(isbn, Constants.CACHE_KEY_KEEPA_CA, (entry) =>
+           {
+               if (entry != null) { entry.AbsoluteExpirationRelativeToNow = _cacheMinutesKeepa; }
+               return _keepaService.GetBook(KeepaDomain.CA, isbn, cancellationToken);
+           });
+            //IN
+            var inBookTask = _cache.GetOrCreateAsync(isbn, Constants.CACHE_KEY_KEEPA_IN, (entry) =>
+           {
+               if (entry != null) { entry.AbsoluteExpirationRelativeToNow = _cacheMinutesKeepa; }
+               return _keepaService.GetBook(KeepaDomain.IN, isbn, cancellationToken);
+           });
+            //MX
+            var mxBookTask = _cache.GetOrCreateAsync(isbn, Constants.CACHE_KEY_KEEPA_MX, (entry) =>
+           {
+               if (entry != null) { entry.AbsoluteExpirationRelativeToNow = _cacheMinutesKeepa; }
+               return _keepaService.GetBook(KeepaDomain.MX, isbn, cancellationToken);
+           });
+            //Book Scouter
+            var bookScouterTask = _cache.GetOrCreateAsync(isbn, Constants.CACHE_KEY_SCOUTER, entry =>
+           {
+               if (entry != null) entry.AbsoluteExpirationRelativeToNow = _cacheMinutesScouter;
+               return GetPriceFromScouter(isbn, cancellationToken);
+           });
+
+            Task.WaitAll(new Task[] { usBookTask, caBookTask, inBookTask, mxBookTask, bookScouterTask }, cancellationToken);
+
+            var usBook = usBookTask.Result;
+            if (usBook != null && usBook.Products != null && usBook.Products.Length > 0)
             {
                 var kBook = usBook.Products[0];
 
@@ -78,9 +122,8 @@ namespace BookTracker.Services
                 book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.US.ToString(), currency));
             }
 
-            //CA
-            var caBook = await _keepaService.GetBook(KeepaDomain.CA, isbn, cancellationToken);
-            if (caBook.Products.Length > 0)
+            var caBook = caBookTask.Result;
+            if (caBook != null && caBook.Products != null && caBook.Products.Length > 0)
             {
                 var kBook = caBook.Products[0];
 
@@ -96,9 +139,8 @@ namespace BookTracker.Services
                 book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.CA.ToString(), currency));
             }
 
-            //IN
-            var inBook = await _keepaService.GetBook(KeepaDomain.IN, isbn, cancellationToken);
-            if (inBook.Products.Length > 0)
+            var inBook = inBookTask.Result;
+            if (inBook != null && inBook.Products != null && inBook.Products.Length > 0)
             {
                 var kBook = inBook.Products[0];
 
@@ -114,9 +156,8 @@ namespace BookTracker.Services
                 book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.IN.ToString(), currency));
             }
 
-            //MX
-            var mxBook = await _keepaService.GetBook(KeepaDomain.MX, isbn, cancellationToken);
-            if (mxBook.Products.Length > 0)
+            var mxBook = mxBookTask.Result;
+            if (mxBook != null && mxBook.Products != null && mxBook.Products.Length > 0)
             {
                 var kBook = mxBook.Products[0];
 
@@ -132,8 +173,7 @@ namespace BookTracker.Services
                 book.VerboseData.Add(new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.MX.ToString(), currency));
             }
 
-            //Book Scouter
-            var bookScouter = await GetPriceFromScouter(isbn, cancellationToken);
+            var bookScouter = bookScouterTask.Result;
             if (bookScouter != null)
             {
                 if (bookScouter.Prices != null && bookScouter.Prices.Length > 0)

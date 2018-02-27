@@ -6,8 +6,8 @@ namespace BookTracker.Services
 {
     public interface IBookAppService
     {
-        Task<Book> GetBook(string isbn);
+        Book GetBook(string isbn);
 
-        Task<Book> GetBook(string isbn, CancellationToken cancellationToken);
+        Book GetBook(string isbn, CancellationToken cancellationToken);
     }
 }
