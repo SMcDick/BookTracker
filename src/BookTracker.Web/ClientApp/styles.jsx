@@ -4,7 +4,9 @@
         marginBottom: 12
     },
     textbox: {
-        marginLeft: 20
+        marginLeft: '1%',
+        marginRight: '1%',
+        width: '98%',
     },
     info: {
         height: 40,

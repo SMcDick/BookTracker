@@ -38,19 +38,19 @@ class KeepaSettings extends Component {
         dispatch(loadApiSettingsAction())
     }
 
-    onApiKeyChanged(value) {
+    onApiKeyChanged(evt, value) {
         const { settings } = this.props
         const nSettings = Object.assign({}, settings, { apiKey: value })
         this.onSettingsChanged(nSettings)
     }
 
-    onServiceUriChanged(value) {
+    onServiceUriChanged(evt, value) {
         const { settings } = this.props
         const nSettings = Object.assign({}, settings, { baseUri: value })
         this.onSettingsChanged(nSettings)
     }
 
-    onAmazonImageUriChanged(value) {
+    onAmazonImageUriChanged(evt, value) {
         const { settings } = this.props
         const nSettings = Object.assign({}, settings, { amazonImageUri: value })
         this.onSettingsChanged(nSettings)

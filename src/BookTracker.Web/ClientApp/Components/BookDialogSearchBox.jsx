@@ -40,10 +40,10 @@ export default class BookDialogSearchBox extends Component {
         return (
             <Paper zDepth={1}>
                 <Tabs value={tabValue} onChange={this.handleTabChange.bind(this)}>
-                    <Tab label="Dynamic Input" value="dynamic">
+                    <Tab label="Scan" value="dynamic">
                         <Scanner onDetected={this.handleOnDetected.bind(this)} scannerOn={scannerOn} />
                     </Tab>
-                    <Tab label="Manual Input" value="manual">
+                    <Tab label="Manual" value="manual">
                         <BookSearchAction value={detectedValue} onSearchClick={this.handleSearchClick.bind(this)} />
                     </Tab>
                 </Tabs>

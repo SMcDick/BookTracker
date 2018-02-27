@@ -44,7 +44,7 @@ export default class BookSearchAction extends Component {
 
         return (
             <div style={styles.manualInput}>
-                <TextField hintText="ISBN" onChange={this.handleTextSearchChange.bind(this)} value={value} style={styles.manualInputContent} />
+                <TextField hintText="ISBN" type="number" required="required" onChange={this.handleTextSearchChange.bind(this)} value={value} style={styles.manualInputContent} />
                 <RaisedButton label="Search" primary={true} onClick={this.handleSearchButtonClick.bind(this)} style={styles.button} />
             </div>
         )
