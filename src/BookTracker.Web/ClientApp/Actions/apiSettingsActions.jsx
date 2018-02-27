@@ -1,6 +1,7 @@
 ﻿import * as types from '../ActionTypes'
 import { getBaseUri } from './functions'
 import { beginFetch, endFetch, errorFetch, logFetch, openSnack, closeSnack } from './commonActions'
+import { MSG_SAVED } from '../strings'
 
 export const refreshApiSettingsAction = () => {
     return {
@@ -30,6 +31,8 @@ export const saveApiSettingsAction = data => dispatch => {
             if (response.ok) {
                 dispatch(logFetch(JSON.stringify({ data: 'empty' }, null, 2)))
                 dispatch(endFetch())
+                dispatch(closeSnack())
+                dispatch(openSnack(MSG_SAVED))
             }
         })
         .catch(err => {

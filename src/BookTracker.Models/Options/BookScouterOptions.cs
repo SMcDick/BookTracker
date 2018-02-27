@@ -9,5 +9,7 @@ namespace BookTracker.Models.Options
     public class BookScouterOptions
     {
         public string BaseUri { get; set; }
+
+        public int CacheMinutes { get; set; }
     }
 }

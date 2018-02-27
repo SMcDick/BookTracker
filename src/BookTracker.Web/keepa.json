@@ -1,7 +1,1 @@
-{
-  "KeepaSettings": {
-    "ApiKey": "75670424bvbtnnoep8qbi61ggkr21o0i850j2vjlnk89uglmpq7fetkfag35sie7",
-    "BaseUri": "https://api.keepa.com/",
-    "AmazonImageUri": "https://images-na.ssl-images-amazon.com/images/I/"
-  }
-}
+{"KeepaSettings":{"ApiKey":"75670424bvbtnnoep8qbi61ggkr21o0i850j2vjlnk89uglmpq7fetkfag35sie7","BaseUri":"https://api.keepa.com/","AmazonImageUri":"https://images-na.ssl-images-amazon.com/images/I/","CacheMinutes":3600}}

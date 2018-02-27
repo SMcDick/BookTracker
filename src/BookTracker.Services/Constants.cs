@@ -25,5 +25,11 @@ namespace BookTracker.Services
         internal const int CSV_SALES_RANK_INDEX = 3;
 
         internal const decimal PRICE_DOTPRODUCT = 0.01m;
+
+        internal const string CACHE_KEY_KEEPA = "KEEPA";
+        internal const string CACHE_KEY_KEEPA_CA = "KEEPA_CA";
+        internal const string CACHE_KEY_KEEPA_IN = "KEEPA_IN";
+        internal const string CACHE_KEY_KEEPA_MX = "KEEPA_MX";
+        internal const string CACHE_KEY_SCOUTER = "SCOUTER";
     }
 }

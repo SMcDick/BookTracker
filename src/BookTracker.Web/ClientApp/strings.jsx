@@ -1,0 +1,1 @@
+﻿export const MSG_SAVED = "Saved"

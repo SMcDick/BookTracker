@@ -7,5 +7,7 @@
         public string BaseUri { get; set; }
 
         public string AmazonImageUri { get; set; }
+
+        public int CacheMinutes { get; set; }
     }
 }

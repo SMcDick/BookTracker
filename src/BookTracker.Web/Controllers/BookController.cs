@@ -22,9 +22,9 @@ namespace BookTracker.Web.Controllers
         
 
         [HttpGet("{isbn}", Name = "GetByIsbn")]
-        public Task<Book> GetByIsbn(string isbn, CancellationToken cancellationToken)
+        public Book GetByIsbn(string isbn, CancellationToken cancellationToken)
         {
-            return _bookService.GetBook(isbn);
+            return _bookService.GetBook(isbn, cancellationToken);
         }
     }
 }

@@ -1,3 +1,4 @@
+using BookTracker.Infra;
 using BookTracker.Models.Options;
 using BookTracker.Models.System;
 using BookTracker.Services;
@@ -37,6 +38,9 @@ namespace BookTracker.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
+            services.AddScoped<ICache, MemoryCache>();
+
             services.AddMvc();
             services.AddOptions();
 
@@ -63,7 +67,7 @@ namespace BookTracker.Web
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "BookTracker Api", Version = "v1" }));
 
             string httpsOnly = Configuration["HTTPS"];
-            if(!string.IsNullOrEmpty(httpsOnly) && string.Equals(httpsOnly, "true", System.StringComparison.CurrentCultureIgnoreCase))
+            if (!string.IsNullOrEmpty(httpsOnly) && string.Equals(httpsOnly, "true", System.StringComparison.CurrentCultureIgnoreCase))
             {
                 services.Configure<MvcOptions>(opts => opts.Filters.Add(new RequireHttpsAttribute()));
             }

@@ -21,16 +21,22 @@ namespace BookTracker.Web.Controllers
         private readonly ILogger<SysController> _logger;
         private readonly EnvorimentOptions _logOptions;
         private readonly SystemOptions _sysOptions;
+        private readonly int _keepaCacheMin;
+        private readonly int _scouterCacheMin;
 
         public SysController(ISysAppService sysAppService,
             ILogger<SysController> logger,
             IOptions<EnvorimentOptions> option,
+            IOptionsSnapshot<KeepaOptions> keepaOptions,
+            IOptionsSnapshot<BookScouterOptions> scouterOptions,
             IOptionsSnapshot<SystemOptions> sysOptions)
         {
             _sysAppService = sysAppService;
             _logger = logger;
             _logOptions = option.Value;
             _sysOptions = sysOptions.Value;
+            _keepaCacheMin = keepaOptions.Value.CacheMinutes;
+            _scouterCacheMin = scouterOptions.Value.CacheMinutes;
         }
 
         [HttpGet("[action]")]
@@ -38,7 +44,7 @@ namespace BookTracker.Web.Controllers
         {
             string status = "Ok";
             _logger.LogInformation("State of application {status}", status);
-            return $"Status Ok";
+            return $"Status Ok - Keepa Cache Min {_keepaCacheMin} Scouter Cache Min {_scouterCacheMin}";
         }
 
         [HttpGet("")]
