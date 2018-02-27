@@ -1,48 +1,53 @@
-﻿import React, { Component } from 'react';
-import FontIcon from 'material-ui/FontIcon';
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
+﻿import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
 import Paper from 'material-ui/Paper';
-import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
+import {Tabs, Tab} from 'material-ui/Tabs'
 
-const recentsIcon = <FontIcon className="material-icons">restore</FontIcon>;
-const favoritesIcon = <FontIcon className="material-icons">favorite</FontIcon>;
-const nearbyIcon = <IconLocationOn />;
+import BookSearchAction from './BookSearchAction'
+import Scanner from './Scanner'
 
-/**
- * A simple example of `BottomNavigation`, with three labels and icons
- * provided. The selected `BottomNavigationItem` is determined by application
- * state (for instance, by the URL).
- */
-class BookDialogSearchBox extends Component {
-    state = {
-        selectedIndex: 0,
-    };
+import { styles } from '../styles'
 
-    select = (index) => this.setState({ selectedIndex: index });
+export default class BookDialogSearchBox extends Component {
+    static propTypes = {
+        value: PropTypes.string,
+        onSearchClick: PropTypes.func.isRequired
+    }
+
+    constructor(props) {
+        super(props)
+        this.state = { detectedValue: '', tabValue: 'dynamic', scannerOn: true }
+    }
+
+    handleOnDetected(value) {
+        this.setState({ detectedValue: value, tabValue:  'manual' })
+    }
+
+    handleSearchClick(value) {
+        const { onSearchClick } = this.props
+        onSearchClick(value)
+    }
+
+    handleTabChange(tabValue) {
+       this.setState({ tabValue: tabValue, scannerOn: tabValue === 'dynamic' })
+        
+    }
 
     render() {
+        const { detectedValue, tabValue, scannerOn } = this.state
+
         return (
             <Paper zDepth={1}>
-                <BottomNavigation selectedIndex={this.state.selectedIndex}>
-                    <BottomNavigationItem
-                        label="Recents"
-                        icon={recentsIcon}
-                        onClick={() => this.select(0)}
-                    />
-                    <BottomNavigationItem
-                        label="Favorites"
-                        icon={favoritesIcon}
-                        onClick={() => this.select(1)}
-                    />
-                    <BottomNavigationItem
-                        label="Nearby"
-                        icon={nearbyIcon}
-                        onClick={() => this.select(2)}
-                    />
-                </BottomNavigation>
+                <Tabs value={tabValue} onChange={this.handleTabChange.bind(this)}>
+                    <Tab label="Dynamic Input" value="dynamic">
+                        <Scanner onDetected={this.handleOnDetected.bind(this)} scannerOn={scannerOn} />
+                    </Tab>
+                    <Tab label="Manual Input" value="manual">
+                        <BookSearchAction value={detectedValue} onSearchClick={this.handleSearchClick.bind(this)} />
+                    </Tab>
+                </Tabs>
             </Paper>
-        );
+        )
     }
 }
-
-export default BottomNavigationExampleSimple;

@@ -20,7 +20,7 @@ const BookIsbnSearchList = (props) => {
 }
 
 BookIsbnSearchList.propTypes = {
-    onDelete: PropTypes.func.isRequired,
+    handleRequestDelete: PropTypes.func.isRequired,
     isbnColl: PropTypes.array.isRequired
 }
 

@@ -22,5 +22,23 @@
     },
     toggle: {
         margin: 16,
+    },
+    floatingButton: {
+        marginRigth: 20,
+        position: 'fixed',
+        bottom: 20,
+        right: 20
+    },
+    dialog: {
+        width: '100%',
+        maxWidth: 'none'
+    },
+    viewport: {
+    },
+    manualInput: {
+        textAlign: 'center'
+    },
+    manualInputContent: {
+        margin: 4
     }
 }

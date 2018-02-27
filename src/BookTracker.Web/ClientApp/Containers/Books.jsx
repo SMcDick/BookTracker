@@ -7,6 +7,8 @@ import Scanner from '../Components/Scanner'
 import BookTable from '../Components/BookTable'
 import BookSearchAction from '../Components/BookSearchAction'
 import BookIsbnSearchList from '../Components/BookIsbnSearchList'
+import BookDialogSearchBox from '../Components/BookDialogSearchBox'
+import { styles } from '../styles'
 
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
@@ -16,18 +18,6 @@ import Dialog from 'material-ui/Dialog';
 
 import PropTypes from 'prop-types'
 
-const styles = {
-    floatingButton: {
-        marginRigth: 20,
-        position: 'fixed',
-        bottom: 20,
-        right: 20
-    },
-    dialog: {
-        width: '100%',
-        maxWidth: 'none'
-    }
-};
 
 
 class BookApp extends Component {
@@ -46,11 +36,10 @@ class BookApp extends Component {
         const { isbnColl } = this.props
         const cIsbn = isbnColl.filter((item) => { return item === isbn })
         if (cIsbn.length === 0) {
-            const action = actions.addBookToSearch(isbn)
-
-            this.props.dispatch(action)
+            this.props.dispatch(actions.addBookToSearch(isbn))
             this.props.dispatch(actions.fetchBook(isbn))
         }
+        this.closeDialog()
     }
 
     componentWillReceiveProps(nextProps) {
@@ -61,7 +50,6 @@ class BookApp extends Component {
                 audio.play();
             }
         }
-
     }
 
     handleRemoveBook = (isbn) => {
@@ -122,7 +110,7 @@ class BookApp extends Component {
                     contentStyle={styles.dialog}
                     onRequestClose={this.onDialogRequestClose.bind(this)}
                     open={dialogOpen}>
-                    <Scanner onDetected={this.onBarcodeDetected.bind(this)} />
+                    <BookDialogSearchBox onSearchClick={this.handleAddBook.bind(this)}/>
                 </Dialog>
             </CardText>
         </Card>)

@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import Quagga from 'quagga';
+import { styles } from '../styles'
 
 // Create the QuaggaJS config object for the live stream
 let liveStreamConfig = {
@@ -25,16 +26,6 @@ let liveStreamConfig = {
     locate: true
 };
 
-const styles = {
-    viewport: {
-        //position: 'relative',
-        //width: '100%',
-        //height: 'auto',
-        //overflow: 'hidden',
-        //textAlign: 'center'
-    }
-}
-
 export default class Scanner extends Component {
     render() {
         return (
@@ -43,6 +34,10 @@ export default class Scanner extends Component {
     }
 
     componentDidMount() {
+        this.initQuagga()
+    }
+
+    initQuagga() {
         Quagga.init(
             liveStreamConfig,
             function (err) {
@@ -83,7 +78,6 @@ export default class Scanner extends Component {
 
         
         Quagga.onDetected(this._onDetected.bind(this));
-
     }
 
     componentWillUnmount() {
@@ -93,8 +87,24 @@ export default class Scanner extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        const { scannerOn } = this.props
+        if (scannerOn !== nextProps.scannerOn) {
+            if(Quagga) {
+                console.info(`Quagga was on/off ${scannerOn} now is on/off ${nextProps.scannerOn}`)
+                if(nextProps.scannerOn) {
+                    this.initQuagga()
+                }   
+                else {
+                    Quagga.stop()
+                }
+            }
+        }
+    }
+
     _onDetected(result) {
         if (result.codeResult.code) {
+            console.info(`scanned code ${result.codeResult.code}`)
             this.props.onDetected(result.codeResult.code);
         }
     }
