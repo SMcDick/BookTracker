@@ -1,35 +1,17 @@
 ﻿import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
-import Divider from 'material-ui/Divider';
+import { Card, CardHeader, CardText } from 'material-ui/Card'
 import PropTypes from 'prop-types'
-import Paper from 'material-ui/Paper';
 
+import CommonSettingsBox, { SettingInput, SettingDisplay } from '../Components/CommonSettingsBox'
 import CommonActions, { SaveAction, RefreshAction } from '../Components/CommonActions'
 import { saveFormulaAction, loadFormulaAction, changedFormulaAction } from '../Actions/formulaActions'
-
-const styles = {
-    button: {
-        marginRight: 12,
-        marginBottom: 12
-    },
-    textbox: {
-        marginLeft: 20
-    },
-    formulaInfo: {
-        height: 40,
-        paddingTop: 25,
-        paddingLeft: 10
-    }
-};
 
 class FormulasApp extends Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
         settings: PropTypes.shape({
-            variables: PropTypes.arrayOf(PropTypes.string),
+            variables: PropTypes.arrayOf(PropTypes.string).isRequired,
             mXNetPayout: PropTypes.string,
             uSNetPayout: PropTypes.string,
             iNNetPayout: PropTypes.string,

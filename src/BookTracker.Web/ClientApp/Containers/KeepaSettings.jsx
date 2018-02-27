@@ -10,16 +10,7 @@ import CommonSettingsBox, { SettingInput, SettingDisplay } from '../Components/C
 
 import { saveApiSettingsAction, refreshApiSettingsAction, loadApiSettingsAction, changedApiSettingsAction } from '../Actions/apiSettingsActions'
 
-const styles = {
-    button: {
-        marginRight: 12,
-        marginBottom: 12
-    }
-};
-
-
-
-class ApiSettingsApp extends Component {
+class KeepaSettings extends Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
         settings: PropTypes.shape({
@@ -93,11 +84,11 @@ class ApiSettingsApp extends Component {
 }
 
 const mapStateToProps = state => {
-    const { apiSettingsReducer } = state
-    const { settings } = apiSettingsReducer
+    const { keepaReducer } = state
+    const { settings } = keepaReducer
     return {
         settings: settings ? settings : { apiKey: '', baseUri: '', amazonImageUri: '' }
     }
 }
 
-export default connect(mapStateToProps)(ApiSettingsApp)
+export default connect(mapStateToProps)(KeepaSettings)

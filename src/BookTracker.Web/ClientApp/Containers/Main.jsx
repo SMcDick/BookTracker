@@ -17,7 +17,7 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
 import * as actions from '../Actions'
-import ApiSettingsApp from './ApiSettings'
+import KeepaSettings from './KeepaSettings'
 import Formulas from './Formulas'
 import BookApp from './Books'
 import SettingsApp from './Settings'
@@ -40,12 +40,14 @@ const styles = {
 class Main extends Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
-        isOpen: PropTypes.bool
+        menuIsOpen: PropTypes.bool.isRequired,
+        isFetching: PropTypes.bool.isRequired,
+        snackMessage: PropTypes.string.isRequired
     }
 
     handleMenuToogle = () => {
-        const { dispatch, isOpen } = this.props
-        dispatch(actions.toogleMenuAction(!isOpen))
+        const { dispatch, menuIsOpen } = this.props
+        dispatch(actions.toogleMenuAction(!menuIsOpen))
     }
 
     handleMenuClose = () => {
@@ -67,23 +69,23 @@ class Main extends Component {
     }
 
     render() {
-        const { isOpen, snackIsOpen, snackText, snackTime, status, json, error, date } = this.props;
+        const { menuIsOpen, isFetching, snackMessage, snackTime, status, json, error, date } = this.props;
         const statusMsg = status ? `Status: ${status}` : 'Status: '
 
-        const progressStyle = Object.assign({}, styles.indication, { visibility: snackIsOpen ? 'visible' : 'collapse'})
+        const progressStyle = Object.assign({}, styles.indication, { visibility: isFetching ? 'visible' : 'collapse'})
         return (
             <Router>
                 <div>
                     <AppBar title="Book Scouter"
                         onLeftIconButtonClick={this.handleMenuToogle} />
 
-                    <Drawer open={isOpen}
+                    <Drawer open={menuIsOpen}
                         docked={false}
                         onRequestChange={this.handleMenuToogle}>
                         <Menu onItemClick={this.handleMenuClose}>
                             <MenuItem value="/" leftIcon={<BookIcon />}><Link to="/">Home</Link></MenuItem>
                             <MenuItem value="/settings" leftIcon={<ContentInbox />}><Link to="/settings">Settings</Link></MenuItem>
-                            <MenuItem value="/apisettings" leftIcon={<ContentInbox />}><Link to="/apisettings">Api Settings</Link></MenuItem>
+                            <MenuItem value="/keepaSettings" leftIcon={<ContentInbox />}><Link to="/keepaSettings">Keepa Settings</Link></MenuItem>
                             <MenuItem value="/formulas" leftIcon={<ContentInbox />}><Link to="/formulas">Formulas</Link></MenuItem>
                             <MenuItem value="/scan" leftIcon={<ContentInbox />}><Link to="/scan">Scan</Link></MenuItem>
                         </Menu>
@@ -101,8 +103,8 @@ class Main extends Component {
                             <Route path="/settings">
                                 <SettingsApp />
                             </Route>
-                            <Route path="/apisettings">
-                                <ApiSettingsApp />
+                            <Route path="/keepaSettings">
+                                <KeepaSettings />
                             </Route>
                             <Route path="/formulas">
                                 <Formulas />
@@ -128,23 +130,22 @@ class Main extends Component {
                             </CardText>
                         </Card>
                     </Paper>
-                    <Snackbar open={false}
-                        message={snackText} />
+                    <Snackbar open={false} autoHideDuration={3000} message={snackMessage} />
                 </div>
             </Router>)
     }
 }
 
 const mapStateToProps = state => {
-    const { menuHandleReducer, errorMessageReducer, systemReducer, apiReducer } = state;
+    const { errorMessageReducer, systemReducer, apiReducer } = state;
     const { isFetching, deep, json, error, date } = apiReducer
-
+    const { snackMessage, menuIsOpen } = systemReducer
     return {
-        isOpen: menuHandleReducer.isOpen,
+        menuIsOpen: menuIsOpen !== undefined ? menuIsOpen : false,
         status: isFetching ? 'Fetching' : error ? 'Error' : 'Ok',
         deep: deep ? deep : '',
-        snackIsOpen: isFetching !== undefined ? isFetching : false,
-        snackText: 'Fetching',
+        isFetching: isFetching !== undefined ? isFetching : false,
+        snackMessage: snackMessage !== undefined ? snackMessage : '',
         json: json ? json : '',
         date: date ? date : '',
         error: error ? error : ''

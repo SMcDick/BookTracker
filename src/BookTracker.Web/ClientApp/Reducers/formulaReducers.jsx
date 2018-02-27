@@ -1,5 +1,4 @@
-﻿import { combineReducers } from 'redux'
-import { FORMULA_RETRIVED, FORMULA_POSTED, FORMULA_CHANGED } from '../ActionTypes'
+﻿import { FORMULA_RETRIVED, FORMULA_POSTED, FORMULA_CHANGED } from '../ActionTypes'
 
 const formulaReducer = (state = {}, action) => {
     const { type, settings } = action
