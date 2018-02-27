@@ -100,7 +100,8 @@ class BookApp extends Component {
     render() {
         const { bookColl, isbnColl } = this.props
         const { dialogOpen } = this.state
-        return (<Card>
+        return (
+        <Card>
             <CardHeader title="Home" />
             <CardText>
                 <BookSearchAction defaultValue="" 
@@ -108,7 +109,7 @@ class BookApp extends Component {
                     onRefreshClick={this.handleRefresh.bind(this)} />
 
                 <BookIsbnSearchList isbnColl={isbnColl} 
-                    onDelete={this.handleRemoveBook.bind(this)} />
+                    handleRequestDelete={this.handleRemoveBook.bind(this)} />
                 
                 <BookTable dataCollection={bookColl} />
 

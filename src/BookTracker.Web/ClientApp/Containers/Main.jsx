@@ -42,7 +42,13 @@ class Main extends Component {
         dispatch: PropTypes.func.isRequired,
         menuIsOpen: PropTypes.bool.isRequired,
         isFetching: PropTypes.bool.isRequired,
-        snackMessage: PropTypes.string.isRequired
+        snackMessage: PropTypes.string.isRequired,
+        snackOpen: PropTypes.bool.isRequired,
+        menuIsOpen: PropTypes.bool.isRequired,
+        status: PropTypes.string,
+        json: PropTypes.string,
+        error: PropTypes.string,
+        date: PropTypes.string
     }
 
     handleMenuToogle = () => {
@@ -69,7 +75,7 @@ class Main extends Component {
     }
 
     render() {
-        const { menuIsOpen, isFetching, snackMessage, snackTime, status, json, error, date } = this.props;
+        const { menuIsOpen, isFetching, snackMessage, snackOpen, status, json, error, date } = this.props;
         const statusMsg = status ? `Status: ${status}` : 'Status: '
 
         const progressStyle = Object.assign({}, styles.indication, { visibility: isFetching ? 'visible' : 'collapse'})
@@ -130,7 +136,7 @@ class Main extends Component {
                             </CardText>
                         </Card>
                     </Paper>
-                    <Snackbar open={false} autoHideDuration={3000} message={snackMessage} />
+                    <Snackbar open={snackOpen} autoHideDuration={3000} message={snackMessage} />
                 </div>
             </Router>)
     }
@@ -139,13 +145,14 @@ class Main extends Component {
 const mapStateToProps = state => {
     const { errorMessageReducer, systemReducer, apiReducer } = state;
     const { isFetching, deep, json, error, date } = apiReducer
-    const { snackMessage, menuIsOpen } = systemReducer
+    const { snackMessage, snackOpen, menuIsOpen } = systemReducer
     return {
         menuIsOpen: menuIsOpen !== undefined ? menuIsOpen : false,
         status: isFetching ? 'Fetching' : error ? 'Error' : 'Ok',
         deep: deep ? deep : '',
         isFetching: isFetching !== undefined ? isFetching : false,
         snackMessage: snackMessage !== undefined ? snackMessage : '',
+        snackOpen: snackOpen !== undefined ? snackOpen : false,
         json: json ? json : '',
         date: date ? date : '',
         error: error ? error : ''

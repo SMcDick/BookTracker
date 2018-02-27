@@ -8,11 +8,11 @@ const BookIsbnSearchList = (props) => {
         <div style={styles.wrapper}>
             {
                 props.isbnColl.map((element, index) => {
-                   <Chip key={index}
+                   return (<Chip key={index}
                          onRequestDelete={props.handleRequestDelete}
                          style={styles.chip}>
                          {element}
-                   </Chip> 
+                   </Chip>)
                 })
             }
         </div>

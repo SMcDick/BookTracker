@@ -28,17 +28,20 @@ export const systemReducer = (state = {}, action) => {
         case SNACKBAR_OPEN:
             return {
                 ...state,
-                snackMessage: text
+                snackMessage: text,
+                snackOpen: true
             }
         case SNACKBAR_CLOSE:
             return {
                 ...state,
-                snackMessage: ''
+                snackMessage: '',
+                snackOpen: false
             }
         case MENU_TOOGLE:
             return {
                 ...state,
-                menuIsOpen: isOpen
+                menuIsOpen: isOpen,
+                snackOpen: false
             }
         default:
             return state

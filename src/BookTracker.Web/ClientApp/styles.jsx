@@ -19,5 +19,8 @@
     },
     chip: {
         margin: 4,
+    },
+    toggle: {
+        margin: 16,
     }
 }
