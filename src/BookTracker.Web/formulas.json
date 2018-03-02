@@ -1,1 +1,9 @@
-{"Formulas":{"Variables":["USED","PRICE","WEIGHT_PRICE_MX","CURRENCY_RATE","WEIGTH","WEIGTH_PARTS_500_GRAMS"],"MXNetPayout":"([USED] - (PRICE * 0.1293) - 17.85 - [WEIGHT_PRICE_MX]) * [CURRENCY_RATE]","USNetPayout":"([USED] + 3.99 - [PRICE] * 0.15 - 1.8 - 3.19) * [CURRENCY_RATE]","INNetPayout":"([USED] + 46 - [PRICE] * 0.15 - 40 - 15 - (50 - 27 * (WEIGTH_PARTS_500 - 1))) * [CURRENCY_RATE]","CANetPayout":"([USED] + 6.49 - 1 - [PRICE] - 0.15 - 0.95) * [CURRENCY_RATE]"}}
+{
+  "Formulas": {
+    "Variables": [ "USED", "PRICE", "WEIGHT_PRICE_MX", "CURRENCY_RATE", "WEIGTH", "WEIGTH_PARTS_500_GRAMS" ],
+    "MXNetPayout": "([USED] - (PRICE * 0.1293) - 17.85 - [WEIGHT_PRICE_MX]) * [CURRENCY_RATE]",
+    "USNetPayout": "([USED] + 3.99 - [PRICE] * 0.15 - 1.8 - 3.19) * [CURRENCY_RATE]",
+    "INNetPayout": "([USED] + 46 - [PRICE] * 0.15 - 40 - 15 - (50 - 27 * (WEIGTH_PARTS_500 - 1))) * [CURRENCY_RATE]",
+    "CANetPayout": "([USED] + 6.49 - 1 - [PRICE] - 0.15 - 0.95) * [CURRENCY_RATE]"
+  }
+}

@@ -1,16 +1,23 @@
 ﻿using BookTracker.Models.System;
-using BookTracker.Services.Helpers;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookTracker.Services
+namespace BookTracker.Services.Domains
 {
-    internal static class BookDomain
+    public class BookDomain : IBookDomain
     {
-        internal static int WeigthParts(decimal weigth, decimal grams)
+        private readonly Formulas _formulas;
+
+        public BookDomain(IOptionsSnapshot<Formulas> formulaOptions)
+        {
+            _formulas = formulaOptions.Value;
+        }
+
+        private static int WeigthParts(decimal weigth, decimal grams)
         {
             return (int)Math.Ceiling(weigth / grams);
         }
@@ -36,14 +43,12 @@ namespace BookTracker.Services
             return 19.20m * (bookWeigthKg - 1) * 2.80m;
         }
 
-        internal static decimal CalculateNetPayout(Formulas formulas, decimal usedPrice, decimal price, decimal bookWeigthGrams, decimal currencyRate)
+        private decimal CalculateNetPayout(string formula, decimal usedPrice, decimal price, decimal bookWeigthGrams, decimal currencyRate)
         {
-            //decimal val = ((usedPrice + 3.99m) - (price * 0.15m) - 1.8m - 3.19m) * currencyRate;
-            //return decimal.Round(val, 2, MidpointRounding.ToEven);
             int bookParts500Grams = WeigthParts(bookWeigthGrams, 500m);
             decimal bookWeigthPriceMX = GetBookWeigthPriceMX(bookWeigthGrams / 1000);
 
-            var exp = new NCalc.Expression(formulas.USNetPayout);
+            var exp = new NCalc.Expression(formula);
             exp.Parameters["PRICE"] = Convert.ToDouble(price);
             exp.Parameters["USED"] = Convert.ToDouble(usedPrice);
             exp.Parameters["WEIGTH"] = Convert.ToDouble(bookWeigthGrams);
@@ -54,6 +59,26 @@ namespace BookTracker.Services
 
             decimal val = Convert.ToDecimal((double)exp.Evaluate());
             return decimal.Round(val, 2, MidpointRounding.ToEven);
+        }
+
+        public decimal GetUSNetPayout(decimal usedPrice, decimal price, int weigth, decimal currency)
+        {
+            return CalculateNetPayout(_formulas.USNetPayout, usedPrice, price, weigth, currency);
+        }
+
+        public decimal GetCANetPayout(decimal usedPrice, decimal price, int weigth, decimal currency)
+        {
+            return CalculateNetPayout(_formulas.CANetPayout, usedPrice, price, weigth, currency);
+        }
+
+        public decimal GetMXNetPayout(decimal usedPrice, decimal price, int weigth, decimal currency)
+        {
+            return CalculateNetPayout(_formulas.MXNetPayout, usedPrice, price, weigth, currency);
+        }
+
+        public decimal GetINNetPayout(decimal usedPrice, decimal price, int weigth, decimal currency)
+        {
+            return CalculateNetPayout(_formulas.INNetPayout, usedPrice, price, weigth, currency);
         }
     }
 }

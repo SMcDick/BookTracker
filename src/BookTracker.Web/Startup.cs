@@ -2,6 +2,7 @@ using BookTracker.Infra;
 using BookTracker.Models.Options;
 using BookTracker.Models.System;
 using BookTracker.Services;
+using BookTracker.Services.Domains;
 using BookTracker.Services.ExternalServices;
 using BookTracker.Services.Http;
 using BookTracker.Web.Services;
@@ -63,6 +64,8 @@ namespace BookTracker.Web
 
             services.AddScoped<IBookAppService, BookAppService>();
             services.AddScoped<ISysAppService, SysAppService>();
+
+            services.AddScoped<IBookDomain, BookDomain>();
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "BookTracker Api", Version = "v1" }));
 
