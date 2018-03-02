@@ -157,6 +157,7 @@ namespace BookTracker.Services
             book.ISBN = isbn;
             book.VerboseData = new List<VerboseData>();
 
+
             //US
             var usBookTask = GetBookFromKeepaAsync(KeepaDomain.US, isbn, cancellationToken);
             //CA

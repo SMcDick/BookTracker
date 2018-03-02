@@ -36,7 +36,7 @@ namespace BookTracker.Models.BookScouter
 
         public float AmazonLowestPrice { get; set; }
 
-        public int AmazonTradeInPrice { get; set; }
+        public string AmazonTradeInPrice { get; set; }
 
         public string AmazonUrl { get; set; }
 

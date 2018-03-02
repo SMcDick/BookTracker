@@ -4,21 +4,22 @@ const book = (state = {}, action) => {
     const { isbnColl, bookColl } = state
     const { isbn, book, type } = action
 
+    const safeBookColl = bookColl ? bookColl : []
+    const safeIsbnColl = isbnColl ? isbnColl : []
+
     switch (type) {
         case BOOK_SEARCH_ADD:
-            let nIsbnColl = isbnColl ? isbnColl : []
-            nIsbnColl = nIsbnColl.concat(isbn)
             return {
                 ...state,
-                isbnColl: nIsbnColl
+                isbnColl: [{isbn: isbn, fetched: false}].concat(safeIsbnColl)
             }
         case BOOK_SEARCH_REMOVE:
-            let isbnCollReduced = isbnColl.filter((item) => {
-                return item !== isbn
+            const isbnCollReduced = safeIsbnColl.filter((item) => {
+                return item.isbn !== isbn.isbn
             })
-            const nBookCollRM = bookColl ? bookColl : []
-            let bookCollReduced = nBookCollRM.filter((item) => {
-                return item.isbn !== isbn
+            
+            const bookCollReduced = safeBookColl.filter((item) => {
+                return item.isbn !== isbn.isbn
             })
             return {
                 ...state,
@@ -26,15 +27,34 @@ const book = (state = {}, action) => {
                 bookColl: bookCollReduced
             }
         case BOOK_SEARCH_RETRIVED:
-            let nBookColl = bookColl ? bookColl : []
-            nBookColl = nBookColl.concat(book)
+            const isbnList = safeIsbnColl.map((isbnBook, index) => {
+                if(isbnBook.isbn == book.isbn) {
+                    return Object.assign({}, isbnBook, { fetched: true })
+                }
+                else {
+                    return isbnBook
+                }
+            })
+            const bookList = isbnList.filter((elem, index) => {
+                return elem.fetched
+            })
+            .map((elemBook, index) => {
+                if(elemBook.isbn == book.isbn) {
+                    return book
+                }
+                else {
+                    return safeBookColl.find(bookInList => {
+                        return bookInList.isbn == elemBook.isbn
+                    })
+                }
+            })
             return {
                 ...state,
-                bookColl: nBookColl,
+                isbnColl: isbnList,
+                bookColl: bookList,
                 lastBook: book
             }
         case BOOK_SEARCH_NOT_FOUND:
-
             return {
                 ...state,
                 notfound: `Book ${isbn} not found`
@@ -42,7 +62,8 @@ const book = (state = {}, action) => {
         case BOOK_SEARCH_CLEAR:
             return {
                 ...state,
-                bookColl: []
+                bookColl: [],
+                isbnColl: []
             }
         default:
             return state

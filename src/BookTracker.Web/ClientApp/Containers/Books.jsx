@@ -1,9 +1,8 @@
 ﻿import React, { Component } from 'react';
 
-import * as actions from '../Actions'
+import { addBookToSearch, fetchBook, removeBookToSearch, refreshBookList } from '../Actions'
 import { connect } from 'react-redux'
 
-import Scanner from '../Components/Scanner'
 import BookTable from '../Components/BookTable'
 import BookSearchAction from '../Components/BookSearchAction'
 import BookIsbnSearchList from '../Components/BookIsbnSearchList'
@@ -32,14 +31,16 @@ class BookApp extends Component {
         this.state = { dialogOpen: false }
     }
 
-    handleAddBook(isbn) {
+    handleAddBook(isbn, shouldCloseDialog = true) {
         const { isbnColl } = this.props
         const cIsbn = isbnColl.filter((item) => { return item === isbn })
         if (cIsbn.length === 0) {
-            this.props.dispatch(actions.addBookToSearch(isbn))
-            this.props.dispatch(actions.fetchBook(isbn))
+            this.props.dispatch(addBookToSearch(isbn))
+            this.props.dispatch(fetchBook(isbn))
         }
-        this.closeDialog()
+        if(shouldCloseDialog) {
+            this.closeDialog()
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -53,13 +54,13 @@ class BookApp extends Component {
     }
 
     handleRemoveBook = (isbn) => {
-        const action = actions.removeBookToSearch(isbn)
+        const action = removeBookToSearch(isbn)
         this.props.dispatch(action)
     }
 
     handleRefresh = () => {
         const { isbnColl } = this.props
-        const action = actions.refreshBookList(isbnColl)
+        const action = refreshBookList(isbnColl)
         this.props.dispatch(action)
     }
 
@@ -85,13 +86,18 @@ class BookApp extends Component {
         this.handleAddBook(code)
     }
 
+    handleOnSearchAction(isbn) {
+        console.info(`handleOnSearchAction ${isbn}`)
+        this.handleAddBook(isbn, false)
+    }
+
     render() {
         const { bookColl, isbnColl } = this.props
         const { dialogOpen } = this.state
         const headerSytles = { display: isbnColl.length > 0 ? 'none' : 'block' }
         return (
         <Card>
-            <CardHeader title="Home" style={headerSytles} />
+            <CardHeader title="Use the (+) button to start" style={headerSytles} />
             <CardText>
                 <BookIsbnSearchList isbnColl={isbnColl} 
                     handleRequestDelete={this.handleRemoveBook.bind(this)} />
@@ -101,13 +107,12 @@ class BookApp extends Component {
                 <FloatingActionButton style={styles.floatingButton} secondary={true} onClick={this.handleAddScannedBook.bind(this)}>
                     <ContentAdd />
                 </FloatingActionButton>
-                <Dialog
-                    title="Scan the book barcode"
-                    modal={false}
-                    contentStyle={styles.dialog}
-                    onRequestClose={this.onDialogRequestClose.bind(this)}
-                    open={dialogOpen}>
-                    <BookDialogSearchBox onSearchClick={this.handleAddBook.bind(this)}/>
+                <Dialog title="Scan the book barcode"
+                        modal={false}
+                        contentStyle={styles.dialog}
+                        onRequestClose={this.onDialogRequestClose.bind(this)}
+                        open={dialogOpen}>
+                    <BookDialogSearchBox onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)}/>
                 </Dialog>
             </CardText>
         </Card>)
