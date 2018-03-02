@@ -46,5 +46,26 @@
     wrapper: {
         display: 'flex',
         flexWrap: 'wrap',
+    },
+    gridRoot: {
+        display: 'flex',
+        flexWrap: 'wrap'
+    },
+    gridList: {
+        width: 420,
+        height: 360
+    },
+    json: {
+        whiteSpace: 'pre-wrap'
+    },
+    indication: {
+        top: '12%',
+        left: '45%',
+        z_index: '20',
+        position: 'absolute'
+    },
+    slide: {
+        padding: 15,
+        minHeight: 100
     }
 }

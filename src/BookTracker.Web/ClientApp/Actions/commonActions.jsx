@@ -1,40 +1,47 @@
-﻿import * as types from '../ActionTypes'
+﻿import { MENU_TOOGLE, API_REQUEST_BEGIN, API_REQUEST_END, API_REQUEST_ERROR, API_REQUEST_LOG, SNACKBAR_OPEN, SNACKBAR_CLOSE } from '../ActionTypes'
+
+export const toogleMenuAction = (isOpen) => {
+    return {
+        type: MENU_TOOGLE,
+        isOpen
+    }
+}
 
 export const beginFetch = () => {
     return {
-        type: types.API_REQUEST_BEGIN
+        type: API_REQUEST_BEGIN
     }
 }
 
 export const endFetch = () => {
     return {
-        type: types.API_REQUEST_END
+        type: API_REQUEST_END
     }
 }
 
 export const errorFetch = (error) => {
     return {
-        type: types.API_REQUEST_ERROR,
+        type: API_REQUEST_ERROR,
         error
     }
 }
 
 export const logFetch = (json) => {
     return {
-        type: types.API_REQUEST_LOG,
+        type: API_REQUEST_LOG,
         json
     }
 }
 
 export const openSnack = (text) => {
     return {
-        type: types.SNACKBAR_OPEN,
+        type: SNACKBAR_OPEN,
         text
     }
 }
 
 export const closeSnack = () => {
     return {
-        type: types.SNACKBAR_CLOSE
+        type: SNACKBAR_CLOSE
     }
 }

@@ -4,10 +4,12 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import * as actions from '../Actions'
 import { styles } from '../styles'
+import { DEFAULT_ISBN_LENGTH } from '../constants'
 
 export default class BookSearchAction extends Component {
     static propTypes = {
         onSearchClick: PropTypes.func.isRequired,
+        onSearchAction: PropTypes.func,
         defaultValue: PropTypes.string
     }
 
@@ -17,7 +19,12 @@ export default class BookSearchAction extends Component {
     }
 
     handleTextSearchChange = (evt, newValue) => {
-        this.setState({ value: newValue })
+        if(newValue.length == DEFAULT_ISBN_LENGTH) {
+            this.handleSearchAction(newValue);
+        }
+        else {
+            this.setState({ value: newValue })
+        }
     }
 
     handleSearchButtonClick = () => {
@@ -26,6 +33,14 @@ export default class BookSearchAction extends Component {
         if (typeof this.props.onSearchClick === 'function') {
             this.props.onSearchClick(value);
         }
+    }
+
+    handleSearchAction(value) {
+        const { onSearchAction } = this.props
+        if(typeof onSearchAction === 'function') {
+            onSearchAction(value)
+        }
+        this.setState({value : ''})
     }
 
     componentDidMount() {

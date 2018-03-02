@@ -34,7 +34,9 @@ export default class Scanner extends Component {
     }
 
     componentDidMount() {
-        this.initQuagga()
+        if(this.props.scannerOn) {
+            this.initQuagga()
+        }
     }
 
     initQuagga() {
@@ -82,7 +84,7 @@ export default class Scanner extends Component {
 
     componentWillUnmount() {
         //Quagga.offDetected(this._onDetected);
-        if (Quagga) {
+        if (this.props.scannerOn && Quagga) {
             Quagga.stop()
         }
     }

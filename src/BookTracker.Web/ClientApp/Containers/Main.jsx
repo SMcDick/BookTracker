@@ -2,40 +2,27 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
-import { push } from 'react-router-redux'
 import { withRouter } from 'react-router-dom'
 
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
 import BookIcon from 'material-ui/svg-icons/action/book';
-import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Menu from 'material-ui/Menu';
 import AppBar from 'material-ui/AppBar'
 import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
 
-import * as actions from '../Actions'
+import { closeSnack, toogleMenuAction } from '../Actions/commonActions'
 import KeepaSettings from './KeepaSettings'
 import Formulas from './Formulas'
 import BookApp from './Books'
 import SettingsApp from './Settings'
+
 import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
-import ScanApp from './ScanApp'
 
-const styles = {
-    json: {
-        whiteSpace: 'pre-wrap'
-    },
-    indication: {
-        top: '12%',
-        left: '45%',
-        z_index: '1',
-        position: 'absolute'
-    }
-};
+import { styles } from '../styles'
 
 class Main extends Component {
     static propTypes = {
@@ -53,25 +40,25 @@ class Main extends Component {
 
     handleMenuToogle = () => {
         const { dispatch, menuIsOpen } = this.props
-        dispatch(actions.toogleMenuAction(!menuIsOpen))
+        dispatch(toogleMenuAction(!menuIsOpen))
     }
 
     handleMenuClose = () => {
         const { dispatch } = this.props
-        dispatch(actions.toogleMenuAction(false))
+        dispatch(toogleMenuAction(false))
     }
 
     handleNavigationBooks = (event, menuItem, index) => {
         const { dispatch } = this.props
 
-        dispatch(actions.toogleMenuAction(false))
+        dispatch(toogleMenuAction(false))
         dispatch(push(menuItem.props.value))
     }
 
     handleSnackClose = () => {
         const { dispatch } = this.props
 
-        dispatch(actions.closeSnack())
+        dispatch(closeSnack())
     }
 
     render() {
@@ -93,7 +80,6 @@ class Main extends Component {
                             <MenuItem value="/settings" leftIcon={<ContentInbox />}><Link to="/settings">Settings</Link></MenuItem>
                             <MenuItem value="/keepaSettings" leftIcon={<ContentInbox />}><Link to="/keepaSettings">Keepa Settings</Link></MenuItem>
                             <MenuItem value="/formulas" leftIcon={<ContentInbox />}><Link to="/formulas">Formulas</Link></MenuItem>
-                            <MenuItem value="/scan" leftIcon={<ContentInbox />}><Link to="/scan">Scan</Link></MenuItem>
                         </Menu>
                     </Drawer>
 
@@ -115,28 +101,10 @@ class Main extends Component {
                             <Route path="/formulas">
                                 <Formulas />
                             </Route>
-                            <Route path="/scan">
-                                <ScanApp />
-                            </Route>
                         </Switch>
-                        <Card>
-                            <CardHeader
-                                title={statusMsg}
-                                actAsExpander={true}
-                                showExpandableButton={true}
-                            />
-                            <CardText expandable={true}>
-                                <div>
-                                    <div>error msg: '{error}'</div>
-                                </div>
-                                <div>last update: {date}</div>
-                                <div>
-                                    <div style={styles.json}>api data: {json}</div>
-                                </div>
-                            </CardText>
-                        </Card>
+                        
                     </Paper>
-                    <Snackbar open={snackOpen} autoHideDuration={3000} message={snackMessage} />
+                    <Snackbar open={snackOpen} autoHideDuration={3000} onRequestClose={this.handleSnackClose.bind(this)} message={snackMessage} />
                 </div>
             </Router>)
     }

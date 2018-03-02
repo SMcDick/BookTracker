@@ -12,16 +12,17 @@ import { styles } from '../styles'
 export default class BookDialogSearchBox extends Component {
     static propTypes = {
         value: PropTypes.string,
-        onSearchClick: PropTypes.func.isRequired
+        onSearchClick: PropTypes.func.isRequired,
+        onSearchAction: PropTypes.func.isRequired
     }
 
     constructor(props) {
         super(props)
-        this.state = { detectedValue: '', tabValue: 'dynamic', scannerOn: true }
+        this.state = { detectedValue: '', tabValue: 'manual', scannerOn: false }
     }
 
     handleOnDetected(value) {
-        this.setState({ detectedValue: value, tabValue:  'manual' })
+        this.setState({ detectedValue: value, tabValue: 'manual' })
     }
 
     handleSearchClick(value) {
@@ -31,7 +32,13 @@ export default class BookDialogSearchBox extends Component {
 
     handleTabChange(tabValue) {
        this.setState({ tabValue: tabValue, scannerOn: tabValue === 'dynamic' })
-        
+    }
+
+    onSearchAction(value) {
+        const { onSearchAction } = this.props
+        if(typeof onSearchAction === 'function') {
+            onSearchAction(value)
+        }
     }
 
     render() {
@@ -40,11 +47,11 @@ export default class BookDialogSearchBox extends Component {
         return (
             <Paper zDepth={1}>
                 <Tabs value={tabValue} onChange={this.handleTabChange.bind(this)}>
+                <Tab label="Manual" value="manual">
+                        <BookSearchAction value={detectedValue} onSearchClick={this.handleSearchClick.bind(this)} onSearchAction={this.onSearchAction.bind(this)} />
+                    </Tab>
                     <Tab label="Scan" value="dynamic">
                         <Scanner onDetected={this.handleOnDetected.bind(this)} scannerOn={scannerOn} />
-                    </Tab>
-                    <Tab label="Manual" value="manual">
-                        <BookSearchAction value={detectedValue} onSearchClick={this.handleSearchClick.bind(this)} />
                     </Tab>
                 </Tabs>
             </Paper>
