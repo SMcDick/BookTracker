@@ -112,15 +112,14 @@ namespace BookTracker.Services
         {
             title = string.Empty;
             image = string.Empty;
-            salesRank = 0;
-            netPayout = 0;
+            salesRank = -1;
+            netPayout = -1;
             verboseData = default(VerboseData);
 
             var kBook = keepaResult.Products.FirstOrDefault(b => string.Compare(b.Title, bookTitle, true) == 0);
             if (kBook != null)
             {
                 GetBookAttributes(kBook, out decimal used, out decimal price, out decimal @new, out salesRank);
-                decimal currency = currentyRate;
 
                 title = kBook.Title;
                 image = ParseBookImageName(kBook.ImagesCSV);
@@ -128,14 +127,22 @@ namespace BookTracker.Services
                 switch (domain)
                 {
                     case KeepaDomain.US:
-                        netPayout = _bookDomain.GetUSNetPayout(used, price, kBook.PackageWeight, currency);
+                        netPayout = _bookDomain.GetUSNetPayout(used, price, kBook.PackageWeight, currentyRate);
                         break;
                     case KeepaDomain.CA:
-                        netPayout = _bookDomain.GetCANetPayout(used, price, kBook.PackageWeight, currency);
+                        netPayout = _bookDomain.GetCANetPayout(used, price, kBook.PackageWeight, currentyRate);
                         break;
+                    case KeepaDomain.MX:
+                        netPayout = _bookDomain.GetMXNetPayout(used, price, kBook.PackageWeight, currentyRate);
+                        break;
+                    case KeepaDomain.IN:
+                        netPayout = _bookDomain.GetINNetPayout(used, price, kBook.PackageWeight, currentyRate);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(domain), "Domain not implemented");
                 }
 
-                verboseData = new VerboseData(used, price, @new, kBook.PackageWeight, KeepaDomain.US.ToString(), currency);
+                verboseData = new VerboseData(used, price, @new, kBook.PackageWeight, domain.ToString(), currentyRate);
             }
         }
 
