@@ -88,9 +88,10 @@ class BookApp extends Component {
     render() {
         const { bookColl, isbnColl } = this.props
         const { dialogOpen } = this.state
+        const headerSytles = { display: isbnColl.length > 0 ? 'none' : 'block' }
         return (
         <Card>
-            <CardHeader title="Home" />
+            <CardHeader title="Home" style={headerSytles} />
             <CardText>
                 <BookIsbnSearchList isbnColl={isbnColl} 
                     handleRequestDelete={this.handleRemoveBook.bind(this)} />

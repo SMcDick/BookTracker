@@ -115,34 +115,36 @@ namespace BookTracker.Services
             salesRank = -1;
             netPayout = -1;
             verboseData = default(VerboseData);
-
-            var kBook = keepaResult.Products.FirstOrDefault(b => string.Compare(b.Title, bookTitle, true) == 0);
-            if (kBook != null)
+            if (keepaResult != null && keepaResult.Products != null)
             {
-                GetBookAttributes(kBook, out decimal used, out decimal price, out decimal @new, out salesRank);
-
-                title = kBook.Title;
-                image = ParseBookImageName(kBook.ImagesCSV);
-
-                switch (domain)
+                var kBook = keepaResult.Products.FirstOrDefault(b => string.Compare(b.Title, bookTitle, true) == 0);
+                if (kBook != null)
                 {
-                    case KeepaDomain.US:
-                        netPayout = _bookDomain.GetUSNetPayout(used, price, kBook.PackageWeight, currentyRate);
-                        break;
-                    case KeepaDomain.CA:
-                        netPayout = _bookDomain.GetCANetPayout(used, price, kBook.PackageWeight, currentyRate);
-                        break;
-                    case KeepaDomain.MX:
-                        netPayout = _bookDomain.GetMXNetPayout(used, price, kBook.PackageWeight, currentyRate);
-                        break;
-                    case KeepaDomain.IN:
-                        netPayout = _bookDomain.GetINNetPayout(used, price, kBook.PackageWeight, currentyRate);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(domain), "Domain not implemented");
-                }
+                    GetBookAttributes(kBook, out decimal used, out decimal price, out decimal @new, out salesRank);
 
-                verboseData = new VerboseData(used, price, @new, kBook.PackageWeight, domain.ToString(), currentyRate);
+                    title = kBook.Title;
+                    image = ParseBookImageName(kBook.ImagesCSV);
+
+                    switch (domain)
+                    {
+                        case KeepaDomain.US:
+                            netPayout = _bookDomain.GetUSNetPayout(used, price, kBook.PackageWeight, currentyRate);
+                            break;
+                        case KeepaDomain.CA:
+                            netPayout = _bookDomain.GetCANetPayout(used, price, kBook.PackageWeight, currentyRate);
+                            break;
+                        case KeepaDomain.MX:
+                            netPayout = _bookDomain.GetMXNetPayout(used, price, kBook.PackageWeight, currentyRate);
+                            break;
+                        case KeepaDomain.IN:
+                            netPayout = _bookDomain.GetINNetPayout(used, price, kBook.PackageWeight, currentyRate);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(domain), "Domain not implemented");
+                    }
+
+                    verboseData = new VerboseData(used, price, @new, kBook.PackageWeight, domain.ToString(), currentyRate);
+                }
             }
         }
 
@@ -184,25 +186,29 @@ namespace BookTracker.Services
 
             book.USSalesRank = usSalesRank;
             book.USNetPayout = usNetPayout;
-            book.VerboseData.Add(usVerboseData);
+            if (usVerboseData != null)
+                book.VerboseData.Add(usVerboseData);
 
             var caBook = caBookTask.Result;
             ParseKeepaResult(caBook, book.Title, KeepaDomain.CA, _sysOptions.Box4.CurrencyRate, out int caSalesRank, out decimal caNetPayout, out VerboseData caVerboseData);
             book.CASalesRank = caSalesRank;
             book.CANetPayout = caNetPayout;
-            book.VerboseData.Add(caVerboseData);
+            if (caVerboseData != null)
+                book.VerboseData.Add(caVerboseData);
 
             var inBook = inBookTask.Result;
             ParseKeepaResult(caBook, book.Title, KeepaDomain.IN, _sysOptions.Box5.CurrencyRate, out int inSalesRank, out decimal inNetPayout, out VerboseData inVerboseData);
             book.INSalesRank = inSalesRank;
             book.INNetPayout = inNetPayout;
-            book.VerboseData.Add(inVerboseData);
+            if (inVerboseData != null)
+                book.VerboseData.Add(inVerboseData);
 
             var mxBook = mxBookTask.Result;
             ParseKeepaResult(caBook, book.Title, KeepaDomain.MX, _sysOptions.Box3.CurrencyRate, out int mxSalesRank, out decimal mxNetPayout, out VerboseData mxVerboseData);
             book.MXNetPayout = mxNetPayout;
             book.MXSalesRank = mxSalesRank;
-            book.VerboseData.Add(mxVerboseData);
+            if (mxVerboseData != null)
+                book.VerboseData.Add(mxVerboseData);
 
             LoadBookRules(book, out bool meetARule, out string audio, out string color);
 

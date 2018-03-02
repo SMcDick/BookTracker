@@ -22,7 +22,8 @@
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "react-swipeable-views": "0.12.13"
   },
   "devDependencies": {
     "aspnet-webpack": "^2.0.1",

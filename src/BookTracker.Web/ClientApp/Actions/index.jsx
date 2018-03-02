@@ -1,13 +1,7 @@
 ﻿import * as types from '../ActionTypes'
 import { getBaseUri } from './functions'
 import { beginFetch, endFetch, errorFetch, logFetch, openSnack, closeSnack } from './commonActions'
-
-export const toogleMenuAction = (isOpen) => {
-    return {
-        type: types.MENU_TOOGLE,
-        isOpen
-    }
-}
+import { MSG_SAVED } from '../strings'
 
 export const addBookToSearch = (isbn) => {
     return {
@@ -77,6 +71,8 @@ export const postConfig = data => dispatch => {
             if (response.ok) {
                 dispatch(logFetch(JSON.stringify({ data: 'empty' }, null, 2)))
                 dispatch(endFetch())
+                dispatch(closeSnack())
+                dispatch(openSnack(MSG_SAVED))
             }
         })
         .catch(err => {
