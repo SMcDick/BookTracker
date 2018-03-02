@@ -36,12 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="App_Data\.empty">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BookTracker.Infra\BookTracker.Infra.csproj" />
     <ProjectReference Include="..\BookTracker.Models\BookTracker.Models.csproj" />
     <ProjectReference Include="..\BookTracker.Services.Http\BookTracker.Services.Http.csproj" />
