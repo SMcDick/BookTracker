@@ -97,6 +97,7 @@ class BookApp extends Component {
         const headerSytles = { display: isbnColl.length > 0 ? 'none' : 'block' }
         return (
         <Card>
+            <CardHeader title="Book Scouter App" style={headerSytles} />
             <CardHeader title="Use the (+) button to start" style={headerSytles} />
             <CardText>
                 <BookIsbnSearchList isbnColl={isbnColl} 
