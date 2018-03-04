@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import * as actions from '../Actions'
-import { styles } from '../styles'
 import { DEFAULT_ISBN_LENGTH } from '../constants'
+import { styles } from '../styles'
 
 export default class BookSearchAction extends Component {
     static propTypes = {
         onSearchClick: PropTypes.func.isRequired,
         onSearchAction: PropTypes.func,
-        defaultValue: PropTypes.string
+        defaultValue: PropTypes.string,
+        style: PropTypes.object
     }
 
     constructor() {
@@ -58,10 +59,10 @@ export default class BookSearchAction extends Component {
         const { value } = this.state
 
         return (
-            <div style={styles.manualInput}>
+            <React.Fragment>
                 <TextField hintText="ISBN" type="number" required="required" onChange={this.handleTextSearchChange.bind(this)} value={value} style={styles.manualInputContent} />
                 <RaisedButton label="Search" primary={true} onClick={this.handleSearchButtonClick.bind(this)} style={styles.button} />
-            </div>
+            </React.Fragment>
         )
     }
 }

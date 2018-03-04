@@ -7,17 +7,13 @@ import BookTable from '../Components/BookTable'
 import BookSearchAction from '../Components/BookSearchAction'
 import BookIsbnSearchList from '../Components/BookIsbnSearchList'
 import BookDialogSearchBox from '../Components/BookDialogSearchBox'
-import { styles } from '../styles'
-
 import { Card, CardHeader, CardText } from 'material-ui/Card';
-
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
 
 import PropTypes from 'prop-types'
-
-
+import { styles } from '../styles'
 
 class BookApp extends Component {
     static propTypes = {
@@ -98,8 +94,8 @@ class BookApp extends Component {
         return (
         <Card>
             <CardHeader title="Book Scouter App" style={headerSytles} />
-            <CardHeader title="Use the (+) button to start" style={headerSytles} />
             <CardText>
+                <BookSearchAction onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)} />
                 <BookIsbnSearchList isbnColl={isbnColl} 
                     handleRequestDelete={this.handleRemoveBook.bind(this)} />
                 
@@ -113,7 +109,7 @@ class BookApp extends Component {
                         contentStyle={styles.dialog}
                         onRequestClose={this.onDialogRequestClose.bind(this)}
                         open={dialogOpen}>
-                    <BookDialogSearchBox onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)}/>
+                        <BookDialogSearchBox onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)}/>
                 </Dialog>
             </CardText>
         </Card>)
