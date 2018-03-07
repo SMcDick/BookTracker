@@ -41,7 +41,8 @@
         textAlign: 'center'
     },
     manualInputContent: {
-        margin: 4
+        margin: 4,
+        width: 200
     },
     wrapper: {
         display: 'flex',
