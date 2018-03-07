@@ -14,6 +14,7 @@ import Dialog from 'material-ui/Dialog';
 
 import PropTypes from 'prop-types'
 import { styles } from '../styles'
+import { DEFAULT_ISBN_LENGTH } from '../constants'
 
 class BookApp extends Component {
     static propTypes = {
@@ -28,12 +29,15 @@ class BookApp extends Component {
     }
 
     handleAddBook(isbn, shouldCloseDialog = true) {
-        const { isbnColl } = this.props
-        const cIsbn = isbnColl.filter((item) => { return item === isbn })
-        if (cIsbn.length === 0) {
-            this.props.dispatch(addBookToSearch(isbn))
-            this.props.dispatch(fetchBook(isbn))
+        if (isbn && isbn.length == DEFAULT_ISBN_LENGTH) {
+            const { isbnColl } = this.props
+            const cIsbn = isbnColl.filter((item) => { return item.isbn === isbn })
+            if (cIsbn.length === 0) {
+                this.props.dispatch(addBookToSearch(isbn))
+                this.props.dispatch(fetchBook(isbn))
+            }
         }
+        
         if(shouldCloseDialog) {
             this.closeDialog()
         }
@@ -90,10 +94,8 @@ class BookApp extends Component {
     render() {
         const { bookColl, isbnColl } = this.props
         const { dialogOpen } = this.state
-        const headerSytles = { display: isbnColl.length > 0 ? 'none' : 'block' }
         return (
         <Card>
-            <CardHeader title="Book Scouter App" style={headerSytles} />
             <CardText>
                 <BookSearchAction onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)} />
                 <BookIsbnSearchList isbnColl={isbnColl} 

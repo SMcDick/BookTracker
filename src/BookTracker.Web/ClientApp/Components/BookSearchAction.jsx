@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import * as actions from '../Actions'
 import { DEFAULT_ISBN_LENGTH } from '../constants'
 import { styles } from '../styles'
+import storage from 'material-ui/svg-icons/device/storage';
 
 export default class BookSearchAction extends Component {
     static propTypes = {
@@ -16,52 +17,80 @@ export default class BookSearchAction extends Component {
 
     constructor() {
         super()
-        this.state = { value: '' }
+        this.state = { storageValue: '' }
+        this.focusTextInput = this.focusTextInput.bind(this)
+    }
+
+    focusTextInput() {
+        setTimeout(() => {
+            this.textInput.focus();
+        }, 400)
     }
 
     handleTextSearchChange = (evt, newValue) => {
-        if(newValue.length == DEFAULT_ISBN_LENGTH) {
-            this.handleSearchAction(newValue);
-        }
-        else {
-            this.setState({ value: newValue })
+        if (newValue.length <= DEFAULT_ISBN_LENGTH) {
+            this.setState({ storageValue: newValue })
         }
     }
 
     handleSearchButtonClick = () => {
-        const { value } = this.state
-
-        if (typeof this.props.onSearchClick === 'function') {
-            this.props.onSearchClick(value);
+        const { onSearchClick } = this.props
+        const { storageValue } = this.state
+        if (typeof onSearchClick === 'function') {
+            this.props.onSearchClick(storageValue);
         }
+        this.setState({ storageValue: '' })
+        this.focusTextInput()
     }
 
     handleSearchAction(value) {
         const { onSearchAction } = this.props
-        if(typeof onSearchAction === 'function') {
-            onSearchAction(value)
+        const { storageValue } = this.state
+
+        if (typeof onSearchAction === 'function') {
+            onSearchAction(storageValue)
         }
-        this.setState({value : ''})
+        this.setState({ storageValue: '' })
+        this.focusTextInput()
     }
 
     componentDidMount() {
-        this.setState({ value: this.props.value })
+        this.setState({ storageValue: this.props.defaultValue })
+        this.focusTextInput()
     }
 
     componentWillReceiveProps(nextProps) {
-        const { value } = this.state
-        if (value !== nextProps.value) {
-            this.setState({value: nextProps.value})
+        const { defaultValue } = this.props
+        if (defaultValue !== nextProps.defaultValue) {
+            this.setState({ storageValue: nextProps.defaultValue })
+        }
+        this.focusTextInput()
+    }
+
+    _handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            this.handleSearchButtonClick()
         }
     }
 
     render() {
-        const { value } = this.state
-
+        const { storageValue } = this.state
+        const value = storageValue ? storageValue : ''
         return (
             <React.Fragment>
-                <TextField hintText="ISBN" type="number" required="required" onChange={this.handleTextSearchChange.bind(this)} value={value} style={styles.manualInputContent} />
-                <RaisedButton label="Search" primary={true} onClick={this.handleSearchButtonClick.bind(this)} style={styles.button} />
+                <TextField hintText="ISBN"
+                    type="number"
+                    maxLength={DEFAULT_ISBN_LENGTH}
+                    required="required"
+                    onChange={this.handleTextSearchChange.bind(this)}
+                    ref={(input) => { this.textInput = input }}
+                    value={value}
+                    style={styles.manualInputContent}
+                    onKeyPress={this._handleKeyPress.bind(this)} />
+                <RaisedButton label="Search"
+                    primary={true}
+                    onClick={this.handleSearchButtonClick.bind(this)}
+                    style={styles.button} />
             </React.Fragment>
         )
     }
