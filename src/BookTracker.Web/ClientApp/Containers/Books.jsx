@@ -7,10 +7,11 @@ import BookTable from '../Components/BookTable'
 import BookSearchAction from '../Components/BookSearchAction'
 import BookIsbnSearchList from '../Components/BookIsbnSearchList'
 import BookDialogSearchBox from '../Components/BookDialogSearchBox'
-import { Card, CardHeader, CardText } from 'material-ui/Card';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import Dialog from 'material-ui/Dialog';
+import { Card, CardHeader, CardText } from 'material-ui/Card'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import Dialog from 'material-ui/Dialog'
+import Responsive from '../ui/Responsive'
 
 import PropTypes from 'prop-types'
 import { styles } from '../styles'
@@ -37,8 +38,8 @@ class BookApp extends Component {
                 this.props.dispatch(fetchBook(isbn))
             }
         }
-        
-        if(shouldCloseDialog) {
+
+        if (shouldCloseDialog) {
             this.closeDialog()
         }
     }
@@ -51,11 +52,18 @@ class BookApp extends Component {
                 audio.play();
             }
         }
+        if (nextProps.bookColl.length == 1) {
+            this.scrollDown()
+        }
     }
 
     handleRemoveBook = (isbn) => {
         const action = removeBookToSearch(isbn)
         this.props.dispatch(action)
+    }
+
+    handleSelectBook = (book) => {
+        console.info(`selected ${book.isbn}`)
     }
 
     handleRefresh = () => {
@@ -91,30 +99,47 @@ class BookApp extends Component {
         this.handleAddBook(isbn, false)
     }
 
+    scrollDown() {
+        setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight)
+        }, 1000)
+    }
+
     render() {
         const { bookColl, isbnColl } = this.props
         const { dialogOpen } = this.state
         return (
-        <Card>
-            <CardText>
-                <BookSearchAction onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)} />
-                <BookIsbnSearchList isbnColl={isbnColl} 
-                    handleRequestDelete={this.handleRemoveBook.bind(this)} />
-                
-                <BookTable dataCollection={bookColl} />
+            <Card>
+                <CardText>
+                    <Responsive
+                        small={
+                            <React.Fragment>
+                                <BookTable dataCollection={bookColl} />
+                                <BookSearchAction onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)} />
+                                <BookIsbnSearchList isbnColl={isbnColl} handleRequestDelete={this.handleRemoveBook.bind(this)} handleChipClicked={this.handleSelectBook.bind(this)} />
+                            </React.Fragment>
+                        }
+                        medium={
+                            <React.Fragment>
+                                <BookSearchAction onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)} />
+                                <BookIsbnSearchList isbnColl={isbnColl} handleRequestDelete={this.handleRemoveBook.bind(this)} handleChipClicked={this.handleSelectBook.bind(this)} />
+                                <BookTable dataCollection={bookColl} />
+                            </React.Fragment>
+                        }
+                    />
 
-                <FloatingActionButton style={styles.floatingButton} secondary={true} onClick={this.handleAddScannedBook.bind(this)}>
-                    <ContentAdd />
-                </FloatingActionButton>
-                <Dialog title="Scan the book barcode"
+                    <FloatingActionButton style={styles.floatingButton} secondary={true} onClick={this.handleAddScannedBook.bind(this)}>
+                        <ContentAdd />
+                    </FloatingActionButton>
+                    <Dialog title="Scan the book barcode"
                         modal={false}
                         contentStyle={styles.dialog}
                         onRequestClose={this.onDialogRequestClose.bind(this)}
                         open={dialogOpen}>
-                        <BookDialogSearchBox onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)}/>
-                </Dialog>
-            </CardText>
-        </Card>)
+                        <BookDialogSearchBox onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)} />
+                    </Dialog>
+                </CardText>
+            </Card>)
     }
 }
 

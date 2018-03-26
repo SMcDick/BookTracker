@@ -219,6 +219,8 @@ namespace BookTracker.Services
 
             book.DisplayAsRejected = meetARule ? false : !_sysOptions.DisplayRejected;
 
+            book.DisplayMobile = meetARule ? true : _sysOptions.DisplayRejectedMobile;
+
             return book;
         }
 

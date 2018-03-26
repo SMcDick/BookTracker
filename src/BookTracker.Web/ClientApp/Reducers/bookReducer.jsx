@@ -11,7 +11,7 @@ const book = (state = {}, action) => {
         case BOOK_SEARCH_ADD:
             return {
                 ...state,
-                isbnColl: [{isbn: isbn, fetched: false}].concat(safeIsbnColl)
+                isbnColl: [{ isbn: isbn, fetched: false, displayMobile: false}].concat(safeIsbnColl)
             }
         case BOOK_SEARCH_REMOVE:
             const isbnCollReduced = safeIsbnColl.filter((item) => {
@@ -29,7 +29,7 @@ const book = (state = {}, action) => {
         case BOOK_SEARCH_RETRIVED:
             const isbnList = safeIsbnColl.map((isbnBook, index) => {
                 if(isbnBook.isbn == book.isbn) {
-                    return Object.assign({}, isbnBook, { fetched: true })
+                    return Object.assign({}, isbnBook, { fetched: true, displayMobile: book.displayMobile })
                 }
                 else {
                     return isbnBook

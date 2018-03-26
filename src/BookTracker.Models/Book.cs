@@ -40,6 +40,8 @@ namespace BookTracker.Models
 
         public bool DisplayAsRejected { get; set; }
 
+        public bool DisplayMobile { get; set; }
+
         public List<VerboseData> VerboseData { get; set; }
     }
 
