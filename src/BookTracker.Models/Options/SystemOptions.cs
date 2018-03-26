@@ -35,5 +35,7 @@ namespace BookTracker.Models.Options
         public Box Box5 { get; set; }
 
         public bool DisplayRejected { get; set; }
+
+        public bool DisplayRejectedMobile { get; set; }
     }
 }

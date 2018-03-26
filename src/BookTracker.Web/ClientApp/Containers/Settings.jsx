@@ -65,13 +65,20 @@ class SettingsApp extends Component {
         dispatch(changedConfig(nConfig))
     }
 
+    onDisplayRejectedMobileToogle(evt, enabled) {
+        const { boxes, dispatch } = this.props
+        const nConfig = Object.assign({}, boxes, { displayRejectedMobile: enabled })
+        dispatch(changedConfig(nConfig))
+    }
+
     render() {
         const { dispatch, boxes } = this.props
         
         
         if (boxes !== undefined && boxes.box1 !== undefined) {
-            const { box1, box2, box3, box4, box5, displayRejected } = boxes
+            const { box1, box2, box3, box4, box5, displayRejected, displayRejectedMobile } = boxes
             const rejectedText = displayRejected ? 'Display as row' : 'Display as rejected'
+            const rejectedMobileText = displayRejectedMobile ? 'Display rejected (Mobile)' : 'Hide rejected (Mobile)'
             return (
                 <Card>
                     <CardHeader title="Settings" />
@@ -80,6 +87,7 @@ class SettingsApp extends Component {
                             <SaveAction handleOnClick={this.onSaveClick.bind(this)} />
                             <RefreshAction handleOnClick={this.onRefreshClick.bind(this)} />
                             <Toggle label={rejectedText} labelPosition="right" style={styles.toggle} onToggle={this.onDisplayRejectedToogle.bind(this)} toggled={displayRejected} />
+                            <Toggle label={rejectedMobileText} labelPosition="right" style={styles.toggle} onToggle={this.onDisplayRejectedMobileToogle.bind(this)} toggled={displayRejectedMobile} />
                         </CommonActions>
 
                         <SettingsBox id="1" box={box1} onBoxChanged={this.onBoxChanged.bind(this)} onBoxDisabled={this.onBoxDisabled.bind(this)} />

@@ -119,7 +119,9 @@ BookSmall.propTypes = {
 }
 
 const BookTableSmall = (props) => {
-    const booksReact = props.dataCollection.map((book, index) => {
+    const booksReact = props.dataCollection.filter(book => {
+        return book.displayMobile
+    }).map((book, index) => {
         if(book.title == undefined || book.title == null || book.title == '') {
             return (<div key={index} style={styles.slide}><BookNotFoundSmall isbn={book.isbn} /></div>)
         }

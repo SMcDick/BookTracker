@@ -110,6 +110,4 @@ BookTableMedium.propTypes = {
     dataCollection: PropTypes.array.isRequired
 }
 
-
-
 export default BookTable

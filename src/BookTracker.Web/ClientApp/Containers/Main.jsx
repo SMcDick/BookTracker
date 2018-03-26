@@ -65,7 +65,7 @@ class Main extends Component {
         const { menuIsOpen, isFetching, snackMessage, snackOpen, status, json, error, date } = this.props;
         const statusMsg = status ? `Status: ${status}` : 'Status: '
 
-        const progressStyle = Object.assign({}, styles.indication, { visibility: isFetching ? 'visible' : 'collapse'})
+        const progressStyle = Object.assign({}, styles.indication, { visibility: isFetching ? 'visible' : 'collapse', display: isFetching ? 'block' : 'hidden' })
         return (
             <Router>
                 <div>
@@ -83,7 +83,7 @@ class Main extends Component {
                         </Menu>
                     </Drawer>
 
-                    <Paper>
+                    <div>
                         <CircularProgress style={progressStyle} />
                         <Switch>
                             <Route exact path="/">
@@ -102,8 +102,8 @@ class Main extends Component {
                                 <Formulas />
                             </Route>
                         </Switch>
-                        
-                    </Paper>
+
+                    </div>
                     <Snackbar open={snackOpen} autoHideDuration={3000} onRequestClose={this.handleSnackClose.bind(this)} message={snackMessage} />
                 </div>
             </Router>)
