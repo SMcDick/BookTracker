@@ -48,6 +48,7 @@ namespace BookTracker.Services.Test
             return keepaOpts;
         }
 
+        [Fact(DisplayName = "BookParse")]
         public KeepaSearchResult GetKeepSearchResultMock()
         {
             string content = File.ReadAllText(@"C:\Users\ricardo\source\repos\BookTracker\Solution Items\Misc\sample.json");

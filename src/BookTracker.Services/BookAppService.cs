@@ -56,7 +56,6 @@ namespace BookTracker.Services
 
         internal Task<KeepaSearchResult> GetBookFromKeepaAsync(KeepaDomain domain, string isbn, CancellationToken cancellationToken)
         {
-            //US
             var bookTask = _cache.GetOrCreateAsync(isbn, Constants.CACHE_KEY_KEEPA, (entry) =>
             {
                 if (entry != null) { entry.AbsoluteExpirationRelativeToNow = _cacheMinutesKeepa; }
@@ -117,7 +116,8 @@ namespace BookTracker.Services
             verboseData = default(VerboseData);
             if (keepaResult != null && keepaResult.Products != null)
             {
-                var kBook = keepaResult.Products.FirstOrDefault(b => string.Compare(b.Title, bookTitle, true) == 0);
+                string smallBookTitle = bookTitle.ToLower();
+                var kBook = keepaResult.Products.FirstOrDefault(b => smallBookTitle.IndexOf(b.Title.ToLower()) > -1 || b.Title.ToLower().IndexOf(smallBookTitle) > -1);
                 if (kBook != null)
                 {
                     GetBookAttributes(kBook, out decimal used, out decimal price, out decimal @new, out salesRank);
