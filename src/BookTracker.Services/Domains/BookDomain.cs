@@ -55,7 +55,7 @@ namespace BookTracker.Services.Domains
             exp.Parameters["CURRENCY_RATE"] = Convert.ToDouble(currencyRate);
             exp.Parameters["WEIGHT_PRICE_MX"] = Convert.ToDouble(bookWeigthPriceMX);
 
-            exp.Parameters["WEIGTH_PARTS_500"] = Convert.ToDouble(bookParts500Grams);
+            exp.Parameters["WEIGHT_PARTS_500"] = Convert.ToDouble(bookParts500Grams);
 
             decimal val = Convert.ToDecimal((double)exp.Evaluate());
             return decimal.Round(val, 2, MidpointRounding.ToEven);

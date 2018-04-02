@@ -64,7 +64,7 @@ class Main extends Component {
     render() {
         const { menuIsOpen, isFetching, snackMessage, snackOpen, status, json, error, date } = this.props;
         const statusMsg = status ? `Status: ${status}` : 'Status: '
-
+        const debugStyles = { display: 'none' }
         const progressStyle = Object.assign({}, styles.indication, { visibility: isFetching ? 'visible' : 'collapse', display: isFetching ? 'block' : 'hidden' })
         return (
             <Router>
@@ -103,6 +103,9 @@ class Main extends Component {
                             </Route>
                         </Switch>
 
+                    </div>
+                    <div style={debugStyles}>
+                        <div style={styles.json}>api data: {json}</div>
                     </div>
                     <Snackbar open={snackOpen} autoHideDuration={3000} onRequestClose={this.handleSnackClose.bind(this)} message={snackMessage} />
                 </div>
