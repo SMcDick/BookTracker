@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 
 import { addBookToSearch, fetchBook, removeBookToSearch, refreshBookList } from '../Actions'
+import { uiSelectedBook } from '../Actions/uiAction'
 import { connect } from 'react-redux'
 
 import BookTable from '../Components/BookTable'
@@ -15,18 +16,21 @@ import Responsive from '../ui/Responsive'
 
 import PropTypes from 'prop-types'
 import { styles } from '../styles'
-import { DEFAULT_ISBN_LENGTH } from '../constants'
+import { DEFAULT_ISBN_LENGTH, DEFAULT_ISBN_COUNT_MOBILE } from '../constants'
+import withWidth from 'material-ui/utils/withWidth';
+
 
 class BookApp extends Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
         isbnColl: PropTypes.array.isRequired,
-        bookColl: PropTypes.array.isRequired
+        bookColl: PropTypes.array.isRequired,
+        selectedIndex: PropTypes.number.isRequired
     }
 
     constructor(props) {
         super(props)
-        this.state = { dialogOpen: false, selectedBook: '' }
+        this.state = { dialogOpen: false }
     }
 
     handleAddBook(isbn, shouldCloseDialog = true) {
@@ -34,6 +38,17 @@ class BookApp extends Component {
             const { isbnColl } = this.props
             const cIsbn = isbnColl.filter((item) => { return item.isbn === isbn })
             if (cIsbn.length === 0) {
+
+                const maxLength = DEFAULT_ISBN_COUNT_MOBILE - 1
+                if (isbnColl.length > maxLength) {
+                    const removeIsbnColl = isbnColl.slice(maxLength, isbnColl.length)
+                    removeIsbnColl.map((element, index) => {
+                        const removeAction = removeBookToSearch(element)
+                        this.props.dispatch(removeAction)
+                        return element
+                    })
+                }
+
                 this.props.dispatch(addBookToSearch(isbn))
                 this.props.dispatch(fetchBook(isbn))
             }
@@ -64,7 +79,15 @@ class BookApp extends Component {
 
     handleSelectBook = (book) => {
         console.info(`selected ${book.isbn}`)
-        this.setState({ selectedBook: book.isbn })
+
+        const { bookColl, dispatch } = this.props
+        const bookIndex = bookColl.findIndex((element, index, array) => {
+            return element.isbn == book.isbn
+        })
+        if (bookIndex > -1) {
+            const uiAction = uiSelectedBook(bookIndex)
+            dispatch(uiAction)
+        }
     }
 
     handleRefresh = () => {
@@ -107,17 +130,18 @@ class BookApp extends Component {
     }
 
     render() {
-        const { bookColl, isbnColl } = this.props
-        const { dialogOpen, selectedBook } = this.state
+        const { bookColl, isbnColl, width, selectedIndex } = this.props
+
+        const { dialogOpen } = this.state
         return (
             <Card>
                 <CardText>
                     <Responsive
                         small={
                             <React.Fragment>
-                                <BookTable dataCollection={bookColl} selectedBook={selectedBook} />
+                                <BookTable dataCollection={bookColl} />
                                 <BookSearchAction onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)} />
-                                <BookIsbnSearchList isbnColl={isbnColl} handleRequestDelete={this.handleRemoveBook.bind(this)} handleChipClicked={this.handleSelectBook.bind(this)} />
+                                <BookIsbnSearchList isbnColl={isbnColl} selectedIndex={selectedIndex} handleRequestDelete={this.handleRemoveBook.bind(this)} handleChipClicked={this.handleSelectBook.bind(this)} />
                             </React.Fragment>
                         }
                         medium={
@@ -145,16 +169,19 @@ class BookApp extends Component {
 }
 
 const mapStateToProps = state => {
-    const { bookReducer } = state
+    const { bookReducer, uiReducer } = state
     const { lastBook } = bookReducer
+
+    const selectedIndex = uiReducer.selectedIndex !== undefined ? uiReducer.selectedIndex : 0
 
     const isbnColl = bookReducer.isbnColl ? bookReducer.isbnColl : []
     const bookColl = bookReducer.bookColl ? bookReducer.bookColl : []
     return {
         isbnColl,
         bookColl,
-        lastBook
+        lastBook,
+        selectedIndex
     }
 }
 
-export default connect(mapStateToProps)(BookApp)
+export default connect(mapStateToProps)(withWidth()(BookApp))

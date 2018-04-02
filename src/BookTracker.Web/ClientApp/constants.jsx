@@ -1,1 +1,2 @@
 export const DEFAULT_ISBN_LENGTH = 13
+export const DEFAULT_ISBN_COUNT_MOBILE = 2
