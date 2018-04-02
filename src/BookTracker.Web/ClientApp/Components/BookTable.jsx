@@ -17,17 +17,18 @@ const BookTable = (props) => {
     return (
         <Responsive
             small={
-                <BookTableSmall dataCollection={props.dataCollection} />
+                <BookTableSmall dataCollection={props.dataCollection} selectedBook={props.selectedBook} />
             }
             medium={
-                <BookTableMedium dataCollection={props.dataCollection} />
+                <BookTableMedium dataCollection={props.dataCollection} selectedBook={props.selectedBook} />
             }
         />
     )
 }
 
 BookTable.propTypes = {
-    dataCollection: PropTypes.array.isRequired
+    dataCollection: PropTypes.array.isRequired,
+    selectedBook: PropTypes.string
 }
 
 const BookTableMedium = (props) => {

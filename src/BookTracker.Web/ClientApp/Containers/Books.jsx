@@ -26,7 +26,7 @@ class BookApp extends Component {
 
     constructor(props) {
         super(props)
-        this.state = { dialogOpen: false }
+        this.state = { dialogOpen: false, selectedBook: '' }
     }
 
     handleAddBook(isbn, shouldCloseDialog = true) {
@@ -64,6 +64,7 @@ class BookApp extends Component {
 
     handleSelectBook = (book) => {
         console.info(`selected ${book.isbn}`)
+        this.setState({ selectedBook: book.isbn })
     }
 
     handleRefresh = () => {
@@ -107,14 +108,14 @@ class BookApp extends Component {
 
     render() {
         const { bookColl, isbnColl } = this.props
-        const { dialogOpen } = this.state
+        const { dialogOpen, selectedBook } = this.state
         return (
             <Card>
                 <CardText>
                     <Responsive
                         small={
                             <React.Fragment>
-                                <BookTable dataCollection={bookColl} />
+                                <BookTable dataCollection={bookColl} selectedBook={selectedBook} />
                                 <BookSearchAction onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)} />
                                 <BookIsbnSearchList isbnColl={isbnColl} handleRequestDelete={this.handleRemoveBook.bind(this)} handleChipClicked={this.handleSelectBook.bind(this)} />
                             </React.Fragment>
@@ -122,7 +123,7 @@ class BookApp extends Component {
                         medium={
                             <React.Fragment>
                                 <BookSearchAction onSearchClick={this.handleAddBook.bind(this)} onSearchAction={this.handleOnSearchAction.bind(this)} />
-                                <BookIsbnSearchList isbnColl={isbnColl} handleRequestDelete={this.handleRemoveBook.bind(this)} handleChipClicked={this.handleSelectBook.bind(this)} />
+                                <BookIsbnSearchList isbnColl={isbnColl} handleRequestDelete={this.handleRemoveBook.bind(this)} />
                                 <BookTable dataCollection={bookColl} />
                             </React.Fragment>
                         }
