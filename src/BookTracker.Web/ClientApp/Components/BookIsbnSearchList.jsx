@@ -2,7 +2,9 @@
 import PropTypes from 'prop-types'
 import Chip from 'material-ui/Chip';
 import { styles } from '../styles'
-import { blue300, red300, grey300} from 'material-ui/styles/colors';
+import Responsive from '../ui/Responsive'
+import { blue300, red300, grey300, green100 } from 'material-ui/styles/colors'
+import withWidth from 'material-ui/utils/withWidth';
 
 const BookIsbnSearchList = (props) => {
     return (
@@ -13,7 +15,7 @@ const BookIsbnSearchList = (props) => {
                         if (element.displayMobile) {
                             return (
                                 <Chip key={index}
-                                    backgroundColor={grey300}
+                                    backgroundColor={props.selectedIndex == index ? green100 : grey300}
                                     onRequestDelete={() => props.handleRequestDelete(element)}
                                     style={styles.chip}
                                     onClick={() => props.handleChipClicked(element)}
@@ -25,7 +27,7 @@ const BookIsbnSearchList = (props) => {
                         else {
                             return (
                                 <Chip key={index}
-                                    backgroundColor={red300}
+                                    backgroundColor={props.selectedIndex == index ? green100 : grey300}
                                     onRequestDelete={() => props.handleRequestDelete(element)}
                                     style={styles.chip}
                                     onClick={() => props.handleChipClicked(element)}
@@ -39,7 +41,7 @@ const BookIsbnSearchList = (props) => {
                     else {
                         return (
                             <Chip key={index}
-                                backgroundColor={blue300}
+                                backgroundColor={props.selectedIndex == index ? green100 : blue300}
                                 onRequestDelete={() => props.handleRequestDelete(element)}
                                 style={styles.chip}
                                 onClick={() => props.handleChipClicked(element)}
@@ -57,7 +59,8 @@ const BookIsbnSearchList = (props) => {
 BookIsbnSearchList.propTypes = {
     handleRequestDelete: PropTypes.func.isRequired,
     isbnColl: PropTypes.array.isRequired,
-    handleChipClicked: PropTypes.func
+    handleChipClicked: PropTypes.func,
+    selectedIndex: PropTypes.number
 }
 
 export default BookIsbnSearchList

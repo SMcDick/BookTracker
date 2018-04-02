@@ -38,6 +38,8 @@ namespace BookTracker.Models
 
         public string Audio { get; set; }
 
+        public int BoxIndex { get; set; }
+
         public bool DisplayAsRejected { get; set; }
 
         public bool DisplayMobile { get; set; }

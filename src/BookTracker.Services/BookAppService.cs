@@ -211,9 +211,10 @@ namespace BookTracker.Services
             if (mxVerboseData != null)
                 book.VerboseData.Add(mxVerboseData);
 
-            LoadBookRules(book, out bool meetARule, out string audio, out string color);
+            LoadBookRules(book, out bool meetARule, out int boxIndex, out string audio, out string color);
 
             book.MeetsARule = meetARule;
+            book.BoxIndex = boxIndex;
             book.Audio = string.IsNullOrEmpty(audio) ? audio : $"/sounds/{audio}";
             book.Color = color;
 
@@ -224,8 +225,9 @@ namespace BookTracker.Services
             return book;
         }
 
-        private void LoadBookRules(Book book, out bool meetARule, out string sound, out string color)
+        private void LoadBookRules(Book book, out bool meetARule, out int boxIndex, out string sound, out string color)
         {
+            boxIndex = -1;
             meetARule = false;
             sound = string.Empty;
             color = string.Empty;
@@ -241,6 +243,7 @@ namespace BookTracker.Services
                         meetARule = true;
                         sound = box1.SoundPath;
                         color = box1.Color;
+                        boxIndex = 1;
                         return;
                     }
                 }
@@ -255,6 +258,7 @@ namespace BookTracker.Services
                     meetARule = true;
                     sound = box2.SoundPath;
                     color = box2.Color;
+                    boxIndex = 2;
                     return;
                 }
             }
@@ -270,6 +274,7 @@ namespace BookTracker.Services
                         meetARule = true;
                         sound = box3.SoundPath;
                         color = box3.Color;
+                        boxIndex = 3;
                         return;
                     }
                 }
@@ -286,6 +291,7 @@ namespace BookTracker.Services
                         meetARule = true;
                         sound = box4.SoundPath;
                         color = box4.Color;
+                        boxIndex = 4;
                         return;
                     }
                 }
@@ -302,6 +308,7 @@ namespace BookTracker.Services
                         meetARule = true;
                         sound = box5.SoundPath;
                         color = box5.Color;
+                        boxIndex = 5;
                         return;
                     }
                 }

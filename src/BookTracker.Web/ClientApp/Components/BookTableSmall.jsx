@@ -11,8 +11,14 @@ import { GridList, GridTile } from 'material-ui/GridList';
 
 import SwipeableViews from 'react-swipeable-views';
 
+import { connect } from 'react-redux'
+
 import { styles } from '../styles'
-import BookTable from './BookTable';
+import BookTable from './BookTable'
+
+import { green100 } from 'material-ui/styles/colors';
+
+import { uiSelectedBook } from '../Actions/uiAction'
 
 const BookNotFoundSmall = (props) => {
     const notfoundtext = `${props.isbn} not found`
@@ -45,9 +51,14 @@ BookRejectedSmall.propTypes = {
     image: PropTypes.string
 }
 
-const BookSmall = (props) => {
+const BookSmall = ({ book }) => {
     const tBackgroundColor = Object.assign({}, styles.tableRow)
-    let sBackgroundColor = Object.assign(tBackgroundColor, { backgroundColor: props.book.color })
+    let sBackgroundColor = Object.assign(tBackgroundColor, { backgroundColor: book.color })
+    const box1Styles = book.boxIndex == 1 ? { backgroundColor: green100 } : {}
+    const box2Styles = book.boxIndex == 2 ? { backgroundColor: green100 } : {}
+    const box3Styles = book.boxIndex == 3 ? { backgroundColor: green100 } : {}
+    const box4Styles = book.boxIndex == 4 ? { backgroundColor: green100 } : {}
+    const box5Styles = book.boxIndex == 5 ? { backgroundColor: green100 } : {}
 
     return (<React.Fragment>
 
@@ -55,47 +66,48 @@ const BookSmall = (props) => {
             <tbody>
                 <tr>
                     <td colSpan="2">
-                        <ListItem primaryText={props.book.title} leftAvatar={<Avatar src={props.book.image} />} />
+                        <ListItem primaryText={book.title} leftAvatar={<Avatar src={book.image} />} />
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <ListItem primaryText={props.book.isbn} secondaryText="ISBN" />
+                        <ListItem primaryText={book.isbn} secondaryText="ISBN" />
                     </td>
-                    <td>
-                        <ListItem primaryText={<FlatNumberField source="usSalesRank" record={props.book} options={{ style: 'decimal', useGrouping: false }} />} secondaryText="Sales rank" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ListItem primaryText={<FlatNumberField source="usNetPayout" record={props.book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="Net payout" />
-                    </td>
-                    <td>
-                        <ListItem primaryText={<FlatNumberField source="offer" record={props.book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="Offer" />
+                    <td style={box2Styles}>
+                        <ListItem primaryText={<FlatNumberField source="offer" record={book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="Offer" />
                     </td>
                 </tr>
-                <tr>
+                <tr style={box1Styles}>
                     <td>
-                        <ListItem primaryText={<FlatNumberField source="caNetPayout" record={props.book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="CA Net Payout" />
+                        <ListItem primaryText={<FlatNumberField source="usNetPayout" record={book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="US Net payout" />
                     </td>
                     <td>
-                        <ListItem primaryText={<FlatNumberField source="caSalesRank" record={props.book} options={{ style: 'decimal', useGrouping: false }} />} secondaryText="CA Sales Rank" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ListItem primaryText={<FlatNumberField source="inNetPayout" record={props.book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="IN Net Payout" />
-                    </td>
-                    <td>
-                        <ListItem primaryText={<FlatNumberField source="inSalesRank" record={props.book} options={{ style: 'decimal', useGrouping: false }} />} secondaryText="IN Sales Rank" />
+                        <ListItem primaryText={<FlatNumberField source="usSalesRank" record={book} options={{ style: 'decimal', useGrouping: false }} />} secondaryText="US Sales rank" />
+                        
                     </td>
                 </tr>
-                <tr>
+                <tr style={box4Styles}>
                     <td>
-                        <ListItem primaryText={<FlatNumberField source="mxNetPayout" record={props.book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="MX Net Payout" />
+                        <ListItem primaryText={<FlatNumberField source="caNetPayout" record={book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="CA Net Payout" />
                     </td>
                     <td>
-                        <ListItem primaryText={<FlatNumberField source="mxSalesRank" record={props.book} options={{ style: 'decimal', useGrouping: false }} />} secondaryText="MX Sales Rank" />
+                        <ListItem primaryText={<FlatNumberField source="caSalesRank" record={book} options={{ style: 'decimal', useGrouping: false }} />} secondaryText="CA Sales Rank" />
+                    </td>
+                </tr>
+                <tr style={box5Styles}>
+                    <td>
+                        <ListItem primaryText={<FlatNumberField source="inNetPayout" record={book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="IN Net Payout" />
+                    </td>
+                    <td>
+                        <ListItem primaryText={<FlatNumberField source="inSalesRank" record={book} options={{ style: 'decimal', useGrouping: false }} />} secondaryText="IN Sales Rank" />
+                    </td>
+                </tr>
+                <tr style={box3Styles}>
+                    <td>
+                        <ListItem primaryText={<FlatNumberField source="mxNetPayout" record={book} options={{ style: 'currency', currency: 'USD' }} />} secondaryText="MX Net Payout" />
+                    </td>
+                    <td>
+                        <ListItem primaryText={<FlatNumberField source="mxSalesRank" record={book} options={{ style: 'decimal', useGrouping: false }} />} secondaryText="MX Sales Rank" />
                     </td>
                 </tr>
             </tbody>
@@ -132,24 +144,13 @@ class BookTableSmall extends Component {
 
     onIndexChange(index, indexLatest, meta) {
         console.info(index)
+        const { dispatch } = this.props
+        dispatch(uiSelectedBook(index))
         this.setState({ selectedIndex: index })
     }
 
-    componentWillReceiveProps(nextProps) {
-        const { selectedBook, dataCollection } = this.props
-        if (this.props.selectedBook !== nextProps.selectedBook) {
-            const selectedIndex = dataCollection.findIndex((element, index, array) => {
-                return element.isbn == nextProps.selectedBook
-            })
-            if (selectedIndex > -1) {
-                this.setState({ selectedIndex: selectedIndex })
-            }
-        }
-    }
-
     render() {
-        const { dataCollection } = this.props
-        const { selectedIndex } = this.state
+        const { dataCollection, selectedIndex } = this.props
 
         const booksReact = dataCollection.filter(book => {
             return book.displayMobile
@@ -180,7 +181,16 @@ class BookTableSmall extends Component {
 
 BookTableSmall.propTypes = {
     dataCollection: PropTypes.array.isRequired,
-    selectedBook: PropTypes.string
+    selectedBook: PropTypes.string,
+    dispatch: PropTypes.func.isRequired
 }
 
-export default BookTableSmall
+const mapStateToProps = state => {
+    const { uiReducer } = state
+    const { selectedIndex } = uiReducer
+    return {
+        selectedIndex: selectedIndex !== undefined ? selectedIndex : 0
+    }
+}
+
+export default connect(mapStateToProps)(BookTableSmall)
