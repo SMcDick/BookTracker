@@ -12,6 +12,7 @@ import { GridList, GridTile } from 'material-ui/GridList';
 import SwipeableViews from 'react-swipeable-views';
 
 import { styles } from '../styles'
+import BookTable from './BookTable';
 
 const BookNotFoundSmall = (props) => {
     const notfoundtext = `${props.isbn} not found`
@@ -49,7 +50,7 @@ const BookSmall = (props) => {
     let sBackgroundColor = Object.assign(tBackgroundColor, { backgroundColor: props.book.color })
 
     return (<React.Fragment>
-        
+
         <table>
             <tbody>
                 <tr>
@@ -118,34 +119,68 @@ BookSmall.propTypes = {
     })
 }
 
-const BookTableSmall = (props) => {
-    const booksReact = props.dataCollection.filter(book => {
-        return book.displayMobile
-    }).map((book, index) => {
-        if(book.title == undefined || book.title == null || book.title == '') {
-            return (<div key={index} style={styles.slide}><BookNotFoundSmall isbn={book.isbn} /></div>)
+class BookTableSmall extends Component {
+    constructor(props) {
+        super(props)
+        this.state = { selectedIndex: 0 }
+    }
+
+    componentWillMount() {
+        const { selectedBook } = this.props
+        this.setState({ selectedIndex: 0 })
+    }
+
+    onIndexChange(index, indexLatest, meta) {
+        console.info(index)
+        this.setState({ selectedIndex: index })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { selectedBook, dataCollection } = this.props
+        if (this.props.selectedBook !== nextProps.selectedBook) {
+            const selectedIndex = dataCollection.findIndex((element, index, array) => {
+                return element.isbn == nextProps.selectedBook
+            })
+            if (selectedIndex > -1) {
+                this.setState({ selectedIndex: selectedIndex })
+            }
         }
-        else if(book.displayAsRejected) {
-            return (<div key={index} style={styles.slide}><BookRejectedSmall isbn={book.isbn} image={book.image} /></div>)
+    }
+
+    render() {
+        const { dataCollection } = this.props
+        const { selectedIndex } = this.state
+
+        const booksReact = dataCollection.filter(book => {
+            return book.displayMobile
+        }).map((book, index) => {
+            if (book.title == undefined || book.title == null || book.title == '') {
+                return (<div key={index} style={styles.slide}><BookNotFoundSmall isbn={book.isbn} /></div>)
+            }
+            else if (book.displayAsRejected) {
+                return (<div key={index} style={styles.slide}><BookRejectedSmall isbn={book.isbn} image={book.image} /></div>)
+            }
+            else {
+                return (<div key={index} style={styles.slide}><BookSmall book={book} /></div>)
+            }
+        })
+        if (dataCollection.lenght == 0) {
+            return <div />
         }
         else {
-            return (<div key={index} style={styles.slide}><BookSmall book={book} /></div>)
+            return (
+                <SwipeableViews enableMouseEvents={true} index={selectedIndex} onChangeIndex={this.onIndexChange.bind(this)}>
+                    {booksReact}
+                </SwipeableViews>
+            )
         }
-    })    
-    if(props.dataCollection.lenght == 0) {
-        return <div />
-    }
-    else {
-        return (
-            <SwipeableViews enableMouseEvents={true}>
-                {booksReact}
-            </SwipeableViews>
-        )
     }
 }
 
+
 BookTableSmall.propTypes = {
-    dataCollection: PropTypes.array.isRequired
+    dataCollection: PropTypes.array.isRequired,
+    selectedBook: PropTypes.string
 }
 
 export default BookTableSmall

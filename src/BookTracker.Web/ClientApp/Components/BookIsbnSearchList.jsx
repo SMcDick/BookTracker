@@ -57,7 +57,7 @@ const BookIsbnSearchList = (props) => {
 BookIsbnSearchList.propTypes = {
     handleRequestDelete: PropTypes.func.isRequired,
     isbnColl: PropTypes.array.isRequired,
-    handleChipClicked: PropTypes.func.isRequired
+    handleChipClicked: PropTypes.func
 }
 
 export default BookIsbnSearchList
